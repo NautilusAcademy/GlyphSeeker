@@ -11,7 +11,7 @@ public class Generator : MonoBehaviour, IChargable
 
     private void Update()
     {
-        if(charge == maxCharge)
+        if(charge >= maxCharge)
         {
             FullCharged();
         }
@@ -19,7 +19,6 @@ public class Generator : MonoBehaviour, IChargable
 
     public void Charge()
     {
-        Debug.Log("Carica");
         charge++;
     }
 

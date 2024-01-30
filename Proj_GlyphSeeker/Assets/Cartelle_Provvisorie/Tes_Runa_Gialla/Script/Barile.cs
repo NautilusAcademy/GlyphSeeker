@@ -10,7 +10,7 @@ public class Barile : MonoBehaviour, IChargable
 
     private void Update()
     {
-        if (charge == maxCharge)
+        if (charge >= maxCharge)
         {
             FullCharged();
         }
@@ -18,7 +18,6 @@ public class Barile : MonoBehaviour, IChargable
 
     public void Charge()
     {
-        Debug.Log("Carica");
         charge++;
     }
 
