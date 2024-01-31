@@ -13,9 +13,6 @@ public class Shoot : MonoBehaviour
     public Image mirino;
     public Transform firePoint;
     public AudioSource shootSound;
-    public Transform firstPosCam;
-    public Transform secondPosCam;
-    public Camera camera;
 
     private void Start()
     {
@@ -25,7 +22,7 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time > nextTimeToFire)
+        if (GameManager.inst.inputManager.Player.Fire.ReadValue<float>() > 0 && Time.time > nextTimeToFire)
         {
             ShootBullet();
             nextTimeToFire = Time.time + timeBeetweenHit;
@@ -40,18 +37,9 @@ public class Shoot : MonoBehaviour
             }
         }
 
-        if(Input.GetButtonUp("Fire1"))
+        if(GameManager.inst.inputManager.Player.Fire.WasReleasedThisFrame())
         {
             timeBeetweenHit = cooldownFire;
-        }
-
-        if(Input.GetButton("Fire2"))
-        {
-            camera.transform.position = firstPosCam.position;
-        }
-        else
-        {
-            camera.transform.position = secondPosCam.position;
         }
 
         if (Time.time < nextTimeToFire && timeBeetweenHit == cooldownFire)
