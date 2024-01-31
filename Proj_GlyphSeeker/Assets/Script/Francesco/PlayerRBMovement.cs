@@ -43,9 +43,6 @@ public class PlayerRBMovement : MonoBehaviour
 
         //Prende l'input di salto
         hasJumped = GameManager.inst.inputManager.Player.Jump.ReadValue<float>() > 0;
-
-
-        print(GameManager.inst.inputManager.Player.Fire.triggered);
     }
 
     RaycastHit hitBase;
