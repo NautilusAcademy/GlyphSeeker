@@ -60,8 +60,8 @@ public class PlayerMovement : MonoBehaviour
             coyoteTimer -= Time.deltaTime;
         }
 
-        float x = GameManager.inst.inputManager.Player.Move.ReadValue<Vector2>().x;
-        float z = GameManager.inst.inputManager.Player.Move.ReadValue<Vector2>().y;
+        float x = GameManager.inst.inputManager.Player.Movement.ReadValue<Vector2>().x;
+        float z = GameManager.inst.inputManager.Player.Movement.ReadValue<Vector2>().y;
 
         inputDirection = new Vector3(x, 0f, z).normalized;
 
