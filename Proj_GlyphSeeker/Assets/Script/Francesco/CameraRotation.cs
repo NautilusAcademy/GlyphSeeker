@@ -16,10 +16,12 @@ public class CameraRotation : MonoBehaviour
     [SerializeField] Vector2 vertRotRange = new Vector2(-15, 52.5f);
     [Space(5)]
     [SerializeField] Vector2 camDistRange = new Vector2(1, 5);
+    [SerializeField] float camDist_aiming = 1.5f;
+    Vector2 _camDistRange;
     RaycastHit hitWall;
     bool hasCamHitWall;
 
-    float camDist = 3;
+    float currentCamDist = 3;
     float xRot = 0f;
 
     bool centerMouse = true;
@@ -31,8 +33,16 @@ public class CameraRotation : MonoBehaviour
         playerCam_Tr = playerCam.transform;
 
 
+        _camDistRange = camDistRange;
+
+
         //Imposta il mouse al centro dello schermo
         SetCenterMouse(centerMouse);
+    }
+
+    void Update()
+    {
+        SwitchMaxDist(GameManager.inst.inputManager.Player.Aim.ReadValue<float>() > 0);
     }
 
     void FixedUpdate()
@@ -86,7 +96,7 @@ public class CameraRotation : MonoBehaviour
         hasCamHitWall = Physics.Raycast(cameraMasterPivot.position,
                                         dirCamPlayer,
                                         out hitWall,
-                                        camDistRange.y - (/*playerCam.nearClipPlane*/ + 0.1f),
+                                        _camDistRange.y - (playerCam.nearClipPlane + 0.1f),
                                         ~0,
                                         QueryTriggerInteraction.Ignore);
 
@@ -94,17 +104,17 @@ public class CameraRotation : MonoBehaviour
         //Se ha colpito il muro (e NON ha colpito il giocatore)
         //avvicina la telecamera,
         //se no la mette alla massima distanza
-        camDist = hasCamHitWall && !hitWall.transform.CompareTag("Player")
+        currentCamDist = hasCamHitWall && !hitWall.transform.CompareTag("Player")
                     ? hitWall.distance
-                    : camDistRange.y;
+                    : _camDistRange.y;
 
         //Limita la distanza nel range
-        camDist = Mathf.Clamp(camDist, camDistRange.x, camDistRange.y);
+        currentCamDist = Mathf.Clamp(currentCamDist, _camDistRange.x, _camDistRange.y);
 
 
         //Calcola la nuova posizione
         Vector3 _camPosDist = playerCam_Tr.localPosition;
-        _camPosDist.z = -camDist;
+        _camPosDist.z = -currentCamDist;
         playerCam_Tr.localPosition = /*_camPosDist*/Vector3.Slerp(playerCam_Tr.localPosition, _camPosDist, Time.deltaTime * 10f);
 
         #endregion
@@ -122,6 +132,17 @@ public class CameraRotation : MonoBehaviour
         Cursor.lockState = centerMouse
                            ? CursorLockMode.Locked
                            : CursorLockMode.None;
+    }
+
+
+    public void SwitchMaxDist(bool isAiming)
+    {
+        //Cambia la distanza max della camera
+        //(Se sta mirando, usa quella più vicina,
+        // se no usa quella più lontana)
+        _camDistRange.y = isAiming
+                            ? camDist_aiming
+                            : camDistRange.y;
     }
 
 
@@ -159,7 +180,7 @@ public class CameraRotation : MonoBehaviour
         //una quanto il nearClipPlane della telecamera,
         //l'altra per quanto può avvicinarsi al giocatore
         Gizmos.color = Color.gray;
-        Gizmos.DrawWireSphere(playerCam.transform.position, /*playerCam.nearClipPlane*/ + 0.1f);
+        Gizmos.DrawWireSphere(playerCam.transform.position, playerCam.nearClipPlane + 0.1f);
         Gizmos.DrawWireSphere(cameraMasterPivot.position, camDistRange.x);
     }
 
