@@ -10,6 +10,9 @@ public class Shoot : MonoBehaviour
 
     public Transform firePoint;
     public AudioSource shootSound;
+    public Transform firstPosCam;
+    public Transform secondPosCam;
+    public Camera camera;
 
     // Update is called once per frame
     void Update()
@@ -33,6 +36,16 @@ public class Shoot : MonoBehaviour
         {
             timeBeetweenHit = 1f;
         }
+
+        if(Input.GetButton("Fire2"))
+        {
+            camera.transform.position = firstPosCam.position;
+        }
+        else
+        {
+            camera.transform.position = secondPosCam.position;
+        }
+        
     }
 
     private void ShootBullet()
@@ -55,5 +68,12 @@ public class Shoot : MonoBehaviour
         }
 
         shootSound.Play();
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Disegna una linea grigia del Raycast
+        Gizmos.color = Color.gray;
+        Gizmos.DrawLine(firePoint.position, firePoint.position + firePoint.forward * range);
     }
 }
