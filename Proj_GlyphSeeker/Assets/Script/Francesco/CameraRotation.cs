@@ -18,6 +18,7 @@ public class CameraRotation : MonoBehaviour
     [SerializeField] Vector2 camDistRange = new Vector2(1, 5);
     [SerializeField] float camDist_aiming = 1.5f;
     Vector2 _camDistRange;
+    float camSafeRadius;
     RaycastHit hitWall;
     bool hasCamHitWall;
 
@@ -31,9 +32,11 @@ public class CameraRotation : MonoBehaviour
     void Awake()
     {
         playerCam_Tr = playerCam.transform;
-
-
         _camDistRange = camDistRange;
+
+
+        //Imposta la "distanza sicura" per la telecamera
+        camSafeRadius = playerCam.nearClipPlane * 1.5f + 0.1f;
 
 
         //Imposta il mouse al centro dello schermo
@@ -42,6 +45,7 @@ public class CameraRotation : MonoBehaviour
 
     void Update()
     {
+        //Cambia la distanza del giocatore
         SwitchMaxDist(GameManager.inst.inputManager.Player.Aim.ReadValue<float>() > 0);
     }
 
@@ -96,7 +100,7 @@ public class CameraRotation : MonoBehaviour
         hasCamHitWall = Physics.Raycast(cameraMasterPivot.position,
                                         dirCamPlayer,
                                         out hitWall,
-                                        _camDistRange.y - (playerCam.nearClipPlane + 0.1f),
+                                        _camDistRange.y,
                                         ~0,
                                         QueryTriggerInteraction.Ignore);
 
@@ -105,8 +109,8 @@ public class CameraRotation : MonoBehaviour
         //avvicina la telecamera,
         //se no la mette alla massima distanza
         currentCamDist = hasCamHitWall && !hitWall.transform.CompareTag("Player")
-                    ? hitWall.distance
-                    : _camDistRange.y;
+                           ? hitWall.distance - camSafeRadius
+                           : _camDistRange.y;
 
         //Limita la distanza nel range
         currentCamDist = Mathf.Clamp(currentCamDist, _camDistRange.x, _camDistRange.y);
@@ -180,7 +184,7 @@ public class CameraRotation : MonoBehaviour
         //una quanto il nearClipPlane della telecamera,
         //l'altra per quanto può avvicinarsi al giocatore
         Gizmos.color = Color.gray;
-        Gizmos.DrawWireSphere(playerCam.transform.position, playerCam.nearClipPlane + 0.1f);
+        Gizmos.DrawWireSphere(playerCam.transform.position, camSafeRadius/2);
         Gizmos.DrawWireSphere(cameraMasterPivot.position, camDistRange.x);
     }
 
