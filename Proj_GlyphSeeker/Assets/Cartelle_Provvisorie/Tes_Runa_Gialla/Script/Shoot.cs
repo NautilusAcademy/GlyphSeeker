@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shoot : MonoBehaviour
 {
     public float range = 20f;
-    public float timeBeetweenHit = 1f;
+    public float cooldownFire = 1f;
+    public float timeBeetweenHit;
     public float nextTimeToFire = 0f;
 
+    public Image mirino;
     public Transform firePoint;
     public AudioSource shootSound;
     public Transform firstPosCam;
     public Transform secondPosCam;
     public Camera camera;
+
+    private void Start()
+    {
+        timeBeetweenHit = cooldownFire;
+    }
 
     // Update is called once per frame
     void Update()
@@ -34,7 +42,7 @@ public class Shoot : MonoBehaviour
 
         if(Input.GetButtonUp("Fire1"))
         {
-            timeBeetweenHit = 1f;
+            timeBeetweenHit = cooldownFire;
         }
 
         if(Input.GetButton("Fire2"))
@@ -45,7 +53,13 @@ public class Shoot : MonoBehaviour
         {
             camera.transform.position = secondPosCam.position;
         }
-        
+
+        if (Time.time < nextTimeToFire && timeBeetweenHit == cooldownFire)
+            mirino.color = Color.red;
+        else if (timeBeetweenHit < cooldownFire)
+            mirino.color = Color.green;
+        else
+            mirino.color = Color.black;
     }
 
     private void ShootBullet()
