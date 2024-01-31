@@ -6083,6 +6083,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8891135052813399454, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: vertRotRange.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891135052813399454, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: vertRotRange.y
+      value: 52.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae051f4b2026339458115254be1238b7, type: 3}
 --- !u!4 &1644671017 stripped
