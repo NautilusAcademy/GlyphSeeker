@@ -6085,11 +6085,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8891135052813399454, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: vertRotRange.x
-      value: -20
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 8891135052813399454, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: vertRotRange.y
-      value: 52.5
+      value: 35
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae051f4b2026339458115254be1238b7, type: 3}
