@@ -23,6 +23,10 @@ public class Shoot : MonoBehaviour
             {
                 timeBeetweenHit -= 0.2f;
             }
+            else
+            {
+                timeBeetweenHit = 0.2f;
+            }
         }
 
         if(Input.GetButtonUp("Fire1"))
