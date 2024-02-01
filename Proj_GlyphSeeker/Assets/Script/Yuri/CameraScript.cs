@@ -1,7 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Camera : MonoBehaviour
+public class CameraScript : MonoBehaviour
 {
     [SerializeField] private float mouseSensitivity = 100f;
 
