@@ -12,7 +12,10 @@ public class Shoot : MonoBehaviour
 
     public Image mirino;
     public Transform firePoint;
+    public Transform fakeFirePoint;
     public AudioSource shootSound;
+    public AudioSource errorSound;
+    public LineRenderer lineRenderer;
 
     private void Start()
     {
@@ -22,19 +25,24 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.inst.inputManager.Player.Fire.ReadValue<float>() > 0 && Time.time > nextTimeToFire)
+        if (GameManager.inst.inputManager.Player.Fire.ReadValue<float>() > 0)
         {
-            ShootBullet();
-            nextTimeToFire = Time.time + timeBeetweenHit;
+            if (Time.time > nextTimeToFire)
+            {
+                ShootBullet();
+                nextTimeToFire = Time.time + timeBeetweenHit;
 
-            if(timeBeetweenHit > 0.2f)
-            {
-                timeBeetweenHit -= 0.2f;
+                if (timeBeetweenHit > 0.2f)
+                {
+                    timeBeetweenHit -= 0.2f;
+                }
+                else
+                {
+                    timeBeetweenHit = 0.2f;
+                }
             }
-            else
-            {
-                timeBeetweenHit = 0.2f;
-            }
+            else if (timeBeetweenHit == cooldownFire)
+                errorSound.Play();
         }
 
         if(GameManager.inst.inputManager.Player.Fire.WasReleasedThisFrame())
@@ -62,13 +70,21 @@ public class Shoot : MonoBehaviour
                 IChargable chargable = hit.transform.GetComponent<IChargable>();
                 chargable.Charge();
             }
-            if(hit.transform.CompareTag("Enemy"))
+            if (hit.transform.CompareTag("Enemy"))
             {
                 EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
                 enemyStats.TakeDamage(1);
             }
-        }
 
+            if (hit.transform)
+            {
+                lineRenderer.SetPosition(0, fakeFirePoint.position);
+                lineRenderer.SetPosition(1, hit.point);
+            }
+            else
+                lineRenderer.SetPosition(0, fakeFirePoint.position);
+                lineRenderer.SetPosition(1, firePoint.forward);
+        }
         shootSound.Play();
     }
 
