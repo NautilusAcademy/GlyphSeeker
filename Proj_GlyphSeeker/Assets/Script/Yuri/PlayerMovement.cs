@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     bool isGrounded;
     [SerializeField] private float jumpHeight = 3f;
-    [SerializeField] private float fallHeight = -10f;
 
     [SerializeField] private float coyoteTime = 0.1f;
     private float coyoteTimer = 0f;
