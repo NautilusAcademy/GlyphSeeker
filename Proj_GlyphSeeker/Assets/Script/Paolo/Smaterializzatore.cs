@@ -15,6 +15,7 @@ public class Smaterializzatore : MonoBehaviour
 
     private bool isCooldown = false;
     private float cooldownDuration = 3f;
+    public Image mirino;
 
     private void Start()
     {
@@ -35,10 +36,29 @@ public class Smaterializzatore : MonoBehaviour
             {
                 hitObject = hit.transform.gameObject;
             }
+
+            if(hit.collider!=null)
+
+            {  
+                if (hit.transform.CompareTag("toHide"))
+                {
+                mirino.color = Color.magenta;
+                }
+                 else
+               {
+                mirino.color = Color.white;
+               }
+
+            }
+            else
+            {
+                mirino.color = Color.white;
+            }
+
         }
 
         // Input per sparare
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.inst.inputManager.Player.Fire.triggered)
         {
             // Se c'è un oggetto nascosto, spara senza dover colpire nulla con il raycast
             if (hiddenObject != null && !isCooldown)
@@ -59,7 +79,7 @@ public class Smaterializzatore : MonoBehaviour
         }
 
         // Input per far scomparire l'oggetto
-        if (Input.GetMouseButtonDown(1))
+        if (GameManager.inst.inputManager.Player.Aim.triggered)
         {
             if (hiddenObject != null && !isCooldown)
             {
