@@ -230,6 +230,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416531980}
   m_CullTransparentMesh: 1
+--- !u!4 &611154440 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7271397137244243116, guid: ae051f4b2026339458115254be1238b7, type: 3}
+  m_PrefabInstance: {fileID: 909059445}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &631393959
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +480,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8891135052813399454, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: playerCam
+      value: 
+      objectReference: {fileID: 1770106526}
+    - target: {fileID: 8891135052813399454, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: cameraPivotTilt
+      value: 
+      objectReference: {fileID: 611154440}
+    - target: {fileID: 8891135052813399454, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: cameraMasterPivot
+      value: 
+      objectReference: {fileID: 1207262526}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae051f4b2026339458115254be1238b7, type: 3}
 --- !u!1 &977001423
@@ -1292,6 +1309,11 @@ Rigidbody:
 --- !u!4 &1770106525 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7271397136551925369, guid: ae051f4b2026339458115254be1238b7, type: 3}
+  m_PrefabInstance: {fileID: 909059445}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1770106526 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 7271397136551925370, guid: ae051f4b2026339458115254be1238b7, type: 3}
   m_PrefabInstance: {fileID: 909059445}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1826097148
