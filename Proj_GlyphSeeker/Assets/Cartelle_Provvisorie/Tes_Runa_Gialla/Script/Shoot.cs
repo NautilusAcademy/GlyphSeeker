@@ -50,12 +50,20 @@ public class Shoot : MonoBehaviour
             timeBeetweenHit = cooldownFire;
         }
 
-        if (Time.time < nextTimeToFire && timeBeetweenHit == cooldownFire)
-            mirino.color = Color.red;
-        else if (timeBeetweenHit < cooldownFire)
-            mirino.color = Color.green;
-        else
-            mirino.color = Color.black;
+        RaycastHit hit;
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        {
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                mirino.color = Color.red;
+            }
+            else if (hit.transform.CompareTag("Chargable"))
+            {
+                mirino.color = Color.yellow;
+            }
+            else
+                mirino.color = Color.black;
+        }
     }
 
     private void ShootBullet()
@@ -81,23 +89,23 @@ public class Shoot : MonoBehaviour
         {
             lineRenderer.SetPosition(0, fakeFirePoint.position);
             lineRenderer.SetPosition(1, hit.point);
-            StartCoroutine(TrailShoot());
+            StartCoroutine(TrailShoot(timeBeetweenHit - 0.01f));
         }
         else
         {
             lineRenderer.SetPosition(0, fakeFirePoint.position);
             lineRenderer.SetPosition(1, fakeFirePoint.position + Camera.main.transform.forward * range);
-            StartCoroutine(TrailShoot());
+            StartCoroutine(TrailShoot(timeBeetweenHit - 0.01f));
         }
 
         shootSound.Play();
     }
 
-    IEnumerator TrailShoot()
+    IEnumerator TrailShoot(float f)
     {
         lineRenderer.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(timeBeetweenHit);
+        yield return new WaitForSeconds(f);
 
         lineRenderer.gameObject.SetActive(false);
     }
