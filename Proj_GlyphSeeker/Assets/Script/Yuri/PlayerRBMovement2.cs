@@ -129,10 +129,11 @@ public class PlayerRBMovement2 : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            rb.AddForce(transform.position.normalized * spintaRinculo, ForceMode.Impulse);
+            Rinculo();
+            //rb.AddForce(collision.tr * spintaRinculo, ForceMode.Impulse);
         }
     }
-
+    
     #region EXTRA - Gizmo
 
     private void OnDrawGizmos()
@@ -157,5 +158,9 @@ public class PlayerRBMovement2 : MonoBehaviour
         }
     }
 
+    public void Rinculo()
+    {
+        rb.AddForce(-transform.forward * spintaRinculo, ForceMode.Impulse);
+    }
     #endregion
 }
