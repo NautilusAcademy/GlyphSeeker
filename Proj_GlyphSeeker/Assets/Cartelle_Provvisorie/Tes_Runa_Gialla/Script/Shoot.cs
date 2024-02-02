@@ -106,7 +106,7 @@ public class Shoot : MonoBehaviour
         lineRenderer.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(f);
-
+ 
         lineRenderer.gameObject.SetActive(false);
     }
     private void OnDrawGizmos()
