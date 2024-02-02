@@ -18,6 +18,7 @@ public class Turret : MonoBehaviour
     public Transform firePoint;
     public Rigidbody bullet;
     private GameObject player;
+    public AudioSource fire;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class Turret : MonoBehaviour
 
         if(distance <= distanceToLook)
         {
+            fire.Play();
             LookAtPlayer();
 
             if(canShoot == true)
@@ -39,6 +41,7 @@ public class Turret : MonoBehaviour
         }
         else if(distance > distanceToLook && distance <= distanceToFire)
         {
+            fire.Stop();
             LookAtPlayer();
         }
     }
