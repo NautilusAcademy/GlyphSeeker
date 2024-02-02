@@ -75,19 +75,32 @@ public class Shoot : MonoBehaviour
                 EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
                 enemyStats.TakeDamage(1);
             }
-
-            if (hit.transform)
-            {
-                lineRenderer.SetPosition(0, fakeFirePoint.position);
-                lineRenderer.SetPosition(1, hit.point);
-            }
-            else
-                lineRenderer.SetPosition(0, fakeFirePoint.position);
-                lineRenderer.SetPosition(1, firePoint.forward);
         }
+
+        if (hit.collider != null)
+        {
+            lineRenderer.SetPosition(0, fakeFirePoint.position);
+            lineRenderer.SetPosition(1, hit.point);
+            StartCoroutine(TrailShoot());
+        }
+        else
+        {
+            lineRenderer.SetPosition(0, fakeFirePoint.position);
+            lineRenderer.SetPosition(1, fakeFirePoint.position + Camera.main.transform.forward * range);
+            StartCoroutine(TrailShoot());
+        }
+
         shootSound.Play();
     }
 
+    IEnumerator TrailShoot()
+    {
+        lineRenderer.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(timeBeetweenHit);
+
+        lineRenderer.gameObject.SetActive(false);
+    }
     private void OnDrawGizmos()
     {
         //Disegna una linea grigia del Raycast

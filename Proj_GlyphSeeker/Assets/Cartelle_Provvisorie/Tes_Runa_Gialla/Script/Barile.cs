@@ -7,6 +7,7 @@ public class Barile : MonoBehaviour, IChargable
     [SerializeField]
     private int charge = 0;
     private int maxCharge = 3;
+    public ParticleSystem particleSystem;
 
     private void Update()
     {
@@ -33,5 +34,6 @@ public class Barile : MonoBehaviour, IChargable
             }
         }
 
+        particleSystem.gameObject.SetActive(true);
     }
 }
