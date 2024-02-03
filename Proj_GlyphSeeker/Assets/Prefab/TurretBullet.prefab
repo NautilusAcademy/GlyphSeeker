@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 9037512749352451558}
   - component: {fileID: 3673695173978344878}
   - component: {fileID: 2285263727160892241}
+  - component: {fileID: 3463586385608088386}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: TurretBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,3 +181,16 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
+--- !u!114 &3463586385608088386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122715587568518232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639028aaa20990e4496646180fec2e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
