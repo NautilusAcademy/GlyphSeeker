@@ -21,7 +21,7 @@ public class PlayerRBMovement2 : MonoBehaviour
     [SerializeField] float knockbackPower = 10f;
 
     [Space(20)]
-    [SerializeField] float treshold_groundCheck = 0.25f;
+    [SerializeField] float groundCheck_treshold = 0.25f;
     float playerHalfHeight;
     float spherecastRadius = 0.5f;
 
@@ -65,7 +65,7 @@ public class PlayerRBMovement2 : MonoBehaviour
                                            spherecastRadius,
                                            -transform.up,
                                            out hitBase,
-                                           playerHalfHeight + treshold_groundCheck - spherecastRadius,
+                                           playerHalfHeight + groundCheck_treshold - spherecastRadius,
                                            ~0,
                                            QueryTriggerInteraction.Ignore);
 
@@ -241,7 +241,7 @@ public class PlayerRBMovement2 : MonoBehaviour
 
         Gizmos.color = new Color(0.85f, 0.85f, 0.85f, 1);
         Gizmos.DrawWireSphere(transform.position + (-transform.up * _halfPlayerHeight)
-                               + (-transform.up * treshold_groundCheck)
+                               + (-transform.up * groundCheck_treshold)
                                - (-transform.up * spherecastRadius),
                               spherecastRadius);
 
