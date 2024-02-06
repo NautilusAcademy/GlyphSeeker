@@ -379,6 +379,8 @@ MonoBehaviour:
   rotVel: 6.5
   vertRotRange: {x: -15, y: 52.5}
   camDistRange: {x: 1, y: 5}
+  camDist_aiming: 1.5
+  fieldOfView_aiming: 50
 --- !u!1 &7271397137577292622
 GameObject:
   m_ObjectHideFlags: 0
