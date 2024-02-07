@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -22,7 +20,12 @@ public class PlayerRBMovement : MonoBehaviour
 
     bool hasJumped = false;
 
+    [SerializeField] private float coyoteTime = 0.8f;
+    private float coyoteTimer = 0f;
 
+    [SerializeField] private float increasedGravity = 3.5f;
+
+    [SerializeField] private float spintaRinculo = 10f;
 
     private void Awake()
     {
@@ -38,11 +41,20 @@ public class PlayerRBMovement : MonoBehaviour
         x_movem = GameManager.inst.inputManager.Player.Movement.ReadValue<Vector2>().x;
         z_movem = GameManager.inst.inputManager.Player.Movement.ReadValue<Vector2>().y;
 
-        moveVector = transform.forward * z_movem + transform.right * x_movem;      //Vettore movimento orizzontale
+        moveVector = (transform.forward * z_movem + transform.right * x_movem).normalized;      //Vettore movimento orizzontale
 
 
         //Prende l'input di salto
         hasJumped = GameManager.inst.inputManager.Player.Jump.ReadValue<float>() > 0;
+
+        if (rb.velocity.y < 0) //aumenta la grav scendendo
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (increasedGravity - 1) * Time.deltaTime;
+        }
+        else //sistema la grav in salita
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * Time.deltaTime;
+        }
     }
 
     RaycastHit hitBase;
@@ -61,16 +73,30 @@ public class PlayerRBMovement : MonoBehaviour
 
         float airVelMult = !isOnGround ? 0.65f : 1;   //Diminuisce la velocita' orizz. se si trova in aria
 
+        if (moveVector.x == 0 && moveVector.y == 0)
+        {
+            //rb.velocity = new Vector3(0f, 0f, 0f);
+            moveVector = (transform.forward * z_movem - transform.right * x_movem).normalized;
+        }
 
         //Salta se premi Spazio e si trova a terra
-        if (hasJumped && isOnGround)
+        if (hasJumped && coyoteTimer > 0f)
         {
             //Resetta la velocita' Y e applica la forza d'impulso verso l'alto
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
+            coyoteTimer = 0f;
         }
 
+        if (isOnGround)
+        {
+            coyoteTimer = coyoteTime;
+        }
 
+        else
+        {
+            coyoteTimer -= Time.deltaTime;
+        }
         //Movimento orizzontale (semplice) del giocatore
         rb.AddForce(moveVector.normalized * playerSpeed * 10f, ForceMode.Force);
 
@@ -80,7 +106,7 @@ public class PlayerRBMovement : MonoBehaviour
             &&
             (rb.velocity.x >= 0.05f || rb.velocity.z >= 0.05f))
         {
-            rb.AddForce(new Vector3(-rb.velocity.x * 0.1f, 0, -rb.velocity.z * 0.1f), ForceMode.Force);
+            rb.AddForce(new Vector3(-rb.velocity.x * 0.1f, increasedGravity, -rb.velocity.z * 0.1f), ForceMode.Force);
         }
 
 
@@ -99,7 +125,14 @@ public class PlayerRBMovement : MonoBehaviour
 
         #endregion
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Rinculo();
+            //rb.AddForce(collision.tr * spintaRinculo, ForceMode.Impulse);
+        }
+    }
 
     #region EXTRA - Gizmo
 
@@ -125,5 +158,9 @@ public class PlayerRBMovement : MonoBehaviour
         }
     }
 
+    public void Rinculo()
+    {
+        rb.AddForce(-transform.forward * spintaRinculo, ForceMode.Impulse);
+    }
     #endregion
 }
