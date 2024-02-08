@@ -420,7 +420,7 @@ MonoBehaviour:
   increasedGravity: 3.5
   coyoteMaxTime: 0.8
   knockbackPower: 10
-  treshold_groundCheck: 0.25
+  groundCheck_treshold: 0.25
 --- !u!1 &116186962
 GameObject:
   m_ObjectHideFlags: 0
