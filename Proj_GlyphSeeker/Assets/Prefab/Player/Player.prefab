@@ -723,7 +723,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 7.5
   jumpPower: 8.5
-  treshold_groundCheck: 0.25
+  increasedGravityMult: 1.1
+  coyoteMaxTime: 0.8
+  knockbackPower: 10
+  groundCheck_treshold: 0.25
 --- !u!114 &1575884519743137292
 MonoBehaviour:
   m_ObjectHideFlags: 0
