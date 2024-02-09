@@ -6,6 +6,12 @@ public class TurretBullet : MonoBehaviour
 {
     [SerializeField]
     private int damage;
+    private int life;
+
+    private void Start()
+    {
+        Destroy(gameObject, life);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

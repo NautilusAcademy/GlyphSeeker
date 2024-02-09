@@ -11,8 +11,12 @@ public class Turret : MonoBehaviour
     public int distanceToFire;
 
     [Space(10)]
-    public bool canShoot;
-    public float delayShoot = 0.4f;
+    public bool canFire = true;
+    public float fireRate = 0.4f;
+    public float charge;
+    public int maxAmmo;
+    public int currentAmmo;
+    public float rotVelocity;
 
     [Space(10)]
     public Transform firePoint;
@@ -31,18 +35,24 @@ public class Turret : MonoBehaviour
 
         if(distance <= distanceToLook)
         {
-            fire.Play();
             LookAtPlayer();
 
-            if(canShoot == true)
+            if(currentAmmo <= 0)
             {
-                StartCoroutine(Shoot());
+                StartCoroutine(Charge());
             }
+             
         }
+
         else if(distance > distanceToLook && distance <= distanceToFire)
         {
             fire.Stop();
             LookAtPlayer();
+        }
+
+        if (canFire == true && currentAmmo > 0)
+        {
+            StartCoroutine(Shoot());
         }
     }
 
@@ -52,18 +62,28 @@ public class Turret : MonoBehaviour
         Quaternion rotation = Quaternion.LookRotation(rot);
         Quaternion current = transform.localRotation;
 
-        transform.localRotation = Quaternion.Slerp(current, rotation, Time.deltaTime * 5);
+        transform.localRotation = Quaternion.Slerp(current, rotation, Time.deltaTime * rotVelocity);
+    }
+
+    IEnumerator Charge()
+    { 
+        yield return new WaitForSeconds(charge);
+
+        currentAmmo = maxAmmo;
     }
 
     IEnumerator Shoot()
     {
+        fire.Play();
+
         Rigidbody clone;
         clone = Instantiate(bullet, firePoint.position, firePoint.rotation);
         clone.velocity = firePoint.forward * 20;
-        canShoot = false;
+        canFire = false;
+        currentAmmo--;
 
-        yield return new WaitForSeconds(delayShoot);
+        yield return new WaitForSeconds(fireRate);
 
-        canShoot = true;
+        canFire = true;
     }
 }
