@@ -413,7 +413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1903324562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,7 +429,7 @@ MonoBehaviour:
   distance: 0
   distanceToGo: 25
   distanceToExplode: 5
-  timeToExplode: 3
+  timeToExplode: 2
 --- !u!65 &1903324563
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -634,6 +634,10 @@ PrefabInstance:
     - target: {fileID: 1032759081869243244, guid: cd5cc78eb32d3d04495e3c4e1265cb47, type: 3}
       propertyPath: m_Name
       value: Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 1032759081869243244, guid: cd5cc78eb32d3d04495e3c4e1265cb47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1032759081869243247, guid: cd5cc78eb32d3d04495e3c4e1265cb47, type: 3}
       propertyPath: m_RootOrder
