@@ -9,7 +9,11 @@ public class Kamikaze : MonoBehaviour
     public float distance;
     public int distanceToGo;
     public int distanceToExplode;
-    public int timeToExplode;
+    public float radiusForExplosion;
+
+    [Header("Variabili"), Space(10)]
+    public float timeToExplode;
+    public int damage;
 
     private GameObject player;
     private NavMeshAgent agent;
@@ -40,7 +44,20 @@ public class Kamikaze : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToExplode);
 
-        // esplosione del nemico
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radiusForExplosion);
+
+        foreach (Collider nearbyObject in colliders)
+        {
+            if (nearbyObject.CompareTag("Player"))
+            {
+                PlayerStats player = nearbyObject.GetComponent<PlayerStats>();
+                player.TakeDamage(1);
+            }
+            if(nearbyObject.CompareTag("Destroy"))
+            {
+                Destroy(nearbyObject.gameObject);
+            }
+        }
 
         Destroy(gameObject);
     }
