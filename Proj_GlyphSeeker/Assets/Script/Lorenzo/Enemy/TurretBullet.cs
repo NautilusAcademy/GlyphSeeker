@@ -6,7 +6,8 @@ public class TurretBullet : MonoBehaviour
 {
     [SerializeField]
     private int damage;
-    private int life;
+    [SerializeField]
+    private int life = 2;
 
     private void Start()
     {
