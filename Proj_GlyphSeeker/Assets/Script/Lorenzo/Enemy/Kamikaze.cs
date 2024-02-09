@@ -24,15 +24,15 @@ public class Kamikaze : MonoBehaviour
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
 
-        if (distance <= distanceToGo && distance > distanceToExplode)
-        {
-            agent.SetDestination(player.transform.position);
-        }
-
-        else if (distance > distanceToGo && distance <= distanceToExplode)
+        if (distance <= distanceToExplode )
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             StartCoroutine(Explode());
+        }
+
+        else if (distance <= distanceToGo && distance >= distanceToExplode)
+        {
+            agent.SetDestination(player.transform.position);
         }
     }
 
