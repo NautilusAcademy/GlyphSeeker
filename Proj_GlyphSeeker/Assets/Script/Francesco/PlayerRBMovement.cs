@@ -33,8 +33,6 @@ public class PlayerRBMovement : MonoBehaviour
     bool hasJumped_doOnce = true;
     float jumpPower_divider = 1;
 
-    const float AIR_FRICTION = 0.45f;
-
 
 
     private void Awake()
@@ -164,10 +162,10 @@ public class PlayerRBMovement : MonoBehaviour
         #endregion
 
 
-        float airVelMult = !isOnGround ? 0.65f : 1;   //Diminuisce la velocita' orizz. se si trova in aria
+        float airResistance = !isOnGround ? 0.45f : 1;   //Diminuisce la velocita' orizz. se si trova in aria
 
         //Movimento orizzontale (semplice) del giocatore
-        rb.AddForce(moveVector.normalized * playerSpeed * 10f * airVelMult, ForceMode.Force);
+        rb.AddForce(moveVector.normalized * playerSpeed * 10f /* airResistance*/, ForceMode.Force);
 
 
         #region Limitazioni della velocita'
@@ -185,26 +183,6 @@ public class PlayerRBMovement : MonoBehaviour
             Vector3 limit = horizVel.normalized * playerSpeed;
             rb.velocity = new Vector3(limit.x, rb.velocity.y, limit.z);
         }
-
-
-        //Applica l'attrito dell'aria al giocatore
-        //(Riduce la velocita' se il giocatore e' in aria e si sta muovendo)
-        if (!isOnGround
-            &&
-            (rb.velocity.x != 0.05f || rb.velocity.z != 0.05f))
-        {
-            Vector3 _airVel = rb.velocity;
-
-            _airVel.x *= AIR_FRICTION;
-            _airVel.z *= AIR_FRICTION;
-            //_airVel.y = 0;
-
-            //rb.velocity = new Vector3(rb.velocity.x * AIR_FRICTION,
-            //                          rb.velocity.y,
-            //                          rb.velocity.z * AIR_FRICTION);
-            //rb.velocity = _airVel;
-            rb.AddForce(-_airVel);
-        }//*/
 
 
         //Aumenta la gravita' quando il giocatore sta cadendo...
