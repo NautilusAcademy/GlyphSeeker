@@ -14,7 +14,7 @@ public class Runa_Rossa : MonoBehaviour
     public float ShootForce;
     public float ShootUpwardForce;
     bool CanShoot;
-    // Start is called before the first frame update
+
     void Start()
     {
         CanShoot = true;
@@ -36,10 +36,10 @@ public class Runa_Rossa : MonoBehaviour
         ProjRB.AddForce(ForceToAdd, ForceMode.Impulse);
         Ammo--;
 
-        Invoke(nameof(ResetAmmo), ShootCD);
+        Invoke(nameof(ResetShootTime), ShootCD);
     }
 
-    private void ResetAmmo()
+    private void ResetShootTime()
     {
         CanShoot = true;
     }
