@@ -15,10 +15,12 @@ public class Kamikaze : MonoBehaviour
     public float timeToExplode;
     public int damage;
     public Color startColor, endColor;
-
+    private bool isExploded = false;
+    
     private GameObject player;
     private NavMeshAgent agent;
     private Renderer renderer;
+    public ParticleSystem explosion;
 
     private void Start()
     {
@@ -31,10 +33,11 @@ public class Kamikaze : MonoBehaviour
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
 
-        if (distance <= distanceToExplode )
+        if (distance <= distanceToExplode && isExploded == false)
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             StartCoroutine(Explode());
+            isExploded = true;
         }
 
         else if (distance <= distanceToGo && distance >= distanceToExplode)
@@ -45,6 +48,7 @@ public class Kamikaze : MonoBehaviour
 
     IEnumerator Explode()
     {
+        
         float tick = 0f;
 
         while (renderer.material.color != endColor)
@@ -69,6 +73,15 @@ public class Kamikaze : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        StartCoroutine(AfterDestroy());
+    }
+
+    IEnumerator AfterDestroy()
+    {
+        explosion.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+
+        Destroy(gameObject.transform.parent.gameObject);
     }
 }
