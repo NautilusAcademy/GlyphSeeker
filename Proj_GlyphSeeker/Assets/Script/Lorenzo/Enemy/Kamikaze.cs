@@ -14,14 +14,17 @@ public class Kamikaze : MonoBehaviour
     [Header("Variabili"), Space(10)]
     public float timeToExplode;
     public int damage;
+    public Color startColor, endColor;
 
     private GameObject player;
     private NavMeshAgent agent;
-    
+    private Renderer renderer;
+
     private void Start()
     {
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
+        renderer = GetComponent<Renderer>();
     }
 
     private void Update()
@@ -42,7 +45,14 @@ public class Kamikaze : MonoBehaviour
 
     IEnumerator Explode()
     {
-        yield return new WaitForSeconds(timeToExplode);
+        float tick = 0f;
+
+        while (renderer.material.color != endColor)
+        {
+            tick += Time.deltaTime / 2;
+            renderer.material.color = Color.Lerp(startColor, endColor, tick);
+            yield return null;
+        }
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, radiusForExplosion);
 

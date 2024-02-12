@@ -434,8 +434,10 @@ MonoBehaviour:
   distanceToGo: 25
   distanceToExplode: 5
   radiusForExplosion: 10
-  timeToExplode: 1.5
+  timeToExplode: 2
   damage: 2
+  startColor: {r: 1, g: 1, b: 1, a: 0}
+  endColor: {r: 1, g: 0, b: 0, a: 0}
 --- !u!65 &1903324563
 BoxCollider:
   m_ObjectHideFlags: 0
