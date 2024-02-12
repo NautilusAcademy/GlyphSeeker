@@ -173,6 +173,7 @@ public class PlayerRBMovement : MonoBehaviour
     {
         rb.AddForce(-transform.forward * spintaRinculo, ForceMode.Impulse);
         spintaAudioSource.Play();
+        rb.velocity = new Vector3(0f, 0f, 0f);
     }
     #endregion
 }
