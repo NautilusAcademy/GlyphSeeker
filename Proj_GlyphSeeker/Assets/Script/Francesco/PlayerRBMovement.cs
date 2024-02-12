@@ -27,6 +27,9 @@ public class PlayerRBMovement : MonoBehaviour
 
     [SerializeField] private float spintaRinculo = 10f;
 
+    [SerializeField] private AudioSource spintaAudioSource, passiAudioSource;
+    //bool isWalking;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -42,7 +45,7 @@ public class PlayerRBMovement : MonoBehaviour
         z_movem = GameManager.inst.inputManager.Player.Movement.ReadValue<Vector2>().y;
 
         moveVector = (transform.forward * z_movem + transform.right * x_movem).normalized;      //Vettore movimento orizzontale
-
+        
 
         //Prende l'input di salto
         hasJumped = GameManager.inst.inputManager.Player.Jump.ReadValue<float>() > 0;
@@ -60,6 +63,14 @@ public class PlayerRBMovement : MonoBehaviour
     RaycastHit hitBase;
     void FixedUpdate()
     {
+        /*if (isOnGround && moveVector.x != 0 || moveVector.y !=0)
+        { 
+            isWalking = true;
+        }
+        if (isWalking) 
+        {
+            passiAudioSource.Play();
+        }*/
         //Calcolo se si trova a terra
         //(non colpisce i Trigger e "~0" significa che collide con tutti i layer)
         isOnGround = Physics.SphereCast(transform.position,
@@ -161,6 +172,7 @@ public class PlayerRBMovement : MonoBehaviour
     public void Rinculo()
     {
         rb.AddForce(-transform.forward * spintaRinculo, ForceMode.Impulse);
+        spintaAudioSource.Play();
     }
     #endregion
 }

@@ -22,6 +22,7 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         FindPlayer();
+        Patrol();
     }
 
     protected virtual void Update()
