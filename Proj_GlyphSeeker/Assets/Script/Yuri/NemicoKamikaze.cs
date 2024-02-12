@@ -13,9 +13,9 @@ public class NemicoKamikaze : EnemyBase
         renderer = GetComponent<Renderer>();
     }
 
-    protected override void Update()
+    protected override void FixedUpdate()
     {
-        base.Update();
+        base.FixedUpdate();
         if (Vector3.Distance(transform.position, target.position) <= attackRange)
         {
             StartCoroutine(Explode());

@@ -25,7 +25,7 @@ public class EnemyBase : MonoBehaviour
         Patrol();
     }
 
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         if (target != null)
         {
