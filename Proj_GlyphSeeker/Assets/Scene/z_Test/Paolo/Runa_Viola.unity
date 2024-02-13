@@ -1042,7 +1042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastStartPoint: {fileID: 1770106525}
-  maxRaycastDistance: 50
+  maxRaycastDistance: 10
   minProjectileForce: 0
   projectileForce: 20
   spawnPoint: {fileID: 151032112}
