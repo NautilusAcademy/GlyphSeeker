@@ -20,7 +20,7 @@ public class Kamikaze : MonoBehaviour
     private GameObject player;
     private NavMeshAgent agent;
     private Renderer renderer;
-    public ParticleSystem explosion;
+    public GameObject particle;
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class Kamikaze : MonoBehaviour
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
 
-        if (distance <= distanceToExplode && isExploded == false)
+        if (!isExploded && distance <= distanceToExplode)
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             StartCoroutine(Explode());
@@ -62,15 +62,30 @@ public class Kamikaze : MonoBehaviour
 
         foreach (Collider nearbyObject in colliders)
         {
-            if (nearbyObject.CompareTag("Player"))
+            Vector3 dir = nearbyObject.transform.position - transform.position;
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, dir, out hit))
             {
-                PlayerStats player = nearbyObject.GetComponent<PlayerStats>();
-                player.TakeDamage(1);
-            }
-            if(nearbyObject.CompareTag("Destroy"))
-            {
-                Destroy(nearbyObject.gameObject);
-            }
+                bool valore = !hit.transform.CompareTag("Player") && !hit.transform.CompareTag("Destroy");
+                Debug.Log(valore + " " + hit.transform.name);
+
+                if (valore)
+                {
+                    continue;
+                }
+
+                if (nearbyObject.CompareTag("Player"))
+                {
+                    PlayerStats player = nearbyObject.GetComponent<PlayerStats>();
+                    player.TakeDamage(1);
+                }
+
+                if (nearbyObject.CompareTag("Destroy"))
+                {
+                    Destroy(nearbyObject.gameObject);
+                }
+            }  
         }
 
         StartCoroutine(AfterDestroy());
@@ -78,10 +93,8 @@ public class Kamikaze : MonoBehaviour
 
     IEnumerator AfterDestroy()
     {
-        explosion.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(2);
-
+        Instantiate(particle, transform.position, transform.rotation);
         Destroy(gameObject.transform.parent.gameObject);
+        yield return null;
     }
 }
