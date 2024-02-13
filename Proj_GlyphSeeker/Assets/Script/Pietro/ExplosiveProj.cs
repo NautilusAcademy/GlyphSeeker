@@ -32,6 +32,10 @@ public class ExplosiveProj : MonoBehaviour
                 //else (infligge danni)
 
             }
+           if (col.gameObject.CompareTag("Player"))
+            {
+                //Danneggia il giocatore.
+            }
            
         }
         Destroy(this);
