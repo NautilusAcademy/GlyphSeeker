@@ -16,13 +16,17 @@ public class CameraRotation : MonoBehaviour
     [SerializeField] Vector2 vertRotRange = new Vector2(-15, 52.5f);
     [Space(5)]
     [SerializeField] Vector2 camDistRange = new Vector2(1, 5);
-    [SerializeField] float camDist_aiming = 1.5f;
     Vector2 _camDistRange;
     float camSafeRadius;
     RaycastHit hitWall;
     bool hasCamHitWall;
 
+    [Header("——  Aiming  ——")]
+    [SerializeField] float camDist_aiming = 1.5f;
+    [SerializeField] float fieldOfView_aiming = 50f;
     float currentCamDist = 3;
+    float fieldOfView_normal = 65f;
+    float currentFOV;
     float xRot = 0f;
 
     bool centerMouse = true;
@@ -33,6 +37,9 @@ public class CameraRotation : MonoBehaviour
     {
         playerCam_Tr = playerCam.transform;
         _camDistRange = camDistRange;
+        
+        fieldOfView_normal = playerCam.fieldOfView;
+        currentFOV = fieldOfView_normal;
 
 
         //Imposta la "distanza sicura" per la telecamera
@@ -92,15 +99,15 @@ public class CameraRotation : MonoBehaviour
         #region Limita la distanza della cam per non farla entrare nei muri
 
         //Calcolo della direzione della telecamera
-        dirCamPlayer = playerCam_Tr.position - cameraMasterPivot.position;
+        dirCamPlayer = -cameraPivotTilt.forward;//playerCam_Tr.position - cameraPivotTilt.position;
 
 
         //Calcolo se la telecamera ha colpito un muro
         //(non colpisce i Trigger e "~0" significa che collide con tutti i layer)
-        hasCamHitWall = Physics.Raycast(cameraMasterPivot.position,
+        hasCamHitWall = Physics.Raycast(cameraPivotTilt.position,
                                         dirCamPlayer,
                                         out hitWall,
-                                        _camDistRange.y,
+                                        _camDistRange.y + camSafeRadius,
                                         ~0,
                                         QueryTriggerInteraction.Ignore);
 
@@ -119,7 +126,21 @@ public class CameraRotation : MonoBehaviour
         //Calcola la nuova posizione
         Vector3 _camPosDist = playerCam_Tr.localPosition;
         _camPosDist.z = -currentCamDist;
-        playerCam_Tr.localPosition = /*_camPosDist*/Vector3.Slerp(playerCam_Tr.localPosition, _camPosDist, Time.deltaTime * 10f);
+        playerCam_Tr.localPosition = Vector3.Slerp(playerCam_Tr.localPosition,
+                                                   _camPosDist,
+                                                   Time.deltaTime * 10f);
+        /*_camPosDist;*/
+
+        #endregion
+
+
+
+        #region Cambio del "Field of View"
+
+        //Calcola il nuovo campo visivo (FOV)
+        playerCam.fieldOfView = Mathf.SmoothStep(playerCam.fieldOfView,
+                                                 currentFOV,
+                                                 Time.deltaTime * 10f);
 
         #endregion
     }
@@ -147,6 +168,13 @@ public class CameraRotation : MonoBehaviour
         _camDistRange.y = isAiming
                             ? camDist_aiming
                             : camDistRange.y;
+
+        //Cambia il campo visivo/"field of view"
+        //(Se sta mirando, lo diminuisce,
+        // se no lo fa tornare normale)
+        currentFOV = isAiming
+                       ? fieldOfView_aiming
+                       : fieldOfView_normal;
     }
 
 
@@ -194,7 +222,7 @@ public class CameraRotation : MonoBehaviour
         Gizmos.color = Color.green;
         if (hasCamHitWall)
         {
-            Gizmos.DrawLine(cameraMasterPivot.position, hitWall.point);
+            Gizmos.DrawLine(cameraPivotTilt.position, hitWall.point);
             Gizmos.DrawCube(hitWall.point, Vector3.one * 0.1f);
         }
 
