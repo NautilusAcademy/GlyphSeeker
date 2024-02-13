@@ -72,11 +72,11 @@ public class PlayerRBMovement : MonoBehaviour
 
 
 
-        if (moveVector.x == 0 && moveVector.y == 0 && isOnGround)
+        /*if (moveVector.x == 0 && moveVector.y == 0 && isOnGround)
         {
             //rb.velocity = new Vector3(0f, 0f, 0f);
             moveVector = (transform.forward * z_movem - transform.right * x_movem).normalized;
-        }
+        }//*/
 
 
         #region Salto
@@ -165,7 +165,7 @@ public class PlayerRBMovement : MonoBehaviour
         float airResistance = !isOnGround ? 0.45f : 1;   //Diminuisce la velocita' orizz. se si trova in aria
 
         //Movimento orizzontale (semplice) del giocatore
-        rb.AddForce(moveVector.normalized * playerSpeed * 10f /* airResistance*/, ForceMode.Force);
+        rb.AddForce(moveVector.normalized * playerSpeed * 10f * airResistance, ForceMode.Force);
 
 
         #region Limitazioni della velocita'
@@ -182,6 +182,14 @@ public class PlayerRBMovement : MonoBehaviour
             //Limita la velocita' a quella prestabilita, riportandola al RigidBody
             Vector3 limit = horizVel.normalized * playerSpeed;
             rb.velocity = new Vector3(limit.x, rb.velocity.y, limit.z);
+        }
+
+
+        //Rallenta il giocatore se si trova in aria
+        //e non si sta muovendo
+        if(moveVector == Vector3.zero  &&  !isOnGround)
+        {
+            rb.AddForce(-horizVel / airResistance);
         }
 
 
