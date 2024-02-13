@@ -348,7 +348,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301781213}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e87242813eaa66f49a6aff1f67632c55, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -413,7 +413,7 @@ Transform:
   m_GameObject: {fileID: 301781213}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.74, z: 10.01}
-  m_LocalScale: {x: 21.232046, y: 2.5291, z: 2.5291}
+  m_LocalScale: {x: 21.232046, y: 18.193586, z: 2.5291}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1896,7 +1896,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620901304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.279916, y: 0.59402454, z: -3.8999162}
+  m_LocalPosition: {x: -30.74, y: 0.59402454, z: 0.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2066,7 +2066,7 @@ PrefabInstance:
     - target: {fileID: 7271397138376563134, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: e87242813eaa66f49a6aff1f67632c55, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae051f4b2026339458115254be1238b7, type: 3}
 --- !u!20 &1847875602 stripped
@@ -2360,6 +2360,9 @@ MonoBehaviour:
   initialPoint: {fileID: 1915560708}
   patrolPoints:
   - {fileID: 1915560708}
+  - {fileID: 1231395092}
+  - {fileID: 859787872}
+  - {fileID: 1571020480}
   radiusForExplosion: 1
   startColor: {r: 1, g: 0.5004898, b: 0, a: 1}
   endColor: {r: 1, g: 0.08614133, b: 0, a: 1}

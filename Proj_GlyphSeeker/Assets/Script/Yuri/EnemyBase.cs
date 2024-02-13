@@ -22,13 +22,14 @@ public class EnemyBase : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         FindPlayer();
-        Patrol();
+        //Patrol();
     }
 
     protected virtual void FixedUpdate()
     {
         if (target != null)
         {
+            Patrol();
             DetectPlayer();
 
             if (playerDetected)
