@@ -71,6 +71,24 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Weapon Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""aaa510fa-938e-47b1-9275-074de667dfda"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Provvisorio"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d7ef401-f0b0-4365-ac0b-5d25b4225bb3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -225,6 +243,50 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""680b5b28-7413-4910-8189-32462c47f311"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Weapon Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f00ba01a-3b1e-4cda-9409-1d64594d0837"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Weapon Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51871a22-9034-4b8c-b210-969096d489f3"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Provvisorio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4f1059f-f8fd-4468-ac7f-07a36f0ad8be"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Provvisorio"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -756,6 +818,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_WeaponMenu = m_Player.FindAction("Weapon Menu", throwIfNotFound: true);
+        m_Player_Provvisorio = m_Player.FindAction("Provvisorio", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -832,6 +896,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_WeaponMenu;
+    private readonly InputAction m_Player_Provvisorio;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -841,6 +907,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @WeaponMenu => m_Wrapper.m_Player_WeaponMenu;
+        public InputAction @Provvisorio => m_Wrapper.m_Player_Provvisorio;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -865,6 +933,12 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @WeaponMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponMenu;
+                @WeaponMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponMenu;
+                @WeaponMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponMenu;
+                @Provvisorio.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProvvisorio;
+                @Provvisorio.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProvvisorio;
+                @Provvisorio.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProvvisorio;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -884,6 +958,12 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @WeaponMenu.started += instance.OnWeaponMenu;
+                @WeaponMenu.performed += instance.OnWeaponMenu;
+                @WeaponMenu.canceled += instance.OnWeaponMenu;
+                @Provvisorio.started += instance.OnProvvisorio;
+                @Provvisorio.performed += instance.OnProvvisorio;
+                @Provvisorio.canceled += instance.OnProvvisorio;
             }
         }
     }
@@ -1000,6 +1080,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnWeaponMenu(InputAction.CallbackContext context);
+        void OnProvvisorio(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
