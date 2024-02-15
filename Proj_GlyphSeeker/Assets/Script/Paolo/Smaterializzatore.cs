@@ -11,7 +11,8 @@ public class Smaterializzatore : MonoBehaviour
     public Transform spawnPoint;
     private GameObject hiddenObject;
     public GameObject ImageObjectCollected;
-    private GameObject hitObject;
+    
+    public GameObject PrefabBarile;
 
     private bool isCooldown = false;
     private float cooldownDuration = 3f;
@@ -42,9 +43,9 @@ public class Smaterializzatore : MonoBehaviour
             {  
                 if (hit.transform.CompareTag("toHide"))
                 {
-                mirino.color = Color.magenta;
+                 mirino.color = Color.magenta;
                 }
-                 else
+               else
                {
                 mirino.color = Color.white;
                }
@@ -133,13 +134,12 @@ public class Smaterializzatore : MonoBehaviour
     void Shoot(float projectileForce)
     {
         if (hiddenObject != null)
-        {
+        {           
             // Rimuovi il componente PlayerShooting dal clone per evitare duplicati
             Destroy(hiddenObject.GetComponent<Smaterializzatore>());
 
-            // Attiva l'oggetto clonato
-            hiddenObject.SetActive(true);
-
+             // Attiva l'oggetto clonato
+                hiddenObject.SetActive(true);
             // Sposta l'oggetto clonato nella posizione e rotazione del punto di sparo
             hiddenObject.transform.position = spawnPoint.position;
             hiddenObject.transform.rotation = spawnPoint.rotation;
@@ -166,15 +166,28 @@ public class Smaterializzatore : MonoBehaviour
     void HideObject(GameObject objToHide)
     {
         if (objToHide != null && objToHide.CompareTag("toHide") && !isCooldown)
-        {
-            // Disattiva l'oggetto colpito
-            objToHide.SetActive(false);
-
+        {     
             // Attiva lo sprite a schermo
-            ImageObjectCollected.SetActive(true);
+           ImageObjectCollected.SetActive(true);                  
+
+            if(objToHide==GameObject.Find("Barile"))
+            {
+                objToHide.GetComponent<Barile>().enabled = false;
+                objToHide.GetComponent<SmBarile>().enabled = true;
+
+            }
+
+            if(!objToHide.GetComponent<Rigidbody>())
+            {
+                objToHide.AddComponent<Rigidbody>();
+            }
+            // Disattiva l'oggetto colpito
+           objToHide.SetActive(false);
 
             // Memorizza l'oggetto nascosto
-            hiddenObject = objToHide;
+            hiddenObject = objToHide;            
+           
         }
+        
     }
 }
