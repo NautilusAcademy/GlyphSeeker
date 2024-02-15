@@ -89,6 +89,15 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b241f7b8-8f9b-43b7-981b-6d305e6ceaa8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -287,6 +296,39 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Provvisorio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c62b0534-256d-4f80-a45e-c39bf8bb2974"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""180580d8-a941-476d-b143-ba3ca90c3194"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d137f8b-236f-4668-83c0-180c76f794ae"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -820,6 +862,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_WeaponMenu = m_Player.FindAction("Weapon Menu", throwIfNotFound: true);
         m_Player_Provvisorio = m_Player.FindAction("Provvisorio", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -898,6 +941,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_WeaponMenu;
     private readonly InputAction m_Player_Provvisorio;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -909,6 +953,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @WeaponMenu => m_Wrapper.m_Player_WeaponMenu;
         public InputAction @Provvisorio => m_Wrapper.m_Player_Provvisorio;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -939,6 +984,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Provvisorio.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProvvisorio;
                 @Provvisorio.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProvvisorio;
                 @Provvisorio.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnProvvisorio;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -964,6 +1012,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Provvisorio.started += instance.OnProvvisorio;
                 @Provvisorio.performed += instance.OnProvvisorio;
                 @Provvisorio.canceled += instance.OnProvvisorio;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -1082,6 +1133,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnWeaponMenu(InputAction.CallbackContext context);
         void OnProvvisorio(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
