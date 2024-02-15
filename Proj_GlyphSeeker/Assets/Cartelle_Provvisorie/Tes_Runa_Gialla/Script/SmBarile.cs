@@ -6,6 +6,11 @@ public class SmBarile : MonoBehaviour
 {
     public int radiusExplosion;
 
+    private void Start()
+    {
+        
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radiusExplosion);
