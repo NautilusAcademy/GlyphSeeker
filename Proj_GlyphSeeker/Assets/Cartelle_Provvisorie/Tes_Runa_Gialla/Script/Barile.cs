@@ -10,8 +10,11 @@ public class Barile : MonoBehaviour, IChargable
     private int maxCharge = 3;
     public ParticleSystem particleSystem;
 
-    public bool canPickUp = false;
+     //public bool canPickUp = false;
+   
     public float delayExplosion;
+
+    
 
     public void Charge()
     {
@@ -25,8 +28,7 @@ public class Barile : MonoBehaviour, IChargable
 
     IEnumerator FullCharged()
     {
-        canPickUp = true;
-
+        gameObject.GetComponent<PickUp>().canPickUp = true;
         yield return new WaitForSeconds (delayExplosion);
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, 10);

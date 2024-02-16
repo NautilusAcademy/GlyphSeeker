@@ -10,7 +10,7 @@ public class SmBarile : MonoBehaviour
         
     }
     private void OnCollisionEnter(Collision collision)
-    {
+    {        
         Collider[] colliders = Physics.OverlapSphere(transform.position, radiusExplosion);
 
         foreach (Collider nearbyObject in colliders)

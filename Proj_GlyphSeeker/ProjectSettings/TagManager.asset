@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Undefined
   - Destroy
+  - Chargable
   layers:
   - Default
   - TransparentFX

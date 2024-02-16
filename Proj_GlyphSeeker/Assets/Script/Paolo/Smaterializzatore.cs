@@ -4,22 +4,29 @@ using System.Collections;
 
 public class Smaterializzatore : MonoBehaviour
 {
-    public Transform raycastStartPoint;
-    public float maxRaycastDistance = 10f;
-    public float minProjectileForce = 0f;
-    public float projectileForce = 20f;
-    public Transform spawnPoint;
-    private GameObject hiddenObject;
-    public GameObject ImageObjectCollected;
-    
-    public GameObject PrefabBarile;
-
+    [SerializeField]
+    private Transform raycastStartPoint;
+    [SerializeField]
+    private float maxRaycastDistance = 10f;
+    [SerializeField]
+    private float placeForce = 0f;
+    [SerializeField]
+    private float shootForce = 20f;
+    [SerializeField]
+    private Transform shootPoint;
+    [SerializeField]
+    private float cooldown = 3f;
+    private bool isObjectInSlot;
     private bool isCooldown = false;
-    private float cooldownDuration = 3f;
-    public Image mirino;
-
+    private GameObject hiddenObject;
+    
+    public GameObject ImageObjectCollected;
+    public Image mirino;  
+    
     private void Start()
     {
+        
+        isObjectInSlot = false;
         ImageObjectCollected.SetActive(false);
     }
 
@@ -29,34 +36,31 @@ public class Smaterializzatore : MonoBehaviour
         GameObject hitObject = null;
 
         // Lanciare un raycast in avanti solo se l'oggetto nascosto è null
-        if (hiddenObject == null)
+        RaycastHit hit;
+        // Aggiunto maxRaycastDistance al raycast
+        if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance)
+            &&
+            hiddenObject == null)
         {
-            RaycastHit hit;
-            // Aggiunto maxRaycastDistance al raycast
-            if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance))
+            hitObject = hit.transform.gameObject;
+        }
+        
+
+        if (hiddenObject!=null)
+        {
+            mirino.color = Color.green;
+        } 
+        else if(hit.collider!=null)
+        {                
+            if (hit.transform.GetComponent<PickUp>())
             {
-                hitObject = hit.transform.gameObject;
-            }
-
-            if(hit.collider!=null)
-
-            {  
-                if (hit.transform.CompareTag("toHide"))
-                {
-                 mirino.color = Color.magenta;
-                }
-               else
-               {
-                mirino.color = Color.white;
-               }
-
+                mirino.color = Color.magenta;
             }
             else
             {
                 mirino.color = Color.white;
             }
-
-        }
+        } 
 
         // Input per sparare
         if (GameManager.inst.inputManager.Player.Fire.triggered)
@@ -64,13 +68,13 @@ public class Smaterializzatore : MonoBehaviour
             // Se c'è un oggetto nascosto, spara senza dover colpire nulla con il raycast
             if (hiddenObject != null && !isCooldown)
             {
-                Shoot(projectileForce);
-                StartCoroutine(Cooldown());
+                ShootObject(shootForce);
+                StartCoroutine(ActivateCooldown());
             }
             // Se non c'è un oggetto nascosto, spara solo se il raycast ha colpito qualcosa
             else if (hitObject != null)
             {
-                Shoot(projectileForce);
+                ShootObject(shootForce);
             }
 
             if (hiddenObject == null)
@@ -84,20 +88,20 @@ public class Smaterializzatore : MonoBehaviour
         {
             if (hiddenObject != null && !isCooldown)
             {
-                PlaceObject(minProjectileForce);
-                StartCoroutine(Cooldown());
+                PlaceObject(placeForce);
+                StartCoroutine(ActivateCooldown());
             }
         }
     }
 
-    IEnumerator Cooldown()
+    IEnumerator ActivateCooldown()
     {
         isCooldown = true;
-        yield return new WaitForSeconds(cooldownDuration);
+        yield return new WaitForSeconds(cooldown);
         isCooldown = false;
     }
 
-    void PlaceObject(float minProjectileForce)
+    public void PlaceObject(float PlaceForce)
     {
         // Memorizza l'oggetto colpito
         GameObject hitObject = null;
@@ -116,14 +120,16 @@ public class Smaterializzatore : MonoBehaviour
                 // Verifica se l'oggetto colpito è diverso dal giocatore
                 if (goHit != null && !goHit.CompareTag("Player"))
                 {
+                    Vector3 safeDistanceCalculated = (raycastStartPoint.forward * hiddenObject.GetComponent<PickUp>().safeDistance);
+                    
                     hitObject = goHit;
                     Destroy(hiddenObject.GetComponent<Smaterializzatore>());
                     hiddenObject.SetActive(true);
-                    hiddenObject.transform.position = hit.point + new Vector3(0, 0.5f, 0);
+                    hiddenObject.transform.position = hit.point - safeDistanceCalculated + new Vector3(0, 0.5f, 0);
 
                     // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
                     hiddenObject = null;
-
+                    isObjectInSlot = false;
                     // Assegna a false per far scomparire l'immagine
                     ImageObjectCollected.SetActive(false);
                 }
@@ -131,7 +137,7 @@ public class Smaterializzatore : MonoBehaviour
         }
     }
 
-    void Shoot(float projectileForce)
+    public void ShootObject(float ShootForce)
     {
         if (hiddenObject != null)
         {           
@@ -141,8 +147,8 @@ public class Smaterializzatore : MonoBehaviour
              // Attiva l'oggetto clonato
                 hiddenObject.SetActive(true);
             // Sposta l'oggetto clonato nella posizione e rotazione del punto di sparo
-            hiddenObject.transform.position = spawnPoint.position;
-            hiddenObject.transform.rotation = spawnPoint.rotation;
+            hiddenObject.transform.position = shootPoint.position;
+            hiddenObject.transform.rotation = shootPoint.rotation;
 
             // Ottenere il componente Rigidbody dell'oggetto clonato
             Rigidbody projectileRb = hiddenObject.GetComponent<Rigidbody>();
@@ -152,11 +158,12 @@ public class Smaterializzatore : MonoBehaviour
             {
                 projectileRb.angularVelocity = Vector3.zero;
                 projectileRb.velocity = Vector3.zero;
-                projectileRb.AddForce(raycastStartPoint.transform.forward * projectileForce, ForceMode.Impulse);
+                projectileRb.AddForce(raycastStartPoint.transform.forward * ShootForce, ForceMode.Impulse);
             }
 
             // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
             hiddenObject = null;
+            isObjectInSlot = false;
 
             //assegna a false per far scomparire l'immagine
             ImageObjectCollected.SetActive(false);
@@ -165,11 +172,11 @@ public class Smaterializzatore : MonoBehaviour
 
     void HideObject(GameObject objToHide)
     {
-        if (objToHide != null && objToHide.CompareTag("toHide") && !isCooldown)
+        if (objToHide != null && objToHide.GetComponent<PickUp>() && !isCooldown)
         {     
             if(objToHide==GameObject.Find("Barile"))
             {       
-                if(objToHide.GetComponent<Barile>().canPickUp)
+                if(objToHide.GetComponent<PickUp>().canPickUp)
                 {
                   objToHide.GetComponent<Barile>().enabled = false;
                   objToHide.GetComponent<SmBarile>().enabled = true;
@@ -203,6 +210,7 @@ public class Smaterializzatore : MonoBehaviour
            ImageObjectCollected.SetActive(true);               
            
         }
+        isObjectInSlot = true;
         
     }
 }
