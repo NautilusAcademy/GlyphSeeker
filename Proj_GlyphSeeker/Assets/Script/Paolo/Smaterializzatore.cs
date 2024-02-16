@@ -167,14 +167,26 @@ public class Smaterializzatore : MonoBehaviour
     {
         if (objToHide != null && objToHide.CompareTag("toHide") && !isCooldown)
         {     
-            // Attiva lo sprite a schermo
-           ImageObjectCollected.SetActive(true);                  
-
             if(objToHide==GameObject.Find("Barile"))
-            {
-                objToHide.GetComponent<Barile>().enabled = false;
-                objToHide.GetComponent<SmBarile>().enabled = true;
+            {       
+                if(objToHide.GetComponent<Barile>().canPickUp)
+                {
+                  objToHide.GetComponent<Barile>().enabled = false;
+                  objToHide.GetComponent<SmBarile>().enabled = true;
+                    // Attiva lo sprite a schermo
+                    ImageObjectCollected.SetActive(true);
 
+                    objToHide.SetActive(false);
+                    // Memorizza l'oggetto nascosto
+                     hiddenObject = objToHide;
+
+                    if (!objToHide.GetComponent<Rigidbody>())
+                    {
+                        objToHide.AddComponent<Rigidbody>();
+                    }
+
+                }                    
+                return;
             }
 
             if(!objToHide.GetComponent<Rigidbody>())
@@ -185,7 +197,10 @@ public class Smaterializzatore : MonoBehaviour
            objToHide.SetActive(false);
 
             // Memorizza l'oggetto nascosto
-            hiddenObject = objToHide;            
+            hiddenObject = objToHide;  
+            
+            // Attiva lo sprite a schermo
+           ImageObjectCollected.SetActive(true);               
            
         }
         
