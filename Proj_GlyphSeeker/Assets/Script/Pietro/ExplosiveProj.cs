@@ -16,28 +16,33 @@ public class ExplosiveProj : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        Collider[] TargetsHit = Physics.OverlapSphere(rb.transform.position, ExplosionRadius);
-        foreach (var col in TargetsHit)
+        if (!collider.gameObject.CompareTag("Player"))
         {
-            //Raycast per vedere se l'esplosione ha colpito il nemico e non un muro.
-            
-            if (col.gameObject.CompareTag("DestructableObject"))
+            Collider[] TargetsHit = Physics.OverlapSphere(rb.transform.position, ExplosionRadius);
+            foreach (var col in TargetsHit)
             {
-                Destroy(col.gameObject);
-            }
-           if (col.gameObject.CompareTag("Enemy"))
-            {
-                //Bisogna inserire la variabile armatura direttamente dallo script dei nemici
-                //if (nemico ha armatura--> distruggi)
-                //else (infligge danni)
+                //Raycast per vedere se l'esplosione ha colpito il nemico e non un muro.
+
+                if (col.gameObject.CompareTag("DestructableObject"))
+                {
+                    Destroy(col.gameObject);
+                }
+                if (col.gameObject.CompareTag("Enemy"))
+                {
+                    Destroy(col.gameObject);
+                    //Bisogna inserire la variabile armatura direttamente dallo script dei nemici
+                    //if (nemico ha armatura--> distruggi)
+                    //else (infligge danni)
+
+                }
+                /*if (col.gameObject.CompareTag("Player"))
+                 {
+                     //Danneggia il giocatore.
+                 } */
 
             }
-           if (col.gameObject.CompareTag("Player"))
-            {
-                //Danneggia il giocatore.
-            }
-           
+            Destroy(gameObject);
         }
-        Destroy(this);
+        
     }
 }

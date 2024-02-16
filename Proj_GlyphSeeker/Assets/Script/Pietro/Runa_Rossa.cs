@@ -10,7 +10,7 @@ public class Runa_Rossa : MonoBehaviour
     public GameObject Projectile;
     public int Ammo;
     public float ShootCD;
-    public KeyCode ShootKey = KeyCode.Mouse0;
+    //public KeyCode ShootKey = KeyCode.Mouse0;
     public float ShootForce;
     public float ShootUpwardForce;
     bool CanShoot;
@@ -22,7 +22,7 @@ public class Runa_Rossa : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(ShootKey) && CanShoot==true && Ammo>0)
+        if(GameManager.inst.inputManager.Player.Fire.triggered && CanShoot==true && Ammo>0)
         {
             Shoot();
         }
