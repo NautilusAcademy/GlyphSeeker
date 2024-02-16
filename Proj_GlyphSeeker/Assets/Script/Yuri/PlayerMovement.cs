@@ -17,17 +17,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
     bool isGrounded;
     [SerializeField] private float jumpHeight = 3f;
-    [SerializeField] private float fallHeight = -10f;
 
     [SerializeField] private float coyoteTime = 0.1f;
     private float coyoteTimer = 0f;
 
     private bool hasJumped = false;
 
-    // Nuove variabili per gestire il salto più alto
     private bool isJumping = false;
     private float jumpTime = 0f;
-    public float maxJumpDuration = 1.0f; // Modifica questo valore per regolare la durata massima del salto
+    public float maxJumpDuration = 1.0f;
 
     void ManageDeath()
     {
@@ -71,20 +69,17 @@ public class PlayerMovement : MonoBehaviour
 
         velocity.y += currentGravity * Time.deltaTime;
 
-        // Controlla quando inizia il salto
         if (GameManager.inst.inputManager.Player.Jump.WasPressedThisFrame() && (isGrounded || coyoteTimer > 0f) && !hasJumped)
         {
             isJumping = true;
             jumpTime = 0f;
         }
 
-        // Controlla quando termina il salto
         if (GameManager.inst.inputManager.Player.Jump.WasReleasedThisFrame() && isJumping)
         {
             isJumping = false;
         }
 
-        // Gestisci il salto più alto
         if (isJumping)
         {
             if (jumpTime < maxJumpDuration)
@@ -99,9 +94,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
         rb.MovePosition(rb.position + velocity * Time.deltaTime);
+    }
 
-        if (transform.position.y < fallHeight)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Trap"))
+        {
             ManageDeath();
+        }
     }
 }
 

@@ -4,13 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - DestructableObject
   - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 
