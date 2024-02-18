@@ -3,34 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Turret : MonoBehaviour
+public class Turret : EnemyStats
 {
     [Header("Distanze")]
-    private float distance;
     [SerializeField]
     private int distanceToLook;
     [SerializeField]
     private int distanceToFire;
+    private float distance;
 
-    [Space(10)]
-    private bool canFire = true;
-    [SerializeField]
-    private float cooldownFire;
-    private float charge;
-    [SerializeField]
-    private int maxAmmo;
-    private int currentAmmo;
+    [Header("Variabili")]
     [SerializeField]
     private float rotVelocity;
+    [SerializeField]
+    private float bulletSpeed;
+    private bool canFire = true;
+    private float charge;
 
-    [Space(10)]
+    [Header("Componenti")]
     [SerializeField]
     private Transform firePoint;
     [SerializeField]
     private Rigidbody bullet;
-    private GameObject player;
     [SerializeField]
     private AudioSource fire;
+    private GameObject player;
+
 
     private void Start()
     {
@@ -86,11 +84,11 @@ public class Turret : MonoBehaviour
 
         Rigidbody clone;
         clone = Instantiate(bullet, firePoint.position, firePoint.rotation);
-        clone.velocity = firePoint.forward * 20;
+        clone.velocity = firePoint.forward * bulletSpeed;
         canFire = false;
         currentAmmo--;
 
-        yield return new WaitForSeconds(cooldownFire);
+        yield return new WaitForSeconds(fireRate);
 
         canFire = true;
     }

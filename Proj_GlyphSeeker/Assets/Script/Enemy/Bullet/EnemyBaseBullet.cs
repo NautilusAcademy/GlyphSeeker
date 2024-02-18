@@ -18,7 +18,7 @@ public class EnemyBaseBullet : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            PlayerStats player = other.GetComponent<PlayerStats>();
+            HealthSystem player = other.GetComponent<HealthSystem>();
             player.TakeDamage(damage);
         }
     }

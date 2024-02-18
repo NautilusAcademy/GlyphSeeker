@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class HealthSystem : MonoBehaviour, IDamageable
 {
+    [Header("Salute")]
     [SerializeField]
     private int maxHealth;
+    [SerializeField]
     protected int currentHealth;
 
-    [SerializeField]
     private float invincibleSec;
     private bool isInvincible = false;
     private bool isDead = false;

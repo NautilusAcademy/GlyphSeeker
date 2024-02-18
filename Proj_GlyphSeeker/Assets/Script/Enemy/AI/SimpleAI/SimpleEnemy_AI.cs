@@ -3,30 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SimpleEnemy_AI : MonoBehaviour
+public class SimpleEnemy_AI : EnemyStats
 {
     [Header("Distanze")]
-    private float distance;
     [SerializeField]
     private float maxRangeToPlayer;
     [SerializeField]
     private float aggroRange;
     [SerializeField]
     private float attackRange;
+    private float distance;
 
-    [Header("Variabili"), Space(5)]
+    [Header("Variabili")]
     [SerializeField]
     private float rotVelocity;
     [SerializeField]
     protected float bulletSpeed;
-    [SerializeField]
-    protected float cooldownFire;
     protected bool canFire;
     [SerializeField]
     private Transform[] patrolPoints;
     private int currentPatrolIndex;
 
-    [Header("Componenti"), Space(5)]
+    [Header("Componenti")]
     [SerializeField]
     protected Transform firePoint;
     [SerializeField]

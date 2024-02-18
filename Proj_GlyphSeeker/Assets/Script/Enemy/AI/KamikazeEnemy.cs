@@ -13,10 +13,6 @@ public class KamikazeEnemy : EnemyStats
     [SerializeField]
     private float explosionRadius;
 
-    [Header("Variabili")]
-    [SerializeField]
-    private float chargingtime;
-
     private GameObject player;
     private NavMeshAgent agent;
 
@@ -24,6 +20,7 @@ public class KamikazeEnemy : EnemyStats
     {
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = speed;
     }
 
     private void Update()
@@ -44,7 +41,7 @@ public class KamikazeEnemy : EnemyStats
 
     IEnumerator StartExplosion()
     {
-        yield return new WaitForSeconds(chargingtime);
+        yield return new WaitForSeconds(fireRate);
 
         Explode();
     }
@@ -55,17 +52,25 @@ public class KamikazeEnemy : EnemyStats
 
         foreach (Collider nearbyObject in colliders)
         {
-            /*if ()//nearbyObject.GetComponent<IPlayer>())
+            if (nearbyObject.GetComponent<IDamageable>() != null /*|| nearbyObject.GetComponent<IDestroyable>() != null*/)
             {
-                HealthSystem player = nearbyObject.GetComponent<HealthSystem>();
-                player.TakeDamage(1);
-            }
+                //IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
 
-            if ()//nearbyObject.GetComponent<IDestroyable>())
-            {
-                /*HealthSystem enemy = nearbyObject.GetComponent<HealthSystem>();
-                enemy.TakeDamage(1);
-            }*/
+                if (nearbyObject.GetComponent<IDamageable>() != null)
+                {
+                    HealthSystem target = nearbyObject.GetComponent<HealthSystem>();
+                    target.TakeDamage(1);
+                    return;
+                }
+                //else if (item != null)
+                //{
+                //    Destroy(nearbyObject);
+                //    return;
+                //}
+            }
+            else
+                return;
+            
         }
 
         Destroy(gameObject);
