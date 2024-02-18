@@ -6,23 +6,31 @@ using UnityEngine.AI;
 public class Turret : MonoBehaviour
 {
     [Header("Distanze")]
-    public float distance;
-    public int distanceToLook;
-    public int distanceToFire;
+    private float distance;
+    [SerializeField]
+    private int distanceToLook;
+    [SerializeField]
+    private int distanceToFire;
 
     [Space(10)]
-    public bool canFire = true;
-    public float fireRate = 0.4f;
-    public float charge;
-    public int maxAmmo;
-    public int currentAmmo;
-    public float rotVelocity;
+    private bool canFire = true;
+    [SerializeField]
+    private float cooldownFire;
+    private float charge;
+    [SerializeField]
+    private int maxAmmo;
+    private int currentAmmo;
+    [SerializeField]
+    private float rotVelocity;
 
     [Space(10)]
-    public Transform firePoint;
-    public Rigidbody bullet;
+    [SerializeField]
+    private Transform firePoint;
+    [SerializeField]
+    private Rigidbody bullet;
     private GameObject player;
-    public AudioSource fire;
+    [SerializeField]
+    private AudioSource fire;
 
     private void Start()
     {
@@ -82,7 +90,7 @@ public class Turret : MonoBehaviour
         canFire = false;
         currentAmmo--;
 
-        yield return new WaitForSeconds(fireRate);
+        yield return new WaitForSeconds(cooldownFire);
 
         canFire = true;
     }

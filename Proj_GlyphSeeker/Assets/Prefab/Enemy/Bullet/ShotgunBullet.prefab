@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9037512749352451558}
   - component: {fileID: 3673695173978344878}
   - component: {fileID: 2285263727160892241}
-  - component: {fileID: 3463586385608088386}
+  - component: {fileID: -1362289899321333839}
   m_Layer: 0
-  m_Name: TurretBullet
+  m_Name: ShotgunBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6122715587568518232}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.0005198, y: 0.39213, z: 17.031}
+  m_LocalPosition: {x: -5.0005198, y: 0.39213, z: 17.405}
   m_LocalScale: {x: 0.18783, y: 0.14641, z: 0.23659}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -172,7 +172,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &3463586385608088386
+--- !u!114 &-1362289899321333839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,7 +181,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6122715587568518232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 639028aaa20990e4496646180fec2e13, type: 3}
+  m_Script: {fileID: 11500000, guid: d9c71bc34fc2eb74ab66b6c808bc8a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
+  damage: 5
+  decrementForSecond: 2
+  life: 2

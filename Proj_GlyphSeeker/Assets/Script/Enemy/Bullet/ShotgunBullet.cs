@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TurretBullet : MonoBehaviour
+public class ShotgunBullet : MonoBehaviour
 {
     [SerializeField]
-    private int damage;
+    private float damage;
+    [SerializeField]
+    private int decrementForSecond;
     [SerializeField]
     private int life = 2;
 
@@ -14,12 +16,17 @@ public class TurretBullet : MonoBehaviour
         Destroy(gameObject, life);
     }
 
+    private void FixedUpdate()
+    {
+        damage -= decrementForSecond * Time.deltaTime;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             PlayerStats player = other.GetComponent<PlayerStats>();
-            player.TakeDamage(damage);
+            player.TakeDamage((int)damage);
         }
     }
 }
