@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShotgunBullet : MonoBehaviour
+public class ShotgunBullet : MonoBehaviour // Proiettile del nemico shotgun
 {
     [SerializeField]
     private float damage;
@@ -16,8 +16,9 @@ public class ShotgunBullet : MonoBehaviour
         Destroy(gameObject, life);
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() 
     {
+        // Diminuisce il danno del proiettile ad ogni frame per dare un effetto di danno maggiore quando si è vicini al nemico
         damage -= decrementForSecond * Time.deltaTime;
     }
 
@@ -26,7 +27,7 @@ public class ShotgunBullet : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             HealthSystem player = other.GetComponent<HealthSystem>();
-            player.TakeDamage((int)damage);
+            player.TakeDamage((int)damage); // Faccio un cast di damage ad int poichè per decrescerlo l'ho dovuto rendere float
         }
     }
 }

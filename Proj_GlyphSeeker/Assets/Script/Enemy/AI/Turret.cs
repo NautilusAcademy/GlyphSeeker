@@ -17,6 +17,9 @@ public class Turret : EnemyStats
     private float rotVelocity;
     [SerializeField]
     private float bulletSpeed;
+    [SerializeField]
+    private int maxAmmo;
+    private int currentAmmo;
     private bool canFire = true;
     private float charge;
 
@@ -35,11 +38,11 @@ public class Turret : EnemyStats
         player = GameObject.Find("Player");
     }
 
-    private void Update()
+    private void Update() // Calcola la distanza dal giocatore ed in base alle distanze esegue diverse funzioni
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
 
-        if(distance <= distanceToLook)
+        if(distance <= distanceToLook) // Se avvista il giocatore lo guarda e carica i proiettili
         {
             LookAtPlayer();
 
@@ -50,13 +53,13 @@ public class Turret : EnemyStats
              
         }
 
-        else if(distance > distanceToLook && distance <= distanceToFire)
+        else if(distance > distanceToLook && distance <= distanceToFire)  
         {
             fire.Stop();
             LookAtPlayer();
         }
 
-        if (canFire == true && currentAmmo > 0)
+        if (canFire == true && currentAmmo > 0) // Se la torretta è carica e può sparare
         {
             StartCoroutine(Shoot());
         }
@@ -71,14 +74,14 @@ public class Turret : EnemyStats
         transform.localRotation = Quaternion.Slerp(current, rotation, Time.deltaTime * rotVelocity);
     }
 
-    IEnumerator Charge()
+    IEnumerator Charge() // Carica per "charge" tempo e assegna a currentAmmo maxAmmo
     { 
         yield return new WaitForSeconds(charge);
 
         currentAmmo = maxAmmo;
     }
 
-    IEnumerator Shoot()
+    IEnumerator Shoot() // Spara con un delay di "fireRate" fino a quando currentAmmo non diventa 0
     {
         fire.Play();
 

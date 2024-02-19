@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthSystem : MonoBehaviour, IDamageable
+public class HealthSystem : MonoBehaviour, IDamageable // Sistema di salute che eredita l'interfaccia IDamageable
 {
     [Header("Salute")]
     [SerializeField]
@@ -14,17 +14,17 @@ public class HealthSystem : MonoBehaviour, IDamageable
     private bool isInvincible = false;
     private bool isDead = false;
 
-    private void Start()
+    private void Start() 
     {
         RefillFullHealth();
     }
 
-    public void RefillFullHealth()
+    public void RefillFullHealth() // Setta la salute attuale uguale alla salute massima
     {
         currentHealth = maxHealth;
     }
 
-    public void RefillHealth(int health)
+    public void RefillHealth(int health) // Funzione da chiamare quando il giocatore recupera salute
     {
         currentHealth += health;
         Mathf.Clamp(currentHealth, currentHealth, maxHealth);

@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBaseBullet : MonoBehaviour
+public class EnemyBaseBullet : MonoBehaviour // Proiettile standard dei nemici
 {
     [SerializeField]
     private int damage;
     [SerializeField]
     private int life = 2;
 
-    private void Start()
+    private void Start() // Si distrugge dopo "life" secondi
     {
         Destroy(gameObject, life);
     }
