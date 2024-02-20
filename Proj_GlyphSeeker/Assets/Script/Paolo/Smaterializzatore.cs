@@ -21,11 +21,12 @@ public class Smaterializzatore : MonoBehaviour
     private GameObject hiddenObject;
     
     public GameObject ImageObjectCollected;
-    public Image mirino;  
-    
+    public Image mirino;
+    public AudioSource errore;
+    public AudioSource colpo;
+
     private void Start()
-    {
-        
+    {        
         isObjectInSlot = false;
         ImageObjectCollected.SetActive(false);
     }
@@ -38,9 +39,7 @@ public class Smaterializzatore : MonoBehaviour
         // Lanciare un raycast in avanti solo se l'oggetto nascosto è null
         RaycastHit hit;
         // Aggiunto maxRaycastDistance al raycast
-        if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance)
-            &&
-            hiddenObject == null)
+        if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance) && hiddenObject == null)
         {
             hitObject = hit.transform.gameObject;
         }
@@ -81,6 +80,10 @@ public class Smaterializzatore : MonoBehaviour
             {
                 HideObject(hitObject);
             }
+            else
+            {
+                errore.Play();
+            }
         }
 
         // Input per far scomparire l'oggetto
@@ -90,6 +93,10 @@ public class Smaterializzatore : MonoBehaviour
             {
                 PlaceObject(placeForce);
                 StartCoroutine(ActivateCooldown());
+            }
+            else
+            {
+                errore.Play();
             }
         }
     }
@@ -126,7 +133,7 @@ public class Smaterializzatore : MonoBehaviour
                     Destroy(hiddenObject.GetComponent<Smaterializzatore>());
                     hiddenObject.SetActive(true);
                     hiddenObject.transform.position = hit.point - safeDistanceCalculated + new Vector3(0, 0.5f, 0);
-
+                    colpo.Play();
                     // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
                     hiddenObject = null;
                     isObjectInSlot = false;
@@ -164,7 +171,7 @@ public class Smaterializzatore : MonoBehaviour
             // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
             hiddenObject = null;
             isObjectInSlot = false;
-
+            colpo.Play();
             //assegna a false per far scomparire l'immagine
             ImageObjectCollected.SetActive(false);
         }
@@ -200,6 +207,10 @@ public class Smaterializzatore : MonoBehaviour
             {
                 objToHide.AddComponent<Rigidbody>();
             }
+
+            //attiva il suono
+            colpo.Play();
+
             // Disattiva l'oggetto colpito
            objToHide.SetActive(false);
 
