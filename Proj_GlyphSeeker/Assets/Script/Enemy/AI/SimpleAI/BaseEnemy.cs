@@ -10,7 +10,7 @@ public class BaseEnemy : SimpleEnemy_AI
         bullet.velocity = firePoint.forward * bulletSpeed;
         canFire = false;
 
-        yield return new WaitForSeconds(fireRate);
+        yield return new WaitForSeconds(fireRate + Random.Range(-0.5f, 0.5f));
 
         canFire = true;
     }

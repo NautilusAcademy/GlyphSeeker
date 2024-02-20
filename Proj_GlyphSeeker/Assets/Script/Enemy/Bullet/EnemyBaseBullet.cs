@@ -16,7 +16,7 @@ public class EnemyBaseBullet : MonoBehaviour // Proiettile standard dei nemici
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.GetComponent<IDamageable>() != null)
         {
             HealthSystem player = other.GetComponent<HealthSystem>();
             player.TakeDamage(damage);

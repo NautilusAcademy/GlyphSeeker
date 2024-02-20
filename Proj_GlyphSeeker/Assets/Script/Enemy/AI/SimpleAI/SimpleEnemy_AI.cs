@@ -19,10 +19,11 @@ public class SimpleEnemy_AI : EnemyStats
     private float rotVelocity;
     [SerializeField]
     protected float bulletSpeed;
-    protected bool canFire;
+    protected bool canFire = true;
     [SerializeField]
     private Transform[] patrolPoints;
     private int currentPatrolIndex;
+    private bool playerSeen;
 
     [Header("Componenti")]
     [SerializeField]
@@ -39,15 +40,20 @@ public class SimpleEnemy_AI : EnemyStats
         currentPatrolIndex = 0;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         distance = Vector3.Distance(player.transform.position, transform.position); // Calcola distanza dal giocatore
 
         if(distance > aggroRange) // Se il giocatore è fuori dall'aggro il nemico segue il patrol
         {
+            if(playerSeen)
+            {
+                agent.ResetPath();
+                playerSeen = false;
+            }
             Patrol();
         }
-        else if(distance <= aggroRange) // Se il giocatore è nell'aggro il nemico gli si avvicina e lo guarda
+        else // Se il giocatore è nell'aggro il nemico gli si avvicina e lo guarda
         {
             AggroPlayer();
             LookAtPlayer();
@@ -65,9 +71,13 @@ public class SimpleEnemy_AI : EnemyStats
         {
             if (!agent.pathPending && agent.remainingDistance < 0.2f)
             {
-                currentPatrolIndex = (currentPatrolIndex + 1);
                 agent.SetDestination(patrolPoints[currentPatrolIndex].position);
-            }
+
+                if (currentPatrolIndex == patrolPoints.Length - 1)
+                    currentPatrolIndex = 0;
+                else
+                    currentPatrolIndex = (currentPatrolIndex + 1);
+            }   
         }
     }
 
@@ -75,6 +85,7 @@ public class SimpleEnemy_AI : EnemyStats
     {
         Vector3 playerPosition = player.transform.position - maxRangeToPlayer * player.transform.position.normalized;
         agent.SetDestination(playerPosition);
+        playerSeen = true;
     }
 
     private void LookAtPlayer() // Il nemico guarda il giocatore

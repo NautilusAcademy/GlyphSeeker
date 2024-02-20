@@ -60,7 +60,7 @@ public class KamikazeEnemy : EnemyStats
                 {
                     HealthSystem target = nearbyObject.GetComponent<HealthSystem>();
                     target.TakeDamage(1);
-                    return;
+                    break;
                 }
                 //else if (item != null)
                 //{
@@ -69,7 +69,7 @@ public class KamikazeEnemy : EnemyStats
                 //}
             }
             else
-                return;
+                break;
             
         }
 
