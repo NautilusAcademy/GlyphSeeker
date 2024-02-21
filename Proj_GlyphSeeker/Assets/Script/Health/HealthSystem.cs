@@ -14,7 +14,7 @@ public class HealthSystem : MonoBehaviour, IDamageable // Sistema di salute che 
     private bool isInvincible = false;
     private bool isDead = false;
 
-    private void Start() 
+    public virtual void Start() 
     {
         RefillFullHealth();
     }

@@ -33,14 +33,15 @@ public class SimpleEnemy_AI : EnemyStats
     private GameObject player;
     private NavMeshAgent agent;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
         currentPatrolIndex = 0;
     }
 
-    protected virtual void Update()
+    private void Update()
     {
         distance = Vector3.Distance(player.transform.position, transform.position); // Calcola distanza dal giocatore
 
@@ -105,8 +106,14 @@ public class SimpleEnemy_AI : EnemyStats
         }
     }
 
-    public virtual IEnumerator Fire() // Effettua l'attacco e aspetta il cooldown per riattivare il bool canFire
+    private IEnumerator Fire() // Effettua l'attacco e aspetta il cooldown per riattivare il bool canFire
     {
-        yield return null;
+        Rigidbody bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        bullet.velocity = firePoint.forward * bulletSpeed;
+        canFire = false;
+
+        yield return new WaitForSeconds(fireRate + Random.Range(-0.5f, 0.5f));
+
+        canFire = true;
     }
 }

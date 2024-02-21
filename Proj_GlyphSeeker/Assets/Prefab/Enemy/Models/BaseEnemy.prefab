@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5784826060688233394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.672, y: 0.371, z: 0}
+  m_LocalPosition: {x: 0, y: 0.322, z: 0.675}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -220,14 +220,11 @@ MonoBehaviour:
   speed: 3
   fireRate: 1
   isShieldActive: 0
-  maxAmmo: 10
-  currentAmmo: 0
   maxRangeToPlayer: 5
   aggroRange: 20
   attackRange: 10
-  rotVelocity: 6
+  rotVelocity: 15
   bulletSpeed: 15
-  cooldownFire: 1
   patrolPoints: []
   firePoint: {fileID: 8232992151873355535}
   bulletPrefab: {fileID: 3673695173978344878, guid: 6ff156e73b9e903408cc24ccd099205c, type: 3}
