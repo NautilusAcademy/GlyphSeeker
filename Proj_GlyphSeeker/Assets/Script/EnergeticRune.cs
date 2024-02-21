@@ -3,23 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Shoot : MonoBehaviour
+public class EnergeticRune : MonoBehaviour
 {
-    public float range = 20f;
-    public float cooldownFire = 1f;
-    public float timeBeetweenHit;
-    public float nextTimeToFire = 0f;
-
-    public Image mirino;
-    public Transform firePoint;
-    public Transform fakeFirePoint;
-    public AudioSource shootSound;
-    public AudioSource errorSound;
-    public LineRenderer lineRenderer;
+    [Header("Variabili")]
+    [SerializeField]
+    private float raycastRange = 20f;
+    [SerializeField]
+    private float fireRate = 1f;
+    private float nextTimeToFire = 0f;
+    private float timeBeetweenHit;
+    
+    [Header("Componenti")]
+    [SerializeField]
+    private Image crosshairs;
+    [SerializeField]
+    private Transform firePoint;
+    [SerializeField]
+    private Transform fakeFirePoint;
+    [SerializeField]
+    private AudioSource shootSound;
+    [SerializeField]
+    private AudioSource errorSound;
+    [SerializeField]
+    private LineRenderer lineRenderer;
 
     private void Start()
     {
-        timeBeetweenHit = cooldownFire;
+        timeBeetweenHit = fireRate;
     }
 
     // Update is called once per frame
@@ -29,7 +39,7 @@ public class Shoot : MonoBehaviour
         {
             if (Time.time > nextTimeToFire)
             {
-                ShootBullet();
+                Shoot();
                 nextTimeToFire = Time.time + timeBeetweenHit;
 
                 if (timeBeetweenHit > 0.2f)
@@ -41,35 +51,35 @@ public class Shoot : MonoBehaviour
                     timeBeetweenHit = 0.2f;
                 }
             }
-            else if (timeBeetweenHit == cooldownFire)
+            else if (timeBeetweenHit == fireRate)
                 errorSound.Play();
         }
 
         if(GameManager.inst.inputManager.Player.Fire.WasReleasedThisFrame())
         {
-            timeBeetweenHit = cooldownFire;
+            timeBeetweenHit = fireRate;
         }
 
         RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, raycastRange))
         {
             if (hit.transform.CompareTag("Enemy"))
             {
-                mirino.color = Color.red;
+                crosshairs.color = Color.red;
             }
             else if (hit.transform.CompareTag("Chargable"))
             {
-                mirino.color = Color.yellow;
+                crosshairs.color = Color.yellow;
             }
             else
-                mirino.color = Color.black;
+                crosshairs.color = Color.black;
         }
     }
 
-    private void ShootBullet()
+    private void Shoot()
     {
         RaycastHit hit;
-        if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, range))
+        if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, raycastRange))
         {
             Debug.Log(hit.transform.name);
 
@@ -77,11 +87,6 @@ public class Shoot : MonoBehaviour
             {
                 IChargable chargable = hit.transform.GetComponent<IChargable>();
                 chargable.Charge();
-            }
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
-                enemyStats.TakeDamage(1);
             }
         }
 
@@ -94,7 +99,7 @@ public class Shoot : MonoBehaviour
         else
         {
             lineRenderer.SetPosition(0, fakeFirePoint.position);
-            lineRenderer.SetPosition(1, fakeFirePoint.position + Camera.main.transform.forward * range);
+            lineRenderer.SetPosition(1, fakeFirePoint.position + Camera.main.transform.forward * raycastRange);
             StartCoroutine(TrailShoot(timeBeetweenHit - 0.01f));
         }
 
@@ -108,11 +113,5 @@ public class Shoot : MonoBehaviour
         yield return new WaitForSeconds(f);
  
         lineRenderer.gameObject.SetActive(false);
-    }
-    private void OnDrawGizmos()
-    {
-        //Disegna una linea grigia del Raycast
-        Gizmos.color = Color.gray;
-        Gizmos.DrawLine(firePoint.position, firePoint.position + firePoint.forward * range);
     }
 }
