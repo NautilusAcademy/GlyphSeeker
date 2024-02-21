@@ -59,7 +59,7 @@ public class Shoot : MonoBehaviour
             {
                 mirino.color = Color.red;
             }
-            else if (hit.transform.CompareTag("Chargable"))
+            else if (hit.transform.CompareTag("Chargable") && yRune)
             {
                 mirino.color = Color.yellow;
             }
@@ -75,7 +75,7 @@ public class Shoot : MonoBehaviour
         {
             Debug.Log(hit.transform.name);
 
-            if (hit.transform.CompareTag("Chargable"))
+            if (hit.transform.CompareTag("Chargable") && yRune)
             {
                 IChargable chargable = hit.transform.GetComponent<IChargable>();
                 chargable.Charge();

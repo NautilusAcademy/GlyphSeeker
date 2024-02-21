@@ -4,28 +4,31 @@ using UnityEngine;
 
 public class Generator : MonoBehaviour, IChargable
 {
+    [SerializeField]
     private int charge = 0;
     private int maxCharge = 1;
 
     public ParticleSystem particleSystem;
     public GameObject door;
 
-    private void Update()
+    [SerializeField] List<MonoBehaviour> scriptToActivate;
+    public void Charge()
     {
-        if(charge >= maxCharge)
+        charge++;
+
+        if (charge >= maxCharge)
         {
             FullCharged();
         }
     }
 
-    public void Charge()
-    {
-        charge++;
-    }
-
     public void FullCharged()
     {
         particleSystem.gameObject.SetActive(true);
-        door.SetActive(false);
+        //door.SetActive(true);
+        foreach (MonoBehaviour scripts in scriptToActivate)
+        {
+            scripts.enabled = enabled;
+        }
     }
 }
