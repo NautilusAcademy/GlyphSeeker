@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerRBMovement : MonoBehaviour
+public class PlayerRBMovement : MonoBehaviour, IPlayer
 {
     Rigidbody rb;
 
