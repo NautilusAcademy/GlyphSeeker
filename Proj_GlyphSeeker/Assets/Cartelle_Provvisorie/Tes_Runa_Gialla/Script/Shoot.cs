@@ -17,6 +17,8 @@ public class Shoot : MonoBehaviour
     public AudioSource errorSound;
     public LineRenderer lineRenderer;
 
+    private bool yRune = true;
+
     private void Start()
     {
         timeBeetweenHit = cooldownFire;
