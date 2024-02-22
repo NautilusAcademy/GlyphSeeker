@@ -7,6 +7,8 @@ public class EnergeticRune : MonoBehaviour
 {
     [Header("Variabili")]
     [SerializeField]
+    private int damage;
+    [SerializeField]
     private float raycastRange = 20f;
     [SerializeField]
     private float fireRate = 1f;
@@ -32,7 +34,6 @@ public class EnergeticRune : MonoBehaviour
         timeBeetweenHit = fireRate;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (GameManager.inst.inputManager.Player.Fire.ReadValue<float>() > 0)
