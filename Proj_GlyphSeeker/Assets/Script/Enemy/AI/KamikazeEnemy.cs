@@ -57,26 +57,29 @@ public class KamikazeEnemy : EnemyStats
 
         foreach (Collider nearbyObject in colliders)
         {
-            Debug.Log(nearbyObject.name);
+            Vector3 dir = nearbyObject.transform.position - transform.position;
+            RaycastHit hit;
 
-            if (nearbyObject.GetComponent<IDamageable>() != null /*|| nearbyObject.GetComponent<IDestroyable>() != null*/)
+            if (Physics.Raycast(transform.position, dir, out hit))
             {
-                
-                if (nearbyObject.GetComponent<IDamageable>() != null)
+                bool exist = hit.transform.GetComponent<IDamageable>() != null /*|| hit.transform.GetComponent<IDestroyable>() != null*/;
+
+                if (exist)
                 {
-                    HealthSystem target = nearbyObject.GetComponent<HealthSystem>();
-                    target.TakeDamage(damage);
-                    continue;
+                    if (hit.transform.GetComponent<IDamageable>() != null)
+                    {
+                        HealthSystem target = hit.transform.GetComponent<HealthSystem>();
+                        target.TakeDamage(damage);
+                    }
+                    //else
+                    //{
+                    //    IDestroyable item = hit.transform.GetComponent<IDestroyable>();
+                    //    Destroy(nearbyObject);
+                    //}
                 }
-                //else
-                //{
-                //    IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
-                //    Destroy(nearbyObject);
-                //}
             }
             else
                 continue;
-            
         }
 
         Destroy(gameObject);
