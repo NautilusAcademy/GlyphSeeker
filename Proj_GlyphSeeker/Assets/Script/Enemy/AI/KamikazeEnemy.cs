@@ -13,11 +13,16 @@ public class KamikazeEnemy : EnemyStats
     [SerializeField]
     private float explosionRadius;
 
+    [Header("Variabili")]
+    [SerializeField]
+    private int damage;
+
     private GameObject player;
     private NavMeshAgent agent;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
@@ -52,24 +57,25 @@ public class KamikazeEnemy : EnemyStats
 
         foreach (Collider nearbyObject in colliders)
         {
+            Debug.Log(nearbyObject.name);
+
             if (nearbyObject.GetComponent<IDamageable>() != null /*|| nearbyObject.GetComponent<IDestroyable>() != null*/)
             {
-                //IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
-
+                
                 if (nearbyObject.GetComponent<IDamageable>() != null)
                 {
                     HealthSystem target = nearbyObject.GetComponent<HealthSystem>();
-                    target.TakeDamage(1);
-                    break;
+                    target.TakeDamage(damage);
+                    continue;
                 }
-                //else if (item != null)
+                //else
                 //{
+                //    IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
                 //    Destroy(nearbyObject);
-                //    return;
                 //}
             }
             else
-                break;
+                continue;
             
         }
 

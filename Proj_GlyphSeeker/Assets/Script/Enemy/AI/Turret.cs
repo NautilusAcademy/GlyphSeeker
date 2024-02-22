@@ -33,8 +33,9 @@ public class Turret : EnemyStats
     private GameObject player;
 
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         player = GameObject.Find("Player");
     }
 

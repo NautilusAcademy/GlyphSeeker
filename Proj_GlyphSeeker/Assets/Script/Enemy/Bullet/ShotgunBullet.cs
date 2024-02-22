@@ -24,7 +24,7 @@ public class ShotgunBullet : MonoBehaviour // Proiettile del nemico shotgun
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<IDamageable>() != null) // Da sostituire con IPlayer
+        if (other.GetComponent<IPlayer>() != null)
         {
             HealthSystem player = other.GetComponent<HealthSystem>();
             player.TakeDamage((int)damage);

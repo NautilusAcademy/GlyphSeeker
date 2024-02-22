@@ -187,8 +187,7 @@ MonoBehaviour:
   speed: 4
   fireRate: 2
   isShieldActive: 0
-  maxAmmo: 0
-  currentAmmo: 0
   distanceToFollow: 20
   distanceToExplode: 5
-  explosionRadius: 5
+  explosionRadius: 10
+  damage: 1

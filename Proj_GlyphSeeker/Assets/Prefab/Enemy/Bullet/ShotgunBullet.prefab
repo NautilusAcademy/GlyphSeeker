@@ -194,5 +194,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
-  decrementForSecond: 2
+  decrementForSecond: 3
   life: 2
