@@ -65,7 +65,7 @@ public class Turret : EnemyStats
         }
     }
 
-    void LookAtPlayer()
+    private void LookAtPlayer()
     {
         Vector3 rot = player.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(rot);
@@ -74,14 +74,14 @@ public class Turret : EnemyStats
         transform.localRotation = Quaternion.Slerp(current, rotation, Time.deltaTime * rotVelocity);
     }
 
-    IEnumerator Charge() // Carica per "charge" tempo e assegna a currentAmmo maxAmmo
+    private IEnumerator Charge() // Carica per "charge" tempo e assegna a currentAmmo maxAmmo
     { 
         yield return new WaitForSeconds(charge);
 
         currentAmmo = maxAmmo;
     }
 
-    IEnumerator Shoot() // Spara con un delay di "fireRate" fino a quando currentAmmo non diventa 0
+    private IEnumerator Shoot() // Spara con un delay di "fireRate" fino a quando currentAmmo non diventa 0
     {
         fire.Play();
 
