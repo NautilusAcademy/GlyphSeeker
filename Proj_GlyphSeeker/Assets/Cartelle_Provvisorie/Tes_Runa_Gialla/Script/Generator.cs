@@ -8,8 +8,8 @@ public class Generator : MonoBehaviour, IChargable
     private int charge = 0;
     private int maxCharge = 1;
 
-    public ParticleSystem particleSystem;
-    public GameObject door;
+    //public ParticleSystem particleSystem;
+    //public GameObject door;
 
     [SerializeField] List<MonoBehaviour> scriptToActivate;
     public void Charge()
@@ -24,7 +24,7 @@ public class Generator : MonoBehaviour, IChargable
 
     public void FullCharged()
     {
-        particleSystem.gameObject.SetActive(true);
+        //particleSystem.gameObject.SetActive(true);
         //door.SetActive(true);
         foreach (MonoBehaviour scripts in scriptToActivate)
         {
