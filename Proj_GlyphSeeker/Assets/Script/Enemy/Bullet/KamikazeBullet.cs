@@ -13,21 +13,20 @@ public class KamikazeBullet : MonoBehaviour
 
         foreach (Collider nearbyObject in colliders)
         {
-            if (nearbyObject.GetComponent<IDamageable>() != null /*|| nearbyObject.GetComponent<IDestroyable>() != null*/)
+            if (nearbyObject.GetComponent<IDamageable>() != null || nearbyObject.GetComponent<IDestroyable>() != null)
             {
-                //IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
-
                 if (nearbyObject.GetComponent<IDamageable>() != null)
                 {
                     HealthSystem target = nearbyObject.GetComponent<HealthSystem>();
                     target.TakeDamage(1);
                     break;
                 }
-                //else if (item != null)
-                //{
-                //    Destroy(nearbyObject);
-                //    return;
-                //}
+                else if (nearbyObject.GetComponent<IDestroyable>() != null)
+                {
+                    IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
+                    Destroy(nearbyObject);
+                    return;
+                }
             }
             else
                 break;
