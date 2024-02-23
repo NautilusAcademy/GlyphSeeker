@@ -5,7 +5,14 @@ using UnityEngine;
 public class KamikazeBullet : MonoBehaviour
 {
     [SerializeField]
+    private int damage;
+    [SerializeField]
     private float explosionRadius;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Explode();
+    }
 
     public void Explode() // Crea una sfera attorno a se e danneggia tutti gli oggetti con l'interfaccia IDamageable e distrugge quelli con IDestroyable
     {
@@ -13,24 +20,29 @@ public class KamikazeBullet : MonoBehaviour
 
         foreach (Collider nearbyObject in colliders)
         {
-            if (nearbyObject.GetComponent<IDamageable>() != null || nearbyObject.GetComponent<IDestroyable>() != null)
+            Vector3 dir = nearbyObject.transform.position - transform.position;
+            RaycastHit hit;
+
+            if (Physics.Raycast(transform.position, dir, out hit))
             {
-                if (nearbyObject.GetComponent<IDamageable>() != null)
+                bool isDamageable = hit.transform.GetComponent<IDamageable>() != null;
+                bool isDestroyable = hit.transform.GetComponent<IDestroyable>() != null;
+
+                if (isDamageable || isDestroyable)
                 {
-                    HealthSystem target = nearbyObject.GetComponent<HealthSystem>();
-                    target.TakeDamage(1);
-                    break;
-                }
-                else if (nearbyObject.GetComponent<IDestroyable>() != null)
-                {
-                    IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
-                    Destroy(nearbyObject);
-                    return;
+                    if (isDamageable)
+                    {
+                        HealthSystem target = hit.transform.GetComponent<HealthSystem>();
+                        target.TakeDamage(damage);
+                    }
+                    else
+                    {
+                        Destroy(hit.transform.gameObject);
+                    }
                 }
             }
             else
-                break;
-
+                continue;
         }
 
         Destroy(gameObject);

@@ -13,11 +13,14 @@ public class KamikazeEnemy : EnemyStats
     [SerializeField]
     private float explosionRadius;
 
+    [SerializeField]
+    private int damage;
     private GameObject player;
     private NavMeshAgent agent;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
@@ -52,25 +55,29 @@ public class KamikazeEnemy : EnemyStats
 
         foreach (Collider nearbyObject in colliders)
         {
-            if (nearbyObject.GetComponent<IDamageable>() != null /*|| nearbyObject.GetComponent<IDestroyable>() != null*/)
-            {
-                //IDestroyable item = nearbyObject.GetComponent<IDestroyable>();
+            Vector3 dir = nearbyObject.transform.position - transform.position;
+            RaycastHit hit;
 
-                if (nearbyObject.GetComponent<IDamageable>() != null)
+            if (Physics.Raycast(transform.position, dir, out hit))
+            {
+                bool isDamageable = hit.transform.GetComponent<IDamageable>() != null ;
+                bool isDestroyable = hit.transform.GetComponent<IDestroyable>() != null;
+
+                if (isDamageable || isDestroyable)
                 {
-                    HealthSystem target = nearbyObject.GetComponent<HealthSystem>();
-                    target.TakeDamage(1);
-                    break;
+                    if (isDamageable)
+                    {
+                        HealthSystem target = hit.transform.GetComponent<HealthSystem>();
+                        target.TakeDamage(damage);
+                    }
+                    else
+                    {
+                        Destroy(hit.transform.gameObject);
+                    }
                 }
-                //else if (item != null)
-                //{
-                //    Destroy(nearbyObject);
-                //    return;
-                //}
             }
             else
-                break;
-            
+                continue;
         }
 
         Destroy(gameObject);
