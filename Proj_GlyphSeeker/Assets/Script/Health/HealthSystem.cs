@@ -6,7 +6,7 @@ public class HealthSystem : MonoBehaviour, IDamageable // Sistema di salute che 
 {
     [Header("Salute")]
     [SerializeField]
-    private int maxHealth;
+    protected int maxHealth;
     [SerializeField]
     protected int currentHealth;
 
