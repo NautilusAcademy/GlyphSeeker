@@ -344,10 +344,6 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[13].m_ActionName
       value: UI/TrackedDeviceOrientation
       objectReference: {fileID: 0}
-    - target: {fileID: 1747072618291844404, guid: ae051f4b2026339458115254be1238b7, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7271397138376563132, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -398,29 +394,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae051f4b2026339458115254be1238b7, type: 3}
---- !u!1 &113982992 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7271397138376563133, guid: ae051f4b2026339458115254be1238b7, type: 3}
-  m_PrefabInstance: {fileID: 113982991}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &113982993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 113982992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 851eb156dc04d01418ec3733f742a241, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 7.5
-  jumpPower: 8.5
-  increasedGravity: 3.5
-  coyoteMaxTime: 0.8
-  knockbackPower: 10
-  treshold_groundCheck: 0.25
 --- !u!1 &116186962
 GameObject:
   m_ObjectHideFlags: 0

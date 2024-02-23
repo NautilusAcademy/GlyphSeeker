@@ -15,10 +15,12 @@ public class Kamikaze : MonoBehaviour
     public float timeToExplode;
     public int damage;
     public Color startColor, endColor;
-
+    private bool isExploded = false;
+    
     private GameObject player;
     private NavMeshAgent agent;
     private Renderer renderer;
+    public GameObject particle;
 
     private void Start()
     {
@@ -31,10 +33,11 @@ public class Kamikaze : MonoBehaviour
     {
         distance = Vector3.Distance(player.transform.position, transform.position);
 
-        if (distance <= distanceToExplode )
+        if (!isExploded && distance <= distanceToExplode)
         {
             gameObject.GetComponent<NavMeshAgent>().isStopped = true;
             StartCoroutine(Explode());
+            isExploded = true;
         }
 
         else if (distance <= distanceToGo && distance >= distanceToExplode)
@@ -45,6 +48,7 @@ public class Kamikaze : MonoBehaviour
 
     IEnumerator Explode()
     {
+        
         float tick = 0f;
 
         while (renderer.material.color != endColor)
@@ -58,17 +62,39 @@ public class Kamikaze : MonoBehaviour
 
         foreach (Collider nearbyObject in colliders)
         {
-            if (nearbyObject.CompareTag("Player"))
+            Vector3 dir = nearbyObject.transform.position - transform.position;
+
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, dir, out hit))
             {
-                PlayerStats player = nearbyObject.GetComponent<PlayerStats>();
-                player.TakeDamage(1);
-            }
-            if(nearbyObject.CompareTag("Destroy"))
-            {
-                Destroy(nearbyObject.gameObject);
-            }
+                bool valore = !hit.transform.CompareTag("Player") && !hit.transform.CompareTag("Destroy");
+                Debug.Log(valore + " " + hit.transform.name);
+
+                if (valore)
+                {
+                    continue;
+                }
+
+                if (nearbyObject.CompareTag("Player"))
+                {
+                    PlayerStats player = nearbyObject.GetComponent<PlayerStats>();
+                    player.TakeDamage(1);
+                }
+
+                if (nearbyObject.CompareTag("Destroy"))
+                {
+                    Destroy(nearbyObject.gameObject);
+                }
+            }  
         }
 
-        Destroy(gameObject);
+        StartCoroutine(AfterDestroy());
+    }
+
+    IEnumerator AfterDestroy()
+    {
+        Instantiate(particle, transform.position, transform.rotation);
+        Destroy(gameObject.transform.parent.gameObject);
+        yield return null;
     }
 }

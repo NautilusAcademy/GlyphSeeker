@@ -23,6 +23,7 @@ public class Turret : MonoBehaviour
     public Rigidbody bullet;
     private GameObject player;
     public AudioSource fire;
+    public ParticleSystem loaded;
 
     private void Start()
     {
@@ -70,6 +71,7 @@ public class Turret : MonoBehaviour
         yield return new WaitForSeconds(charge);
 
         currentAmmo = maxAmmo;
+        loaded.gameObject.SetActive(true);
     }
 
     IEnumerator Shoot()
@@ -85,5 +87,10 @@ public class Turret : MonoBehaviour
         yield return new WaitForSeconds(fireRate);
 
         canFire = true;
+
+        if(currentAmmo <= 0)
+        {
+            loaded.gameObject.SetActive(false);
+        }
     }
 }
