@@ -8,6 +8,8 @@ public class WeaponSelection : MonoBehaviour
 {
     [SerializeField] private GameObject runeActive1, runeActive2, runeActive3, runeActive4;
     [SerializeField] private GameObject weaponMenu;
+    [SerializeField] private Smaterializzatore runaViolaScript;
+    [SerializeField] private Shoot runaGiallaScript;
 
     private void Start()
     {
@@ -24,6 +26,8 @@ public class WeaponSelection : MonoBehaviour
             if (GameManager.inst.inputManager.Player.Jump.WasPressedThisFrame())
             {
                 ActivateRune(runeActive1);
+                runaGiallaScript.enabled = enabled;
+                runaViolaScript.enabled = false;
             }
             else if (GameManager.inst.inputManager.Player.Aim.WasPressedThisFrame())
             {
@@ -36,6 +40,8 @@ public class WeaponSelection : MonoBehaviour
             else if (GameManager.inst.inputManager.Player.Provvisorio.WasPressedThisFrame())
             {
                 ActivateRune(runeActive4);
+                runaGiallaScript.enabled = false;
+                runaViolaScript.enabled = enabled;
             }
 
         }
