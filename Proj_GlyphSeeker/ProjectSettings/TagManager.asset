@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Chargable
   - Enemy
-  - DestructableObject
+  - Destroy
   layers:
   - Default
   - TransparentFX
