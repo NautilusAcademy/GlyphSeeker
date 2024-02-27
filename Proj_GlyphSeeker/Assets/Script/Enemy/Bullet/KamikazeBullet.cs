@@ -11,6 +11,7 @@ public class KamikazeBullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.gameObject.name);
         Explode();
     }
 

@@ -239,7 +239,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293788366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.781}
+  m_LocalPosition: {x: 0, y: 0, z: 0.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -522,9 +522,11 @@ MonoBehaviour:
   currentHealth: 0
   currentPhase: 0
   fireRate: 1
-  bulletSpeed: 10
+  delayRandomizer: 5
+  bulletSpeed: 6
   bulletUpSpeed: 6
-  rotVelocity: 10
+  rotVelocity: 20
+  basicBullet: {fileID: 3673695173978344878, guid: 6ff156e73b9e903408cc24ccd099205c, type: 3}
   kamikazeBullet: {fileID: -1778743293887217398, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
   firePoint: {fileID: 293788367}
   shield: {fileID: 1894902128}
@@ -599,8 +601,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1894902122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.41, z: 0}
-  m_LocalScale: {x: 4.2960253, y: 4.2960253, z: 4.2960253}
+  m_LocalPosition: {x: 0, y: 2.23, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 293788367}
@@ -635,7 +637,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 94
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!1 &1895120159
 GameObject:
@@ -829,6 +831,10 @@ PrefabInstance:
     - target: {fileID: 1850590027165526472, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
       propertyPath: m_Name
       value: Kamikaze
+      objectReference: {fileID: 0}
+    - target: {fileID: 1850590027165526472, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1850590027165526473, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
       propertyPath: m_RootOrder
