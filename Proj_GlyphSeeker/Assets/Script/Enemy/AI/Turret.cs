@@ -33,9 +33,14 @@ public class Turret : EnemyStats
     private GameObject player;
 
 
+<<<<<<< HEAD
     public override void Start()
     {
         base.Start();
+=======
+    private void Start()
+    {
+>>>>>>> origin/Enemy
         player = GameObject.Find("Player");
     }
 

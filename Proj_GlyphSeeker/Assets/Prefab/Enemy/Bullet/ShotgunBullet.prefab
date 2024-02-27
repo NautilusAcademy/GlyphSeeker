@@ -194,5 +194,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
+<<<<<<< HEAD
   decrementForSecond: 3
+=======
+  decrementForSecond: 2
+>>>>>>> origin/Enemy
   life: 2
