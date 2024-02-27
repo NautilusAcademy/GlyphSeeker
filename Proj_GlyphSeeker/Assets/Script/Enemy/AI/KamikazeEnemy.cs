@@ -13,15 +13,10 @@ public class KamikazeEnemy : EnemyStats
     [SerializeField]
     private float explosionRadius;
 
-<<<<<<< HEAD
     [Header("Variabili")]
     [SerializeField]
     private int damage;
 
-=======
-    [SerializeField]
-    private int damage;
->>>>>>> origin/Enemy
     private GameObject player;
     private NavMeshAgent agent;
 
@@ -67,36 +62,20 @@ public class KamikazeEnemy : EnemyStats
 
             if (Physics.Raycast(transform.position, dir, out hit))
             {
-<<<<<<< HEAD
                 bool exist = hit.transform.GetComponent<IDamageable>() != null /*|| hit.transform.GetComponent<IDestroyable>() != null*/;
 
                 if (exist)
                 {
                     if (hit.transform.GetComponent<IDamageable>() != null)
-=======
-                bool isDamageable = hit.transform.GetComponent<IDamageable>() != null ;
-                bool isDestroyable = hit.transform.GetComponent<IDestroyable>() != null;
-
-                if (isDamageable || isDestroyable)
-                {
-                    if (isDamageable)
->>>>>>> origin/Enemy
                     {
                         HealthSystem target = hit.transform.GetComponent<HealthSystem>();
                         target.TakeDamage(damage);
                     }
-<<<<<<< HEAD
                     //else
                     //{
                     //    IDestroyable item = hit.transform.GetComponent<IDestroyable>();
                     //    Destroy(nearbyObject);
                     //}
-=======
-                    else
-                    {
-                        Destroy(hit.transform.gameObject);
-                    }
->>>>>>> origin/Enemy
                 }
             }
             else

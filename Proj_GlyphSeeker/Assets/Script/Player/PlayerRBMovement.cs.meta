@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Proj_GlyphSeeker/Assets/Script/Player/PlayerRBMovement.cs.meta
 guid: 2811f99723fca524ca7eb1d2d928d9bd
-========
-guid: 076ad361342b84844a5b874c3e4cdd4e
->>>>>>>> origin/Enemy:Proj_GlyphSeeker/Assets/Script/Enemy/AI/KamikazeEnemy.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
