@@ -8,7 +8,7 @@ public class ObjectToDestroy : MonoBehaviour, IDestroyable
 
 
 
-    public void DestroyObject(bool a)
+    public virtual void DestroyObject(bool a)
     {
         //Mettere la logica quando viene distrutto
     }
