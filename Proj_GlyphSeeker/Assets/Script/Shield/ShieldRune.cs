@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider))]
 public class ShieldRune : MonoBehaviour//PlayerShoot
@@ -43,12 +43,12 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
     void Update()
     {
-        //InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
+        InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
         //          inputReload = GameManager.inst.inputManager.Player.Aim;
 
 
-        bool isShieldActive = false, //inputShield.ReadValue<float>() > 0,
-             isShieldTriggered = false, //inputShield.triggered,
+        bool isShieldActive = inputShield.ReadValue<float>() > 0,
+             isShieldTriggered = inputShield.triggered,
              isReloading = false, //inputReload.ReadValue<float>() > 0,
              canReload = isReloading && shieldHp < maxShieldHp;
 
@@ -110,7 +110,8 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
         //(Dis)Attiva lo scudo,
         //solo se si tiene premuto il pulsante & ha ancora HP
-        gameObject.SetActive(!(shieldHp > 0  &&  isShieldActive));
+        gameObject.GetComponent<MeshRenderer>().enabled = ((shieldHp > 0  &&  isShieldActive));
+        gameObject.GetComponent<BoxCollider>().enabled = ((shieldHp > 0 && isShieldActive));
 
 
         //Porta lo scudo davanti alla telecamera

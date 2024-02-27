@@ -7,6 +7,8 @@ TagManager:
   - Chargable
   - Enemy
   - Destroy
+  - Bullet
+  - DestructableObject
   layers:
   - Default
   - TransparentFX
