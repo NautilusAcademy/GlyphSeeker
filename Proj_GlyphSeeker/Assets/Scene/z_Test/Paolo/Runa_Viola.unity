@@ -15169,7 +15169,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1747072618291844404, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: playerSpeed
-      value: 2.14
+      value: 4.24
       objectReference: {fileID: 0}
     - target: {fileID: 7271397138376563132, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: m_RootOrder

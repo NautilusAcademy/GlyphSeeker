@@ -59,7 +59,11 @@ public class Smaterializzatore : MonoBehaviour
             {
                 mirino.color = Color.white;
             }
-        } 
+        }
+        else
+        {
+            mirino.color = Color.white;
+        }
 
         // Input per sparare
         if (GameManager.inst.inputManager.Player.Fire.triggered)
@@ -94,7 +98,7 @@ public class Smaterializzatore : MonoBehaviour
                 PlaceObject(placeForce);
                 StartCoroutine(ActivateCooldown());
             }
-            else
+            else if (isCooldown==true)
             {
                 errore.Play();
             }
@@ -109,11 +113,8 @@ public class Smaterializzatore : MonoBehaviour
     }
 
     public void PlaceObject(float PlaceForce)
-    {
-        // Memorizza l'oggetto colpito
-        GameObject hitObject = null;
-
-        // Lanciare un raycast in avanti solo se l'oggetto nascosto è null
+    {      
+        // Lanciare un raycast in avanti solo se l'oggetto nascosto è diverso null
         if (hiddenObject != null)
         {
             RaycastHit hit;
@@ -122,14 +123,12 @@ public class Smaterializzatore : MonoBehaviour
             if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance))
             {
                 GameObject goHit = hit.transform.gameObject;
-                Debug.Log(hit.transform.name);
-
+                
                 // Verifica se l'oggetto colpito è diverso dal giocatore
                 if (goHit != null && !goHit.CompareTag("Player"))
                 {
                     Vector3 safeDistanceCalculated = (raycastStartPoint.forward * hiddenObject.GetComponent<PickUp>().safeDistance);
-                    
-                    hitObject = goHit;
+                                   
                     Destroy(hiddenObject.GetComponent<Smaterializzatore>());
                     hiddenObject.SetActive(true);
                     hiddenObject.transform.position = hit.point - safeDistanceCalculated + new Vector3(0, 0.5f, 0);
@@ -140,6 +139,19 @@ public class Smaterializzatore : MonoBehaviour
                     // Assegna a false per far scomparire l'immagine
                     ImageObjectCollected.SetActive(false);
                 }
+               
+            }
+            else
+            {
+                Destroy(hiddenObject.GetComponent<Smaterializzatore>());
+                hiddenObject.transform.position = raycastStartPoint.position + raycastStartPoint.forward * maxRaycastDistance ;
+                hiddenObject.SetActive(true);
+                colpo.Play();
+                // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
+                hiddenObject = null;
+                isObjectInSlot = false;
+                // Assegna a false per far scomparire l'immagine
+                ImageObjectCollected.SetActive(false);
             }
         }
     }
