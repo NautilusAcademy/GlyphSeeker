@@ -50,12 +50,6 @@ public class CameraRotation : MonoBehaviour
         SetCenterMouse(centerMouse);
     }
 
-    void Update()
-    {
-        //Cambia la distanza del giocatore
-        SwitchMaxDist(GameManager.inst.inputManager.Player.Aim.ReadValue<float>() > 0);
-    }
-
     void FixedUpdate()
     {
         #region Rotazione telecamera
@@ -129,7 +123,6 @@ public class CameraRotation : MonoBehaviour
         playerCam_Tr.localPosition = Vector3.Slerp(playerCam_Tr.localPosition,
                                                    _camPosDist,
                                                    Time.deltaTime * 10f);
-        /*_camPosDist;*/
 
         #endregion
 
