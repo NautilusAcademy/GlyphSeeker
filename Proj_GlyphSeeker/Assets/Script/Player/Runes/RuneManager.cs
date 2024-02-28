@@ -22,7 +22,7 @@ public class RuneManager : MonoBehaviour
 
     [Header("—— Rune ——")]
     [SerializeField] List</*PlayerShoot*/MonoBehaviour> playerShoot_scr;
-    [SerializeField] /*PurpleRune*/MonoBehaviour PurpleRune_scr;
+    [SerializeField] /*PurpleRune*/MonoBehaviour purpleRune_scr;
     int i_selectedRune = 0;
     RuneType selectedRune;
 
