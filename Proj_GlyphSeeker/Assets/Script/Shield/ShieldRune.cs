@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class ShieldRune : MonoBehaviour//PlayerShoot
 {
     //[SerializeField] PlayerRBMovement movemScr;
+    [SerializeField] GameObject shieldModel;
     [SerializeField] Transform posToMove;
     [SerializeField] Camera playerCam;
     [Min(0)]
@@ -110,14 +111,14 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
         //(Dis)Attiva lo scudo,
         //solo se si tiene premuto il pulsante & ha ancora HP
-        gameObject.SetActive(!(shieldHp > 0  &&  isShieldActive));
+        shieldModel.SetActive(!(shieldHp > 0  &&  isShieldActive));
 
 
         //Porta lo scudo davanti alla telecamera
         Vector3 shieldPos = posToMove.position + posToMove.forward * distance;
 
-        transform.position = shieldPos;
-        transform.rotation = playerCam.transform.rotation;
+        shieldModel.transform.position = shieldPos;
+        shieldModel.transform.rotation = playerCam.transform.rotation;
     }
 
 
