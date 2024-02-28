@@ -91,6 +91,8 @@ public class SimpleEnemy_AI : EnemyStats
 
     private void LookAtPlayer() // Il nemico guarda il giocatore
     {
+        firePoint.LookAt(player.transform.position);
+
         Vector3 rot = player.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(rot);
         Quaternion current = transform.localRotation;

@@ -21,6 +21,7 @@ public class Turret : EnemyStats
     private int maxAmmo;
     private int currentAmmo;
     private bool canFire = true;
+    [SerializeField]
     private float charge;
 
     [Header("Componenti")]
@@ -29,7 +30,7 @@ public class Turret : EnemyStats
     [SerializeField]
     private Rigidbody bullet;
     [SerializeField]
-    private AudioSource fire;
+    private AudioSource fireSound;
     private GameObject player;
 
 
@@ -40,6 +41,11 @@ public class Turret : EnemyStats
 
     private void Update() // Calcola la distanza dal giocatore ed in base alle distanze esegue diverse funzioni
     {
+        if(currentAmmo <= 0)
+        {
+            fireSound.Stop();
+        }
+
         distance = Vector3.Distance(player.transform.position, transform.position);
 
         if(distance <= distanceToLook) // Se avvista il giocatore lo guarda e carica i proiettili
@@ -55,7 +61,6 @@ public class Turret : EnemyStats
 
         else if(distance > distanceToLook && distance <= distanceToFire)  
         {
-            fire.Stop();
             LookAtPlayer();
         }
 
@@ -67,6 +72,8 @@ public class Turret : EnemyStats
 
     private void LookAtPlayer()
     {
+        firePoint.LookAt(player.transform.position);
+
         Vector3 rot = player.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(rot);
         Quaternion current = transform.localRotation;
@@ -83,7 +90,7 @@ public class Turret : EnemyStats
 
     private IEnumerator Shoot() // Spara con un delay di "fireRate" fino a quando currentAmmo non diventa 0
     {
-        fire.Play();
+        fireSound.Play();
 
         Rigidbody clone;
         clone = Instantiate(bullet, firePoint.position, firePoint.rotation);
