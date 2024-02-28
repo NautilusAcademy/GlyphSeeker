@@ -23,13 +23,11 @@ public class RuneManager : MonoBehaviour
     [Header("—— Rune ——")]
     [SerializeField] List</*PlayerShoot*/MonoBehaviour> playerShoot_scr;
     [SerializeField] /*PurpleRune*/MonoBehaviour PurpleRune_scr;
-[SerializeField]
     int i_selectedRune = 0;
     RuneType selectedRune;
 
     const int RUNES_MAX_NUM = 4;
 
-[SerializeField]
     bool isAiming = false,
          canAim = true,
          isFirstRuneUnlocked = false;
@@ -55,8 +53,10 @@ public class RuneManager : MonoBehaviour
             //Prende l'input di mira
             InputAction inputAim = GameManager.inst.inputManager.Player.Aim;
 
+            isAiming = inputAim.ReadValue<float>() > 0;
+
             //Avvicinamento della Camera quando si puo' mirare
-            ChangeCamPos(inputAim.ReadValue<float>() > 0);
+            ChangeCamPos(isAiming);
         }
 
         #endregion

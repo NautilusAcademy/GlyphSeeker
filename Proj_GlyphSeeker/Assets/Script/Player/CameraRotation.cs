@@ -198,6 +198,9 @@ public class CameraRotation : MonoBehaviour
         //(sempre positivo)
         camDistRange.x = Mathf.Clamp(camDistRange.x, 0, camDistRange.y);
         camDistRange.y = Mathf.Clamp(camDistRange.y, camDistRange.x, camDistRange.y);
+
+        //Limita la distanza di "mira" per non andare oltre il range
+        camDist_aiming = Mathf.Clamp(camDist_aiming, camDistRange.x, camDistRange.y);
     }
 
     #endregion
