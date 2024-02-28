@@ -16,6 +16,7 @@ public class CameraRotation : MonoBehaviour
     [SerializeField] Vector2 vertRotRange = new Vector2(-15, 52.5f);
     [Space(5)]
     [SerializeField] Vector2 camDistRange = new Vector2(1, 5);
+    float xRot = 0f;
     Vector2 _camDistRange;
     float camSafeRadius;
     RaycastHit hitWall;
@@ -27,7 +28,6 @@ public class CameraRotation : MonoBehaviour
     float currentCamDist = 3;
     float fieldOfView_normal = 65f;
     float currentFOV;
-    float xRot = 0f;
 
     bool centerMouse = true;
 
@@ -65,7 +65,7 @@ public class CameraRotation : MonoBehaviour
 
         #region Gamepad
 
-        if (Gamepad.all.Count > 0)   //Se c'e' almeno un Gamepad
+        if (GamepadCheck())   //Se c'e' almeno un Gamepad
         {
             string inpuName = inputRotation.activeControl.name,
                    gamepadNameCameraMov = Gamepad.current.rightStick.name;
@@ -90,8 +90,32 @@ public class CameraRotation : MonoBehaviour
 
 
 
-        #region Limita la distanza della cam per non farla entrare nei muri
+        //Limita la distanza della cam per non farla entrare nei muri
+        LimitCameraDistance();
 
+
+
+        #region Cambio del "Field of View"
+
+        //Calcola il nuovo campo visivo (FOV)
+        playerCam.fieldOfView = Mathf.SmoothStep(playerCam.fieldOfView,
+                                                 currentFOV,
+                                                 Time.deltaTime * 10f);
+
+        #endregion
+    }
+
+
+    public bool GamepadCheck()
+    {
+        return Gamepad.all.Count > 0;
+    }
+
+
+    #region Gestione distanza Telecamera-Giocatore
+
+    void LimitCameraDistance()
+    {
         //Calcolo della direzione della telecamera
         dirCamPlayer = -cameraPivotTilt.forward;//playerCam_Tr.position - cameraPivotTilt.position;
 
@@ -105,7 +129,7 @@ public class CameraRotation : MonoBehaviour
                                         ~0,
                                         QueryTriggerInteraction.Ignore);
 
-        
+
         //Se ha colpito il muro (e NON ha colpito il giocatore)
         //avvicina la telecamera,
         //se no la mette alla massima distanza
@@ -123,33 +147,6 @@ public class CameraRotation : MonoBehaviour
         playerCam_Tr.localPosition = Vector3.Slerp(playerCam_Tr.localPosition,
                                                    _camPosDist,
                                                    Time.deltaTime * 10f);
-
-        #endregion
-
-
-
-        #region Cambio del "Field of View"
-
-        //Calcola il nuovo campo visivo (FOV)
-        playerCam.fieldOfView = Mathf.SmoothStep(playerCam.fieldOfView,
-                                                 currentFOV,
-                                                 Time.deltaTime * 10f);
-
-        #endregion
-    }
-
-
-    public void SetCenterMouse(bool value)
-    {
-        centerMouse = value;
-
-
-        //Blocca (o no) + nasconde (o meno)
-        //il mouse al centro
-        Cursor.visible = !centerMouse;
-        Cursor.lockState = centerMouse
-                           ? CursorLockMode.Locked
-                           : CursorLockMode.None;
     }
 
 
@@ -168,6 +165,22 @@ public class CameraRotation : MonoBehaviour
         currentFOV = isAiming
                        ? fieldOfView_aiming
                        : fieldOfView_normal;
+    }
+
+    #endregion
+
+
+    public void SetCenterMouse(bool value)
+    {
+        centerMouse = value;
+
+
+        //Blocca (o no) + nasconde (o meno)
+        //il mouse al centro
+        Cursor.visible = !centerMouse;
+        Cursor.lockState = centerMouse
+                           ? CursorLockMode.Locked
+                           : CursorLockMode.None;
     }
 
 
