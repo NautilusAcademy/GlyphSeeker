@@ -11,38 +11,43 @@ public class ExplosiveProj : MonoBehaviour
 
     private void Start()
     {
-        rb=GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnTriggerEnter(Collider collider)
     {
         if (!collider.gameObject.CompareTag("Player"))
         {
-            Collider[] TargetsHit = Physics.OverlapSphere(rb.transform.position, ExplosionRadius);
-            foreach (var col in TargetsHit)
+            Collider[] colliders = Physics.OverlapSphere(rb.transform.position, ExplosionRadius);
+
+            foreach (Collider nearbyObject in colliders)
             {
-                //Raycast per vedere se l'esplosione ha colpito il nemico e non un muro.
+                Vector3 dir = nearbyObject.transform.position - transform.position;
+                RaycastHit hit;
 
-                if (col.gameObject.CompareTag("DestructableObject"))
+                if (Physics.Raycast(transform.position, dir, out hit))
                 {
-                    Destroy(col.gameObject);
-                }
-                if (col.gameObject.CompareTag("Enemy"))
-                {
-                    Destroy(col.gameObject);
-                    //Bisogna inserire la variabile armatura direttamente dallo script dei nemici
-                    //if (nemico ha armatura--> distruggi)
-                    //else (infligge danni)
+                    bool isDamageable = hit.transform.GetComponent<IDamageable>() != null;
+                    bool isDestroyable = hit.transform.GetComponent<IDestroyable>() != null;
 
+                    if (isDamageable || isDestroyable)
+                    {
+                        if (isDamageable)
+                        {
+                            HealthSystem target = hit.transform.GetComponent<HealthSystem>();
+                            target.TakeDamage(damage);
+                        }
+                        else
+                        {
+                            Destroy(hit.transform.gameObject);
+                        }
+                    }
                 }
-                /*if (col.gameObject.CompareTag("Player"))
-                 {
-                     //Danneggia il giocatore.
-                 } */
-
+                else
+                    continue;
             }
-            Destroy(gameObject);
+
+            Destroy(this.gameObject);
         }
-        
     }
 }
