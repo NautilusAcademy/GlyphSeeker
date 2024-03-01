@@ -26,19 +26,19 @@ public class WeaponSelection : MonoBehaviour
             weaponMenu.SetActive(true);
 
             // Controlla il tasto premuto in combinazione con il tasto per la selezione
-            if (GameManager.inst.inputManager.Player.Jump.WasPressedThisFrame())
+            if (GameManager.inst.inputManager.Player.Jump.WasPressedThisFrame() || GameManager.inst.inputManager.Player.Z.WasPressedThisFrame())
             {
                 ActivateGialla();
             }
-            else if (GameManager.inst.inputManager.Player.Aim.WasPressedThisFrame())
+            else if (GameManager.inst.inputManager.Player.Aim.WasPressedThisFrame() || GameManager.inst.inputManager.Player.X.WasPressedThisFrame())
             {
                 ActivateRossa();
             }
-            else if (GameManager.inst.inputManager.Player.Fire.WasPressedThisFrame())
+            else if (GameManager.inst.inputManager.Player.Fire.WasPressedThisFrame() || GameManager.inst.inputManager.Player.C.WasPressedThisFrame())
             {
                 ActivateBlu();
             }
-            else if (GameManager.inst.inputManager.Player.Provvisorio.WasPressedThisFrame())
+            else if (GameManager.inst.inputManager.Player.Interazione.WasPressedThisFrame() || GameManager.inst.inputManager.Player.V.WasPressedThisFrame())
             {
                 ActivateViola();
             }

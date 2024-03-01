@@ -1294,6 +1294,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4599479104032107710, guid: 74a6946029b1db3419eb14e9c0a2404c, type: 3}
+      propertyPath: m_text
+      value: Premi F/Interazione
+      objectReference: {fileID: 0}
     - target: {fileID: 4599479104478751082, guid: 74a6946029b1db3419eb14e9c0a2404c, type: 3}
       propertyPath: m_RootOrder
       value: 11
