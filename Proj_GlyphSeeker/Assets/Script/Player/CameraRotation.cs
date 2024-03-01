@@ -25,6 +25,9 @@ public class CameraRotation : MonoBehaviour
     [Header("——  Aiming  ——")]
     [SerializeField] float camDist_aiming = 1.5f;
     [SerializeField] float fieldOfView_aiming = 50f;
+    [Space(10)]
+    [SerializeField] float camDist_purpleRune = 4f;
+    [SerializeField] float fieldOfView_purpleRune = 55f;
     float currentCamDist = 3;
     float fieldOfView_normal = 65f;
     float currentFOV;
@@ -150,20 +153,29 @@ public class CameraRotation : MonoBehaviour
     }
 
 
-    public void SwitchMaxDist(bool isAiming)
+    public void SwitchMaxDist(bool isAiming, bool isPurpleRuneSelected)
     {
         //Cambia la distanza max della camera
         //(Se sta mirando, usa quella più vicina,
         // se no usa quella più lontana)
+        float distToUse_aiming = isPurpleRuneSelected
+                                  ? camDist_purpleRune
+                                  : camDist_aiming;
+
         _camDistRange.y = isAiming
-                            ? camDist_aiming
+                            ? distToUse_aiming
                             : camDistRange.y;
+
 
         //Cambia il campo visivo/"field of view"
         //(Se sta mirando, lo diminuisce,
         // se no lo fa tornare normale)
+        float fovToUse_aiming = isPurpleRuneSelected
+                                 ? fieldOfView_purpleRune
+                                 : fieldOfView_aiming;
+
         currentFOV = isAiming
-                       ? fieldOfView_aiming
+                       ? fovToUse_aiming
                        : fieldOfView_normal;
     }
 
@@ -199,8 +211,13 @@ public class CameraRotation : MonoBehaviour
         camDistRange.x = Mathf.Clamp(camDistRange.x, 0, camDistRange.y);
         camDistRange.y = Mathf.Clamp(camDistRange.y, camDistRange.x, camDistRange.y);
 
-        //Limita la distanza di "mira" per non andare oltre il range
+        //Limita la distanza e il FOV di "mira" per non andare oltre il range
         camDist_aiming = Mathf.Clamp(camDist_aiming, camDistRange.x, camDistRange.y);
+        fieldOfView_aiming = Mathf.Clamp(fieldOfView_aiming, 1, playerCam.fieldOfView);
+
+        //Limita la distanza e il FOV per quando si seleziona la Runa Viola
+        camDist_purpleRune = Mathf.Clamp(camDist_purpleRune, camDist_aiming, camDistRange.y);
+        fieldOfView_purpleRune = Mathf.Clamp(fieldOfView_purpleRune, fieldOfView_aiming, playerCam.fieldOfView);
     }
 
     #endregion

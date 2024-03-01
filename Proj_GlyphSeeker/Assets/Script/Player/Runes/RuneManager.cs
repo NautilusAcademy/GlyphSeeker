@@ -23,14 +23,16 @@ public class RuneManager : MonoBehaviour
     [Header("—— Rune ——")]
     [SerializeField] List</*PlayerShoot*/MonoBehaviour> playerShoot_scr;
     [SerializeField] /*PurpleRune*/MonoBehaviour purpleRune_scr;
+
     int i_selectedRune = 0;
     RuneType selectedRune;
 
     const int RUNES_MAX_NUM = 4;
 
-    bool isAiming = false,
+    bool isAiming,
          canAim = true,
-         isFirstRuneUnlocked = false;
+         isFirstRuneUnlocked,
+         isPurpleRuneActive;
 
 
 
@@ -41,9 +43,14 @@ public class RuneManager : MonoBehaviour
 
     void Update()
     {
-        //Puo' mirare solo quando ha selezionato le prime due rune
-        //(quella elettrica e esplosiva, inclusa anche quella base)
-        canAim = i_selectedRune < 3;
+        //Controlla se ha attiva la runa viola (smaterializzatore)
+            //(serve per capire se la mira e' quella
+            // normale o quella diminuita)
+        isPurpleRuneActive = selectedRune == RuneType.Purple_Rune;
+
+        //Puo' mirare solo quando NON ha selezionato
+        //la runa blu (scudo)
+        canAim = i_selectedRune != 3;
 
 
         #region Controllo della mira / "azione"
@@ -56,7 +63,7 @@ public class RuneManager : MonoBehaviour
             isAiming = inputAim.ReadValue<float>() > 0;
 
             //Avvicinamento della Camera quando si puo' mirare
-            ChangeCamPos(isAiming);
+            ChangeCamPos();
         }
 
         #endregion
@@ -180,9 +187,9 @@ public class RuneManager : MonoBehaviour
     }
 
 
-    void ChangeCamPos(bool isAiming)
+    void ChangeCamPos()
     {
-        cameraScr.SwitchMaxDist(isAiming);
+        cameraScr.SwitchMaxDist(isAiming, isPurpleRuneActive);
     }
 
 
