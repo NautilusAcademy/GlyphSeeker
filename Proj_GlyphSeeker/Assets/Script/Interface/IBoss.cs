@@ -1,4 +1,4 @@
-public interface IBoss
+public interface IBoss 
 {
 
 }

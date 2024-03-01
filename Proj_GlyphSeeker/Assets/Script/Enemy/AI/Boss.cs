@@ -108,7 +108,7 @@ public class Boss : HealthSystem, IEnemy, IBoss
     public override void TakeDamage(int damage)
     {
         if(!shield.isShieldActive)
-        {
+        {                                                                                                              
             currentHealth -= damage;
         }
     }
