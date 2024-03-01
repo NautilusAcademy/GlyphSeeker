@@ -68,7 +68,7 @@ public class EnergeticRune : MonoBehaviour
             {
                 crosshairs.color = Color.red;
             }
-            else if (hit.transform.CompareTag("Chargable"))
+            else if (hit.transform.GetComponent<IChargeable>() != null)
             {
                 crosshairs.color = Color.yellow;
             }
@@ -82,11 +82,9 @@ public class EnergeticRune : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, raycastRange))
         {
-            Debug.Log(hit.transform.name);
-
-            if (hit.transform.CompareTag("Chargable"))
+            if (hit.transform.GetComponent<IChargeable>() != null)
             {
-                IChargable chargable = hit.transform.GetComponent<IChargable>();
+                IChargeable chargable = hit.transform.GetComponent<IChargeable>();
                 chargable.Charge();
             }
         }

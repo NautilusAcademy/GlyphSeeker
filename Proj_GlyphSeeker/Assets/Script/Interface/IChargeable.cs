@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IChargable
+public interface IChargeable
 {
     public void Charge()
     {

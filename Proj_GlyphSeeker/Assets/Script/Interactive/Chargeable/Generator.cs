@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Generator : MonoBehaviour, IChargable
+public class Generator : MonoBehaviour, IChargeable
 {
     [SerializeField]
     private int charge = 0;
