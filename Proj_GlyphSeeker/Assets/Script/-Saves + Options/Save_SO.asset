@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325a5972c847c90489f08aa0a710615e, type: 3}
+  m_Name: Save_SO
+  m_EditorClassIdentifier: 
+  fileName: utility
+  useEncryption: 1
+  currentScene: 0
+  currentLevel: 0
+  checkpointPos: {x: 0, y: 0, z: 0}
+  checkpointDir: {x: 0, y: 0, z: 0}
+  currentPlayerHealth: 0
+  maxPlayerHealth: 0
+  purpleRuneFireRate: 0
+  currentElectricAmmo: 0
+  maxElectricAmmo: 0
+  currentExplosiveAmmo: 0
+  maxExplosiveAmmo: 0
+  currentShieldAmmo: 0
+  maxShieldAmmo: 0
+  unlockedRunes: 
+  completedLevels: 
+  completedScenes: 
+  temp_checkpointPos: {x: 0, y: 0, z: 0}
+  temp_checkpointDir: {x: 0, y: 0, z: 0}
