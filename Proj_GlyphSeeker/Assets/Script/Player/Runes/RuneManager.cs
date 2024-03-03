@@ -72,19 +72,75 @@ public class RuneManager : MonoBehaviour
 
         #region Cambiamento della Runa selez.
 
-        //Prende l'input di selezione delle rune
-        //InputAction inputSelect = GameManager.inst.inputManager.Player.RuneSelect;
-        //InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
-        //            inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
+        //switch(opt_SO.GetRuneSelect())
+        {
+            #region --Selezione a rotazione--
 
-        //Controllo e Switch delle rune
-        //if(inputNext.triggered)
-        {
-            //NextRune();
-        }
-        //if(inputPrevious.triggered)
-        {
-            //PreviousRune();
+            //case RuneSelectionType.MouseWheel:
+
+            //Prende l'input di selezione delle rune
+            //InputAction inputSelect = GameManager.inst.inputManager.Player.RuneSelect;
+            //InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
+            //            inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
+
+            //Controllo e Switch delle rune
+            //if(inputNext.triggered)
+            {
+                    //NextRune();
+                }
+                //if(inputPrevious.triggered)
+                {
+                    //PreviousRune();
+                }
+
+                //break;
+
+            #endregion
+
+
+            #region --Selezione con 4 tasti--
+
+            //case RuneSelectionType.HoldAndSelect:
+
+            //Prende l'input del tasto per selezionare una runa
+            //e quello per ognuna delle rune
+            //InputAction inputSelect = GameManager.inst.inputManager.Player.RunePressDown;
+            //InputAction inputElectric = GameManager.inst.inputManager.Player.ElectricRune,
+            //            inputExplosive = GameManager.inst.inputManager.Player.ExplosiveRune,
+            //            inputShield = GameManager.inst.inputManager.Player.ShieldRune,
+            //            inputPurple = GameManager.inst.inputManager.Player.PurpleRune;
+
+            //
+            //if(inputSelect.ReadValue<float>() > 0)
+            {
+                    //if(inputElectric.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        //break;
+                    }
+
+                    //if(inputExplosive.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        //break;
+                    }
+
+                    //if(inputShield.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        //break;
+                    }
+
+                    //if(inputPurple.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        //break;
+                    }
+                }
+
+                //break;
+
+            #endregion
         }
 
 
@@ -146,9 +202,6 @@ public class RuneManager : MonoBehaviour
             case RuneType.Purple_Rune:
                 break;
         }
-
-
-        //------------switch(opt_SO.GetRuneSelect())
 
         return false;
     }
