@@ -21,7 +21,7 @@ public class RuneManager : MonoBehaviour
     [SerializeField] CameraRotation cameraScr;
 
     [Header("—— Rune ——")]
-    [SerializeField] List</*PlayerShoot*/MonoBehaviour> playerShoot_scr;
+    [SerializeField] List<PlayerShoot> playerShoot_scr;
     [SerializeField] /*PurpleRune*/MonoBehaviour purpleRune_scr;
 
     int i_selectedRune = 0;
