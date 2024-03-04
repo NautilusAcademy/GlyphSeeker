@@ -173,7 +173,10 @@ public class RuneManager : MonoBehaviour
 
         //Disattiva lo sparo base se il giocatore
         //ha sbloccato la prima runa
-        playerShoot_scr[0].enabled = !isFirstRuneUnlocked;
+        //(e se non ha selezionato quella base)
+        playerShoot_scr[0].enabled = !isFirstRuneUnlocked
+                                      &&
+                                     selectedRune == RuneType.BaseRune;
 
 
 
