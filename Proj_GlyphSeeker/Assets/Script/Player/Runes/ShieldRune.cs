@@ -9,20 +9,20 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 {
     //[SerializeField] PlayerRBMovement movemScr;
     [SerializeField] GameObject shieldModel;
-    [SerializeField] Transform posToMove;
     [SerializeField] Camera playerCam;
+    Transform playerCam_Tr;
     [Min(0)]
     [SerializeField] float distance;
 
     [Space(10)]   //Sezione da mettere in PlayerShoot
     [SerializeField] int maxShieldHp;
     int shieldHp;
-    [Range(0, 5)]
-    [SerializeField]
-    float reloadMaxTime;
 
     [Space(10)]
+    [Min(0.1f)]
     [SerializeField] float maxParryTime = 1;
+    [Min(0.1f)]
+    [SerializeField] float velLoseAmmo = 1;
     bool canParry = false;
     float currentParryTime = 0,
           currentOpenTime = 0;
@@ -36,6 +36,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
     private /*override*/ void Start()
     {
         shieldHp = maxShieldHp;
+        playerCam_Tr = playerCam.transform;
 
         //base.Start();
 
@@ -45,13 +46,11 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
     void Update()
     {
         //InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
-        //          inputReload = GameManager.inst.inputManager.Player.Aim;
+        //            inputReload = GameManager.inst.inputManager.Player.Aim;
 
 
         bool isShieldActive = false, //inputShield.ReadValue<float>() > 0,
-             isShieldTriggered = false, //inputShield.triggered,
-             isReloading = false, //inputReload.ReadValue<float>() > 0,
-             canReload = isReloading && shieldHp < maxShieldHp;
+             isShieldTriggered = false; //inputShield.triggered;
 
 
 
@@ -83,15 +82,13 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
             #region Diminuzione dei proiettili col passare del tempo
 
-            //Aumenta il numero di quando e' aperto
+            //Aumenta il "timer" da quando e' stato aperto
             currentOpenTime += Time.deltaTime;
-            int openTime_int = Mathf.FloorToInt(currentOpenTime);
 
             //Dopo tot tempo, toglie ammo allo scudo
-            if(openTime_int >= 1)
+            if(currentOpenTime >= velLoseAmmo)
             {
                 shieldHp--;
-                print("Tolti AMMO scudo");
 
                 currentOpenTime = 0;
             }
@@ -115,7 +112,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
 
         //Porta lo scudo davanti alla telecamera
-        Vector3 shieldPos = posToMove.position + posToMove.forward * distance;
+        Vector3 shieldPos = playerCam_Tr.position + playerCam_Tr.forward * distance;
 
         shieldModel.transform.position = shieldPos;
         shieldModel.transform.rotation = playerCam.transform.rotation;
