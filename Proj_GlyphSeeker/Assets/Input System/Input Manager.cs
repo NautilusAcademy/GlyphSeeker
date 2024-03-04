@@ -71,6 +71,24 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextRune"",
+                    ""type"": ""Button"",
+                    ""id"": ""ddffcc65-71b7-48b2-b3be-882cf01c14c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PreviousRune"",
+                    ""type"": ""Button"",
+                    ""id"": ""47f96cdb-b0b9-496a-8fa0-8635cee3d4d3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -225,6 +243,28 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f464301-4db8-40d9-9b52-8a2571600eea"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02b30624-516e-4379-adaa-cb60b17aa5d2"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreviousRune"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -756,6 +796,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_NextRune = m_Player.FindAction("NextRune", throwIfNotFound: true);
+        m_Player_PreviousRune = m_Player.FindAction("PreviousRune", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -832,6 +874,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_NextRune;
+    private readonly InputAction m_Player_PreviousRune;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -841,6 +885,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @NextRune => m_Wrapper.m_Player_NextRune;
+        public InputAction @PreviousRune => m_Wrapper.m_Player_PreviousRune;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -865,6 +911,12 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @NextRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextRune;
+                @NextRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextRune;
+                @NextRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextRune;
+                @PreviousRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
+                @PreviousRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
+                @PreviousRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -884,6 +936,12 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @NextRune.started += instance.OnNextRune;
+                @NextRune.performed += instance.OnNextRune;
+                @NextRune.canceled += instance.OnNextRune;
+                @PreviousRune.started += instance.OnPreviousRune;
+                @PreviousRune.performed += instance.OnPreviousRune;
+                @PreviousRune.canceled += instance.OnPreviousRune;
             }
         }
     }
@@ -1000,6 +1058,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnNextRune(InputAction.CallbackContext context);
+        void OnPreviousRune(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

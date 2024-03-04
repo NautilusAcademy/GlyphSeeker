@@ -43,14 +43,15 @@ public class RuneManager : MonoBehaviour
 
     void Update()
     {
-        //Controlla se ha attiva la runa viola (smaterializzatore)
-            //(serve per capire se la mira e' quella
-            // normale o quella diminuita)
+        //Controlla se ha attiva la Runa Viola (Smaterializzatore)
+        //    (serve per capire se la mira e' quella
+        //     normale o quella diminuita)
         isPurpleRuneActive = selectedRune == RuneType.Purple_Rune;
 
         //Puo' mirare solo quando NON ha selezionato
         //la runa blu (scudo)
         canAim = i_selectedRune != 3;
+
 
 
         #region Controllo della mira / "azione"
@@ -78,19 +79,18 @@ public class RuneManager : MonoBehaviour
 
             //case RuneSelectionType.MouseWheel:
 
-            //Prende l'input di selezione delle rune
-            //InputAction inputSelect = GameManager.inst.inputManager.Player.RuneSelect;
-            //InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
-            //            inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
+                //Prende l'input di selezione delle rune
+                InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
+                            inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
 
-            //Controllo e Switch delle rune
-            //if(inputNext.triggered)
-            {
-                    //NextRune();
-                }
-                //if(inputPrevious.triggered)
+                //Controllo e Switch delle rune
+                if(inputNext.triggered)
                 {
-                    //PreviousRune();
+                    NextRune();
+                }
+                if(inputPrevious.triggered)
+                {
+                    PreviousRune();
                 }
 
                 //break;
@@ -102,41 +102,44 @@ public class RuneManager : MonoBehaviour
 
             //case RuneSelectionType.HoldAndSelect:
 
-            //Prende l'input del tasto per selezionare una runa
-            //e quello per ognuna delle rune
-            //InputAction inputSelect = GameManager.inst.inputManager.Player.RunePressDown;
-            //InputAction inputElectric = GameManager.inst.inputManager.Player.ElectricRune,
-            //            inputExplosive = GameManager.inst.inputManager.Player.ExplosiveRune,
-            //            inputShield = GameManager.inst.inputManager.Player.ShieldRune,
-            //            inputPurple = GameManager.inst.inputManager.Player.PurpleRune;
+                //Prende l'input del tasto per selezionare una runa
+                //e quello per ognuna delle rune
+                /*
+                InputAction inputSelect = GameManager.inst.inputManager.Player.RunePressDown;
+                InputAction inputElectric = GameManager.inst.inputManager.Player.ElectricRune,
+                            inputExplosive = GameManager.inst.inputManager.Player.ExplosiveRune,
+                            inputShield = GameManager.inst.inputManager.Player.ShieldRune,
+                            inputPurple = GameManager.inst.inputManager.Player.PurpleRune;
+                //*/
 
-            //
-            //if(inputSelect.ReadValue<float>() > 0)
-            {
-                    //if(inputElectric.triggered)
+                /*
+                if(inputSelect.ReadValue<float>() > 0)
+                {
+                    if(inputElectric.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        //break;
+                        break;
                     }
 
-                    //if(inputExplosive.triggered)
+                    if(inputExplosive.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        //break;
+                        break;
                     }
 
-                    //if(inputShield.triggered)
+                    if(inputShield.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        //break;
+                        break;
                     }
 
-                    //if(inputPurple.triggered)
+                    if(inputPurple.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        //break;
+                        break;
                     }
                 }
+                //*/
 
                 //break;
 
