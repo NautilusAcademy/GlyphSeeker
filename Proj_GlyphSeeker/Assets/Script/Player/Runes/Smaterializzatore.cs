@@ -274,8 +274,8 @@ public class Smaterializzatore : MonoBehaviour
            objToHide.SetActive(false);
 
            // Memorizza l'oggetto nascosto e la distanza
-           hiddenObject = objToHide;  
-           objSafeDistance = objToHide.GetComponent<PickUp>().safeDistance;   
+           hiddenObject = objToHide;
+            objSafeDistance = objToHide.GetComponent<PickUp>().safeDistance;
             
            // Attiva lo sprite a schermo
            ImageObjectCollected.SetActive(true);            

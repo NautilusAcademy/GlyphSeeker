@@ -6,5 +6,5 @@ public class PickUp : MonoBehaviour
 {
     public bool canPickUp;
     [SerializeField]
-    private float safeDistance;
+    public float safeDistance;
 }
