@@ -21,16 +21,18 @@ public class RuneManager : MonoBehaviour
     [SerializeField] CameraRotation cameraScr;
 
     [Header("—— Rune ——")]
-    [SerializeField] List</*PlayerShoot*/MonoBehaviour> playerShoot_scr;
+    [SerializeField] List<PlayerShoot> playerShoot_scr;
     [SerializeField] /*PurpleRune*/MonoBehaviour purpleRune_scr;
+
     int i_selectedRune = 0;
     RuneType selectedRune;
 
     const int RUNES_MAX_NUM = 4;
 
-    bool isAiming = false,
+    bool isAiming,
          canAim = true,
-         isFirstRuneUnlocked = false;
+         isFirstRuneUnlocked,
+         isPurpleRuneActive;
 
 
 
@@ -41,9 +43,15 @@ public class RuneManager : MonoBehaviour
 
     void Update()
     {
-        //Puo' mirare solo quando ha selezionato le prime due rune
-        //(quella elettrica e esplosiva, inclusa anche quella base)
-        canAim = i_selectedRune < 3;
+        //Controlla se ha attiva la Runa Viola (Smaterializzatore)
+        //    (serve per capire se la mira e' quella
+        //     normale o quella diminuita)
+        isPurpleRuneActive = selectedRune == RuneType.Purple_Rune;
+
+        //Puo' mirare solo quando NON ha selezionato
+        //la runa blu (scudo)
+        canAim = i_selectedRune != 3;
+
 
 
         #region Controllo della mira / "azione"
@@ -56,7 +64,7 @@ public class RuneManager : MonoBehaviour
             isAiming = inputAim.ReadValue<float>() > 0;
 
             //Avvicinamento della Camera quando si puo' mirare
-            ChangeCamPos(isAiming);
+            ChangeCamPos();
         }
 
         #endregion
@@ -65,19 +73,77 @@ public class RuneManager : MonoBehaviour
 
         #region Cambiamento della Runa selez.
 
-        //Prende l'input di selezione delle rune
-        //InputAction inputSelect = GameManager.inst.inputManager.Player.RuneSelect;
-        //InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
-        //            inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
+        //switch(opt_SO.GetRuneSelect())
+        {
+            #region --Selezione a rotazione--
 
-        //Controllo e Switch delle rune
-        //if(inputNext.triggered)
-        {
-            //NextRune();
-        }
-        //if(inputPrevious.triggered)
-        {
-            //PreviousRune();
+            //case RuneSelectionType.MouseWheel:
+
+                //Prende l'input di selezione delle rune
+                InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
+                            inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
+
+                //Controllo e Switch delle rune
+                if(inputNext.triggered)
+                {
+                    NextRune();
+                }
+                if(inputPrevious.triggered)
+                {
+                    PreviousRune();
+                }
+
+                //break;
+
+            #endregion
+
+
+            #region --Selezione con 4 tasti--
+
+            //case RuneSelectionType.HoldAndSelect:
+
+                //Prende l'input del tasto per selezionare una runa
+                //e quello per ognuna delle rune
+                /*
+                InputAction inputSelect = GameManager.inst.inputManager.Player.RunePressDown;
+                InputAction inputElectric = GameManager.inst.inputManager.Player.ElectricRune,
+                            inputExplosive = GameManager.inst.inputManager.Player.ExplosiveRune,
+                            inputShield = GameManager.inst.inputManager.Player.ShieldRune,
+                            inputPurple = GameManager.inst.inputManager.Player.PurpleRune;
+                //*/
+
+                /*
+                if(inputSelect.ReadValue<float>() > 0)
+                {
+                    if(inputElectric.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        break;
+                    }
+
+                    if(inputExplosive.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        break;
+                    }
+
+                    if(inputShield.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        break;
+                    }
+
+                    if(inputPurple.triggered)
+                    {
+                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                        break;
+                    }
+                }
+                //*/
+
+                //break;
+
+            #endregion
         }
 
 
@@ -140,9 +206,6 @@ public class RuneManager : MonoBehaviour
                 break;
         }
 
-
-        //------------switch(opt_SO.GetRuneSelect())
-
         return false;
     }
 
@@ -180,9 +243,9 @@ public class RuneManager : MonoBehaviour
     }
 
 
-    void ChangeCamPos(bool isAiming)
+    void ChangeCamPos()
     {
-        cameraScr.SwitchMaxDist(isAiming);
+        cameraScr.SwitchMaxDist(isAiming, isPurpleRuneActive);
     }
 
 
