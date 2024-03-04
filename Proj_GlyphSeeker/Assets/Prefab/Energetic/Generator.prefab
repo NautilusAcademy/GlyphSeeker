@@ -4826,7 +4826,7 @@ GameObject:
   - component: {fileID: 75486926180800495}
   - component: {fileID: 75486926180800403}
   m_Layer: 0
-  m_Name: Generatore
+  m_Name: Generator
   m_TagString: Chargable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

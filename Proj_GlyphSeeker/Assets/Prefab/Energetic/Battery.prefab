@@ -13,9 +13,8 @@ GameObject:
   - component: {fileID: 3086502385555408531}
   - component: {fileID: 7870520971100932316}
   - component: {fileID: -6524776653365455043}
-  - component: {fileID: 6029522862108238804}
   m_Layer: 0
-  m_Name: Barile
+  m_Name: Battery
   m_TagString: Chargable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,22 +114,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charge: 0
   maxCharge: 3
-  particleSystem: {fileID: 0}
-  canPickUp: 0
+  damage: 0
   delayExplosion: 0
---- !u!114 &6029522862108238804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3590927878025553734}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23a2dbd2f93ff8245b2e79a8b1300d77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radiusExplosion: 10
+  radiusExplosion: 0
+  explosionParticle: {fileID: 0}
 --- !u!1 &7870520971263268013
 GameObject:
   m_ObjectHideFlags: 0
