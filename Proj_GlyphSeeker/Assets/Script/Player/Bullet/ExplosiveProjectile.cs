@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplosiveProj : MonoBehaviour
+public class ExplosiveProjectile : MonoBehaviour
 {
-
-    private Rigidbody rb;
+    [SerializeField]
+    private int damage;
     [SerializeField]
     private float ExplosionRadius;
+
+    private Rigidbody rb;
 
     private void Start()
     {
