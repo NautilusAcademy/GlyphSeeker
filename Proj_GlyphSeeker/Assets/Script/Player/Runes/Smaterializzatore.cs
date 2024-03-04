@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class Smaterializzatore : MonoBehaviour
+public class Smaterializzatore : PlayerShoot
 {
     [SerializeField]
     private Transform raycastStartPoint;

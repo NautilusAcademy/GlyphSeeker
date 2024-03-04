@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 //using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Collider))]
-public class ShieldRune : MonoBehaviour//PlayerShoot
+//[RequireComponent(typeof(Collider))]
+public class ShieldRune : PlayerShoot
 {
     //[SerializeField] PlayerRBMovement movemScr;
     [SerializeField] GameObject shieldModel;

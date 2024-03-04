@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnergeticRune : MonoBehaviour
+public class EnergeticRune : PlayerShoot
 {
     [Header("Variabili")]
     [SerializeField]
     private int damage;
     [SerializeField]
     private float raycastRange = 20f;
-    [SerializeField]
-    private float fireRate = 1f;
     private float nextTimeToFire = 0f;
     private float timeBeetweenHit;
     

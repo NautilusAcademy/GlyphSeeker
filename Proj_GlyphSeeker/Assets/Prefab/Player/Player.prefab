@@ -91,11 +91,11 @@ MonoBehaviour:
   cameraScr: {fileID: 8891135052813399454}
   playerShoot_scr:
   - {fileID: 0}
+  - {fileID: 8355365509510303707}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  purpleRune_scr: {fileID: 0}
+  - {fileID: 1904321802446903047}
+  - {fileID: 9084047218972585045}
+  purpleRune_scr: {fileID: 9084047218972585045}
 --- !u!1 &4358033900461172786
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6637377930539990300}
+  - component: {fileID: 8355365509510303707}
   m_Layer: 0
   m_Name: Runa Gialla
   m_TagString: Untagged
@@ -127,6 +128,29 @@ Transform:
   m_Father: {fileID: 1143870684359586513}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8355365509510303707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4358033900461172786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921327ab4927faf49977e2920a7e1af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAmmo: 0
+  bulletRune: {fileID: 0}
+  damage: 0
+  raycastRange: 20
+  fireRate: 1
+  crosshairs: {fileID: 0}
+  firePoint: {fileID: 0}
+  fakeFirePoint: {fileID: 0}
+  shootSound: {fileID: 0}
+  errorSound: {fileID: 0}
+  lineRenderer: {fileID: 0}
 --- !u!1 &5318919076714397074
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,6 +160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1061393911606967518}
+  - component: {fileID: 1904321802446903047}
   m_Layer: 0
   m_Name: Runa Blu
   m_TagString: Untagged
@@ -158,6 +183,27 @@ Transform:
   m_Father: {fileID: 1143870684359586513}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1904321802446903047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5318919076714397074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec46497907f3264dad591f9c6faca8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAmmo: 0
+  bulletRune: {fileID: 0}
+  shieldModel: {fileID: 0}
+  playerCam: {fileID: 0}
+  distance: 0
+  maxShieldHp: 0
+  maxParryTime: 1
+  velLoseAmmo: 1
+  knockbackForce_shield: 2.5
 --- !u!1 &5595509954478808406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,6 +1131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4968588799740543013}
+  - component: {fileID: 9084047218972585045}
   m_Layer: 0
   m_Name: Runa Viola
   m_TagString: Untagged
@@ -1107,3 +1154,29 @@ Transform:
   m_Father: {fileID: 1143870684359586513}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9084047218972585045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8631111802799833382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eba8e51e6833b74f8e36dc87f3573ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAmmo: 0
+  bulletRune: {fileID: 0}
+  raycastStartPoint: {fileID: 0}
+  maxRaycastDistance: 10
+  placeForce: 0
+  shootForce: 20
+  shootPoint: {fileID: 0}
+  cooldown: 3
+  phantomObj: {fileID: 0}
+  phantomMat: {fileID: 0}
+  ImageObjectCollected: {fileID: 0}
+  mirino: {fileID: 0}
+  errore: {fileID: 0}
+  colpo: {fileID: 0}

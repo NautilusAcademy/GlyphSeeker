@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] int maxAmmo;
+    [SerializeField] protected float fireRate;
     [SerializeField] GameObject bulletRune;
     int currentAmmo = 0;
     
