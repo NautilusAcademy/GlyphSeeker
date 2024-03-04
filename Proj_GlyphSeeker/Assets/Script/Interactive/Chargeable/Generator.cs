@@ -6,10 +6,8 @@ public class Generator : MonoBehaviour, IChargeable
 {
     [SerializeField]
     private int charge = 0;
+    [SerializeField]
     private int maxCharge = 1;
-
-    public ParticleSystem particleSystem;
-    public GameObject door;
 
     public void Charge()
     {
@@ -23,7 +21,6 @@ public class Generator : MonoBehaviour, IChargeable
 
     public void FullCharged()
     {
-        particleSystem.gameObject.SetActive(true);
-        door.SetActive(false);
+        
     }
 }
