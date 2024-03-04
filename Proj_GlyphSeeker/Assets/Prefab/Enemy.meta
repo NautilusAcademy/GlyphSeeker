@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Proj_GlyphSeeker/Assets/Prefab/Enemy.meta
 guid: 4a3091ed077d1174e8b57fa9151d345e
+========
+guid: b0ea4b3f80b214f4ca123dce15a1aa55
+>>>>>>>> Enemy_Blockout:Proj_GlyphSeeker/Assets/Prefab/Enemy/Bullet.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
