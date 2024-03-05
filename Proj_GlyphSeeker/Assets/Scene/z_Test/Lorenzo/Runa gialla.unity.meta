@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Proj_GlyphSeeker/Assets/Script/Health.meta
+guid: a4af2045e14b64c49ae6b264089c88d4
+folderAsset: yes
+========
 guid: 90a46d349f143d641ab674abd309251c
+>>>>>>>> Runa_Rossa:Proj_GlyphSeeker/Assets/Scene/z_Test/Lorenzo/Runa gialla.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
