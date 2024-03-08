@@ -22,7 +22,7 @@ public class RuneManager : MonoBehaviour
 
     [Header("—— Rune ——")]
     [SerializeField] List<PlayerShoot> playerShoot_scr;
-    [SerializeField] /*PurpleRune*/MonoBehaviour purpleRune_scr;
+    [SerializeField] Smaterializzatore purpleRune_scr;
 
     int i_selectedRune = 0;
     RuneType selectedRune;
@@ -49,8 +49,10 @@ public class RuneManager : MonoBehaviour
         isPurpleRuneActive = selectedRune == RuneType.Purple_Rune;
 
         //Puo' mirare solo quando NON ha selezionato
-        //la runa blu (scudo)
-        canAim = i_selectedRune != 3; //  &&  purpleRune_scr.GetHasObject();
+        //la runa blu (scudo) & quando ha un oggetto (con la runa viola)
+        canAim = selectedRune != RuneType.Blue_Rune
+                  &&
+                 (selectedRune == RuneType.Purple_Rune  &&  purpleRune_scr.GetIsObjectInSlot());
 
 
 
@@ -214,7 +216,7 @@ public class RuneManager : MonoBehaviour
 
     void NextRune()
     {
-        if (isFirstRuneUnlocked)
+        //if (isFirstRuneUnlocked)
         {
             //Cambia l'indice della runa selezionata
             //con quello dopo, ciclandolo
@@ -226,7 +228,7 @@ public class RuneManager : MonoBehaviour
 
     void PreviousRune()
     {
-        if (isFirstRuneUnlocked)
+        //if (isFirstRuneUnlocked)
         {
             //Cambia l'indice della runa selezionata
             //con quello prima, ciclandolo

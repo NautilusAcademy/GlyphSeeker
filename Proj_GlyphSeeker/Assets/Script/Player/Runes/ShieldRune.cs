@@ -10,6 +10,7 @@ public class ShieldRune : PlayerShoot
     [SerializeField] PlayerRBMovement movemScr;
     [SerializeField] GameObject shieldModel;
     [SerializeField] Transform playerCam_Tr;
+    Collider coll;
     [Min(0)]
     [SerializeField] float distance;
     [SerializeField] Vector2 offset;
@@ -31,6 +32,8 @@ public class ShieldRune : PlayerShoot
 
     private void Start()
     {
+        coll = GetComponent<Collider>();
+
         currentParryTime = 0;
         currentOpenTime = 0;
     }
@@ -99,7 +102,10 @@ public class ShieldRune : PlayerShoot
 
         //(Dis)Attiva lo scudo,
         //solo se si tiene premuto il pulsante & ha ancora HP
-        shieldModel.SetActive(currentAmmo > 0  &&  isShieldActive);
+        bool canUseShield = currentAmmo > 0  &&  isShieldActive;
+        
+        coll.enabled = canUseShield;
+        shieldModel.SetActive(canUseShield);
 
 
         //Porta lo scudo davanti alla telecamera

@@ -17,14 +17,12 @@ public class Smaterializzatore : PlayerShoot
     [SerializeField]
     private float cooldown = 3f;
     private bool isObjectInSlot;
-    private bool canShootObj ;
     
     private GameObject hiddenObject;
     private float objSafeDistance;
 
     [SerializeField] GameObject phantomObj;
     [SerializeField] Material phantomMat;
-    bool matMessi_DASISTEMARE = false;
     
     public GameObject ImageObjectCollected;
     public Image mirino;
@@ -33,7 +31,7 @@ public class Smaterializzatore : PlayerShoot
 
     private void Start()
     {
-        canShootObj = true;
+        canShoot = true;
         isObjectInSlot = false;
         ImageObjectCollected.SetActive(false);
     }
@@ -46,13 +44,16 @@ public class Smaterializzatore : PlayerShoot
         // Lanciare un raycast in avanti solo se l'oggetto nascosto è null
         RaycastHit hit;
         // Aggiunto maxRaycastDistance al raycast
-        if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance) && hiddenObject == null)
+        if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance) && !isObjectInSlot)
         {
             hitObject = hit.transform.gameObject;
         }
-        
 
-        if (hiddenObject!=null)
+
+        isObjectInSlot = hiddenObject != null;
+
+
+        if (isObjectInSlot)
         {
             mirino.color = Color.green;
         } 
@@ -60,7 +61,10 @@ public class Smaterializzatore : PlayerShoot
         {                
             if (hit.transform.GetComponent<PickUp>())
             {
-                mirino.color = Color.magenta;
+                if(canShoot)
+                    mirino.color = Color.magenta;
+                else
+                    mirino.color = Color.gray;
             }
             else
             {
@@ -76,7 +80,7 @@ public class Smaterializzatore : PlayerShoot
         if (GameManager.inst.inputManager.Player.Fire.triggered)
         {
             // Se c'è un oggetto nascosto, spara senza dover colpire nulla con il raycast
-            if (hiddenObject != null && canShootObj)
+            if (isObjectInSlot && canShoot)
             {
                 ShootObject(shootForce);
                 StartCoroutine(ActivateCooldown());
@@ -87,7 +91,7 @@ public class Smaterializzatore : PlayerShoot
                 ShootObject(shootForce);
             }
 
-            if (hiddenObject == null)
+            if (!isObjectInSlot)
             {
                 HideObject(hitObject);
             }
@@ -101,13 +105,13 @@ public class Smaterializzatore : PlayerShoot
         // Input per far vedere dove piazzare l'oggetto
         if (GameManager.inst.inputManager.Player.Aim.ReadValue<float>()>0)
         {
-            if (hiddenObject != null)
+            if (isObjectInSlot)
             {
-                canShootObj = false;
+                canShoot = false;
                 ShowObject();
             }
         }
-        else if (!canShootObj)
+        else if (isObjectInSlot && !canShoot)
         {
             // Input per piazzare l'oggetto
             PlaceObject(placeForce);
@@ -115,7 +119,6 @@ public class Smaterializzatore : PlayerShoot
 
             // Toglie l'oggetto fantasma
             phantomObj.SetActive(false);
-            matMessi_DASISTEMARE = false;
             phantomObj.GetComponent<MeshFilter>().mesh = null;
         }
     }
@@ -125,9 +128,9 @@ public class Smaterializzatore : PlayerShoot
 
     IEnumerator ActivateCooldown()
     {
-        canShootObj = false;
+        canShoot = false;
         yield return new WaitForSeconds(cooldown);
-        canShootObj = true;
+        canShoot = true;
     }
 
     public void ShowObject()
@@ -135,6 +138,7 @@ public class Smaterializzatore : PlayerShoot
         if (GameManager.inst.inputManager.Player.Aim.triggered)
         {
             phantomObj.GetComponent<MeshFilter>().mesh = hiddenObject.GetComponent<MeshFilter>().mesh;            
+            phantomObj.GetComponent<MeshRenderer>().material = phantomMat;            
         }
         
         phantomObj.SetActive(true);
@@ -161,7 +165,7 @@ public class Smaterializzatore : PlayerShoot
     public void PlaceObject(float PlaceForce)
     {      
         // Lanciare un raycast in avanti solo se l'oggetto nascosto è diverso null
-        if (hiddenObject != null)
+        if (isObjectInSlot)
         {
             RaycastHit hit;
 
@@ -181,7 +185,6 @@ public class Smaterializzatore : PlayerShoot
                     colpo.Play();
                     // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
                     hiddenObject = null;
-                    isObjectInSlot = false;
                     // Assegna a false per far scomparire l'immagine
                     ImageObjectCollected.SetActive(false);
                 }
@@ -195,7 +198,6 @@ public class Smaterializzatore : PlayerShoot
                 colpo.Play();
                 // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
                 hiddenObject = null;
-                isObjectInSlot = false;
                 // Assegna a false per far scomparire l'immagine
                 ImageObjectCollected.SetActive(false);
             }
@@ -206,7 +208,7 @@ public class Smaterializzatore : PlayerShoot
 
     public void ShootObject(float ShootForce)
     {
-        if (hiddenObject != null)
+        if (isObjectInSlot)
         {           
             // Rimuovi il componente PlayerShooting dal clone per evitare duplicati
             Destroy(hiddenObject.GetComponent<Smaterializzatore>());
@@ -230,8 +232,6 @@ public class Smaterializzatore : PlayerShoot
 
             // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
             hiddenObject = null;
-            isObjectInSlot = false;
-            print(isObjectInSlot);
             colpo.Play();
             //assegna a false per far scomparire l'immagine
             ImageObjectCollected.SetActive(false);
@@ -240,7 +240,7 @@ public class Smaterializzatore : PlayerShoot
 
     void HideObject(GameObject objToHide)
     {
-        if (objToHide != null && objToHide.GetComponent<PickUp>() && canShootObj)
+        if (objToHide != null && objToHide.GetComponent<PickUp>() && canShoot)
         {     
             if(objToHide==GameObject.Find("Barile"))
             {       
@@ -281,7 +281,11 @@ public class Smaterializzatore : PlayerShoot
            ImageObjectCollected.SetActive(true);            
            
         }
-        isObjectInSlot = true;
-        
+    }
+
+
+    public bool GetIsObjectInSlot()
+    {
+        return isObjectInSlot;
     }
 }
