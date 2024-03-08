@@ -78,7 +78,14 @@ public class EnergeticRune : PlayerShoot
     private void Shoot()
     {
         RaycastHit hit;
-        if(Physics.Raycast(firePoint.position, firePoint.forward, out hit, raycastRange))
+        bool hasHit = Physics.Raycast(firePoint.position,
+                                      firePoint.forward,
+                                      out hit,
+                                      raycastRange,
+                                      ~0,
+                                      QueryTriggerInteraction.Ignore);
+        
+        if(hasHit)
         {
             if (hit.transform.GetComponent<IChargeable>() != null)
             {
@@ -87,18 +94,14 @@ public class EnergeticRune : PlayerShoot
             }
         }
 
-        if (hit.collider != null)
-        {
-            lineRenderer.SetPosition(0, fakeFirePoint.position);
-            lineRenderer.SetPosition(1, hit.point);
-            StartCoroutine(TrailShoot(timeBeetweenHit - 0.01f));
-        }
-        else
-        {
-            lineRenderer.SetPosition(0, fakeFirePoint.position);
-            lineRenderer.SetPosition(1, fakeFirePoint.position + Camera.main.transform.forward * raycastRange);
-            StartCoroutine(TrailShoot(timeBeetweenHit - 0.01f));
-        }
+        lineRenderer.SetPosition(0, fakeFirePoint.position);
+        lineRenderer.SetPosition(1, hit.collider != null
+                                     ? hit.point
+                                     : fakeFirePoint.position + firePoint.forward * raycastRange);
+        StartCoroutine(TrailShoot(timeBeetweenHit - 0.01f));
+
+        print(hit.point);
+        Instantiate(new GameObject(), hit.point, Quaternion.identity);
 
         shootSound.Play();
     }

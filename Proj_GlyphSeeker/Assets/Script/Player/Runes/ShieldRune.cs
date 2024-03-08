@@ -33,6 +33,8 @@ public class ShieldRune : PlayerShoot
     private void Start()
     {
         coll = GetComponent<Collider>();
+        coll.enabled = false;
+        shieldModel.SetActive(false);
 
         currentParryTime = 0;
         currentOpenTime = 0;

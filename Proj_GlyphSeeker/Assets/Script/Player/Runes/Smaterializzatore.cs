@@ -43,8 +43,14 @@ public class Smaterializzatore : PlayerShoot
 
         // Lanciare un raycast in avanti solo se l'oggetto nascosto è null
         RaycastHit hit;
+        bool hasHit = Physics.Raycast(raycastStartPoint.position,
+                                      raycastStartPoint.forward,
+                                      out hit,
+                                      maxRaycastDistance,
+                                      ~0,
+                                      QueryTriggerInteraction.Ignore);
         // Aggiunto maxRaycastDistance al raycast
-        if (Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance) && !isObjectInSlot)
+        if (hasHit && !isObjectInSlot)
         {
             hitObject = hit.transform.gameObject;
         }
