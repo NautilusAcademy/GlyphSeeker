@@ -1489,7 +1489,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7271397137244243117}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.5, z: 0}
+  m_LocalPosition: {x: 1, y: 1.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1514,7 +1514,7 @@ MonoBehaviour:
   cameraPivotTilt: {fileID: 7271397137244243116}
   playerCam: {fileID: 7271397136551925370}
   rotVel: 6.5
-  vertRotRange: {x: -15, y: 52.5}
+  vertRotRange: {x: -35, y: 52.5}
   camDistRange: {x: 1, y: 5}
   camDist_aiming: 1.5
   fieldOfView_aiming: 50
@@ -1757,7 +1757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 7.5
   jumpPower: 8.5
-  increasedGravityMult: 1.1
+  increasedGravityMult: 1.75
   coyoteMaxTime: 0.8
   knockbackPower: 10
   groundCheck_treshold: 0.25
