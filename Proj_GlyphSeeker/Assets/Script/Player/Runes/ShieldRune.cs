@@ -13,6 +13,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
     Transform playerCam_Tr;
     [Min(0)]
     [SerializeField] float distance;
+    [SerializeField] Vector2 offset;
 
     [Space(10)]   //Sezione da mettere in PlayerShoot
     [SerializeField] int maxShieldHp;
@@ -112,7 +113,9 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
 
         //Porta lo scudo davanti alla telecamera
-        Vector3 shieldPos = playerCam_Tr.position + playerCam_Tr.forward * distance;
+        Vector3 shieldPos = playerCam_Tr.position
+                             + playerCam_Tr.forward * distance
+                             + (Vector3)offset;
 
         shieldModel.transform.position = shieldPos;
         shieldModel.transform.rotation = playerCam.transform.rotation;
@@ -158,4 +161,34 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
         return directionRange < 0;
     }
+
+
+    #region EXTRA - Gizmo
+
+    private void OnDrawGizmosSelected()
+    {
+        Transform camTr = playerCam.transform;
+        Color myBlue = new Color(0, 0.35f, 0.75f),
+              myLightBlue = new Color(0, 0.5f, 0.75f);
+        Vector3 startPos = camTr.position + camTr.forward * distance,
+                finalPos = camTr.position
+                            + camTr.forward * distance
+                            + (Vector3)offset;
+
+        //Disegna una sfera dove si trovera' lo scudo rispetto alla cam
+        //(inizialmente blu,
+        // ma diventa azzurrino quando e se si aggiunge l'offset)
+        Gizmos.color = offset == Vector2.zero
+                        ? myBlue
+                        : myLightBlue;
+        Gizmos.DrawSphere(finalPos, 0.15f);
+
+        //Disegna la linea dalla posizione iniziale a quella finale
+        Gizmos.color = myBlue;
+        Gizmos.DrawLine(camTr.position, startPos);
+        Gizmos.color = myLightBlue;
+        Gizmos.DrawLine(startPos, finalPos);
+    }
+
+    #endregion
 }
