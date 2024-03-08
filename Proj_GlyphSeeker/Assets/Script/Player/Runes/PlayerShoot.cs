@@ -7,7 +7,6 @@ public class PlayerShoot : MonoBehaviour
     [Header("——  PlayerShoot  ——")]
     [SerializeField] protected int maxAmmo = 10;
     [SerializeField] protected float fireRate = 2;
-    [SerializeField] protected GameObject bulletRune;
     protected int currentAmmo = 0;
     
     protected bool canShoot,

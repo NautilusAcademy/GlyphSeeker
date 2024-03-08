@@ -6,7 +6,9 @@ using UnityEngine.InputSystem;
 public class BaseShoot : PlayerShoot
 {
     [Space(20)]
-    [SerializeField] Transform shootPosition;
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform raycastStartPos,
+                               fakeFirePoint;
 
     
 
@@ -23,7 +25,7 @@ public class BaseShoot : PlayerShoot
 
         if (shootInput.triggered  &&  !isCooldown)
         {
-            ShootBullet(bulletRune);
+            ShootBullet(bullet);
 
             StartCoroutine(WaitToShoot());
         }
@@ -51,11 +53,12 @@ public class BaseShoot : PlayerShoot
         if (canShoot)
         {
             //Crea il proeittile nel punto specifico
-            Instantiate(bulletToShoot, shootPosition.position, shootPosition.rotation);
+            Instantiate(bulletToShoot, fakeFirePoint.position, raycastStartPos.rotation);
 
             /* 
              * TODO:
              * inserire le funzioni per girare il proiettile
+             * e per spararlo
              * 
              */
 
