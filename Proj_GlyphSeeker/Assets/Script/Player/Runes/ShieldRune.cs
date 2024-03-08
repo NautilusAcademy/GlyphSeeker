@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
 
-//[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Collider))]
 public class ShieldRune : PlayerShoot
 {
     //[SerializeField] PlayerRBMovement movemScr;
@@ -46,12 +46,12 @@ public class ShieldRune : PlayerShoot
 
     void Update()
     {
-        //InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
+        InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
         //            inputReload = GameManager.inst.inputManager.Player.Aim;
 
 
-        bool isShieldActive = false, //inputShield.ReadValue<float>() > 0,
-             isShieldTriggered = false; //inputShield.triggered;
+        bool isShieldActive = inputShield.ReadValue<float>() > 0,
+             isShieldTriggered = inputShield.triggered;
 
 
 
