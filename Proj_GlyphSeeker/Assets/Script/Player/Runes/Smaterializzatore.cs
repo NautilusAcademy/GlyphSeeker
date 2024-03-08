@@ -294,4 +294,21 @@ public class Smaterializzatore : PlayerShoot
     {
         return isObjectInSlot;
     }
+
+
+    #region EXTRA - Gizmo
+
+    private void OnDrawGizmos()
+    {
+        if (isObjectInSlot)
+        {
+            //Disegna la linea per indicare a quanto
+            //alto da terra posiziona l'oggetto immagazzinato
+            Gizmos.color = Color.gray;
+            Gizmos.DrawSphere(phantomObj.transform.position + Vector3.down * placeDist, 0.1f);
+            Gizmos.DrawRay(phantomObj.transform.position, Vector3.down * placeDist);
+        }
+    }
+
+    #endregion
 }
