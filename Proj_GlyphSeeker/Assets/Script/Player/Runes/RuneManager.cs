@@ -50,7 +50,7 @@ public class RuneManager : MonoBehaviour
 
         //Puo' mirare solo quando NON ha selezionato
         //la runa blu (scudo)
-        canAim = i_selectedRune != 3;
+        canAim = i_selectedRune != 3; //  &&  purpleRune_scr.GetHasObject();
 
 
 
@@ -214,7 +214,7 @@ public class RuneManager : MonoBehaviour
 
     void NextRune()
     {
-        //if (isFirstRuneUnlocked)
+        if (isFirstRuneUnlocked)
         {
             //Cambia l'indice della runa selezionata
             //con quello dopo, ciclandolo
@@ -226,7 +226,7 @@ public class RuneManager : MonoBehaviour
 
     void PreviousRune()
     {
-        //if (isFirstRuneUnlocked)
+        if (isFirstRuneUnlocked)
         {
             //Cambia l'indice della runa selezionata
             //con quello prima, ciclandolo
