@@ -8,6 +8,8 @@ public class ExplosiveProj : MonoBehaviour
     private Rigidbody rb;
     [SerializeField]
     private float ExplosionRadius;
+    [SerializeField]
+    private float damage;
 
     private void Start()
     {
