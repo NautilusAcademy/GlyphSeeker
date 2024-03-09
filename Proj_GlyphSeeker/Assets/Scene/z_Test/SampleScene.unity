@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 493175163}
   - component: {fileID: 493175162}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 1
-  safeDistance: 1
+  safeDistance: 0.55
 --- !u!54 &493175163
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -533,7 +533,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 493175161}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &493175167
 Transform:
   m_ObjectHideFlags: 0
@@ -549,8 +549,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &493175168
-BoxCollider:
+--- !u!135 &493175168
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -560,19 +560,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 0.5}
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &664338520 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9084047218972585045, guid: ae051f4b2026339458115254be1238b7, type: 3}
-  m_PrefabInstance: {fileID: 1946271822}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eba8e51e6833b74f8e36dc87f3573ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,13 +830,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1466062795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.27, y: 1.5, z: -0.6711855}
-  m_LocalScale: {x: 1, y: 3, z: 1}
+  m_LocalPosition: {x: -1.27, y: 1, z: -0.6711855}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1817519353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8355365509510303707, guid: ae051f4b2026339458115254be1238b7, type: 3}
+  m_PrefabInstance: {fileID: 1946271822}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921327ab4927faf49977e2920a7e1af3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1946271822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -855,6 +855,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1747072618291844404, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: img
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747072618291844404, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: jumpPower
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1747072618291844404, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: increasedGravityMult
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1904321802446903047, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: shieldModel
       value: 
@@ -862,7 +874,7 @@ PrefabInstance:
     - target: {fileID: 5970576086658896545, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: playerShoot_scr.Array.data[2]
       value: 
-      objectReference: {fileID: 664338520}
+      objectReference: {fileID: 1817519353}
     - target: {fileID: 7271397138376563132, guid: ae051f4b2026339458115254be1238b7, type: 3}
       propertyPath: m_RootOrder
       value: 3
