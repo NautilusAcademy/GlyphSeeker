@@ -50,7 +50,9 @@ public class RuneManager : MonoBehaviour
 
         //Puo' mirare solo quando NON ha selezionato
         //la runa blu (scudo)
-        canAim = i_selectedRune != 3; //  &&  purpleRune_scr.GetHasObject();
+        canAim = i_selectedRune < 3;
+                 // ||
+                 //(selectedRune == RuneType.Purple_Rune && purpleRune_scr.GetIsObjectInSlot());
 
 
 
