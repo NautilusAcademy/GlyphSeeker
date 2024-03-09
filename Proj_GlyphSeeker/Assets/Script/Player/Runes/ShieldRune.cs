@@ -9,8 +9,8 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 {
     //[SerializeField] PlayerRBMovement movemScr;
     [SerializeField] GameObject shieldModel;
-    [SerializeField] Camera playerCam;
-    Transform playerCam_Tr;
+    [SerializeField] Transform playerCam_Tr;
+    Collider coll;
     [Min(0)]
     [SerializeField] float distance;
     [SerializeField] Vector2 offset;
@@ -34,20 +34,19 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
 
 
-    private /*override*/ void Start()
+    private void Start()
     {
-        shieldHp = maxShieldHp;
-        playerCam_Tr = playerCam.transform;
-
-        //base.Start();
+        coll = GetComponent<Collider>();
+        coll.enabled = false;
+        shieldModel.SetActive(false);
 
         currentParryTime = 0;
+        currentOpenTime = 0;
     }
 
     void Update()
     {
-        //InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
-        //            inputReload = GameManager.inst.inputManager.Player.Aim;
+        //InputAction inputShield = GameManager.inst.inputManager.Player.Aim;
 
 
         bool isShieldActive = false, //inputShield.ReadValue<float>() > 0,
@@ -87,7 +86,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
             currentOpenTime += Time.deltaTime;
 
             //Dopo tot tempo, toglie ammo allo scudo
-            if(currentOpenTime >= velLoseAmmo)
+            if (currentOpenTime >= velLoseAmmo)
             {
                 shieldHp--;
 
@@ -109,7 +108,10 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
         //(Dis)Attiva lo scudo,
         //solo se si tiene premuto il pulsante & ha ancora HP
-        shieldModel.SetActive(!(shieldHp > 0  &&  isShieldActive));
+        bool canUseShield = shieldHp > 0 && isShieldActive;
+
+        coll.enabled = canUseShield;
+        shieldModel.SetActive(canUseShield);
 
 
         //Porta lo scudo davanti alla telecamera
@@ -117,8 +119,10 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
                              + playerCam_Tr.forward * distance
                              + (Vector3)offset;
 
+        transform.position = shieldPos;
+        transform.position = shieldPos;
         shieldModel.transform.position = shieldPos;
-        shieldModel.transform.rotation = playerCam.transform.rotation;
+        shieldModel.transform.rotation = playerCam_Tr.rotation;
     }
 
 
@@ -134,14 +138,14 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
             {
                 //Se lo puo' parare e il proiettile arriva da davanti,
                 //allora lo spedisce nella stessa direzione dello scudo
-        //        other.ChangeVelocity(transform.forward, 0);
-                
+        //      other.ChangeVelocity(transform.forward, 0);
+
                 //Piccolo rinculo al giocatore
-        //        movemScr.Knockback(knockbackForce_shield);
+        //      movemScr.Knockback(other.transform.forward, knockbackForce_shield);
             }
-                
+
             //Toglie munizioni allo scudo
-    //        shieldhp--;
+        //  currentAmmo--;
 
             //Distrugge il proiettile
             Destroy(other);
@@ -167,12 +171,11 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
     private void OnDrawGizmosSelected()
     {
-        Transform camTr = playerCam.transform;
         Color myBlue = new Color(0, 0.35f, 0.75f),
               myLightBlue = new Color(0, 0.5f, 0.75f);
-        Vector3 startPos = camTr.position + camTr.forward * distance,
-                finalPos = camTr.position
-                            + camTr.forward * distance
+        Vector3 startPos = playerCam_Tr.position + playerCam_Tr.forward * distance,
+                finalPos = playerCam_Tr.position
+                            + playerCam_Tr.forward * distance
                             + (Vector3)offset;
 
         //Disegna una sfera dove si trovera' lo scudo rispetto alla cam
@@ -185,7 +188,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
         //Disegna la linea dalla posizione iniziale a quella finale
         Gizmos.color = myBlue;
-        Gizmos.DrawLine(camTr.position, startPos);
+        Gizmos.DrawLine(playerCam_Tr.position, startPos);
         Gizmos.color = myLightBlue;
         Gizmos.DrawLine(startPos, finalPos);
     }
