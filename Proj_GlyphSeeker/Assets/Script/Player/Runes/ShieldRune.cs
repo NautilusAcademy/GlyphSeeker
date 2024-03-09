@@ -115,11 +115,12 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
 
         //Porta lo scudo davanti alla telecamera
+        //(con offset aggiunto)
+        //(P.S. si moltiplica per la rotazione per renderlo "locale")
         Vector3 shieldPos = playerCam_Tr.position
                              + playerCam_Tr.forward * distance
-                             + (Vector3)offset;
+                             + playerCam_Tr.rotation * offset;
 
-        transform.position = shieldPos;
         transform.position = shieldPos;
         shieldModel.transform.position = shieldPos;
         shieldModel.transform.rotation = playerCam_Tr.rotation;
