@@ -15,6 +15,10 @@ public class ShieldRune : PlayerShoot
     [SerializeField] float distance;
     [SerializeField] Vector2 offset;
 
+    [Space(10)]   //Sezione da mettere in PlayerShoot
+    [SerializeField] int maxShieldHp;
+    int shieldHp;
+
     [Space(10)]
     [Min(0.1f)]
     [SerializeField] float maxParryTime = 1;
@@ -105,17 +109,18 @@ public class ShieldRune : PlayerShoot
         //(Dis)Attiva lo scudo,
         //solo se si tiene premuto il pulsante & ha ancora HP
         bool canUseShield = currentAmmo > 0  &&  isShieldActive;
-        
+
         coll.enabled = canUseShield;
         shieldModel.SetActive(canUseShield);
 
 
         //Porta lo scudo davanti alla telecamera
+        //(con offset aggiunto)
+        //(P.S. si moltiplica per la rotazione per renderlo "locale")
         Vector3 shieldPos = playerCam_Tr.position
                              + playerCam_Tr.forward * distance
-                             + (Vector3)offset;
+                             + playerCam_Tr.rotation * offset;
 
-        transform.position = shieldPos;
         transform.position = shieldPos;
         shieldModel.transform.position = shieldPos;
         shieldModel.transform.rotation = playerCam_Tr.rotation;
@@ -135,11 +140,11 @@ public class ShieldRune : PlayerShoot
                 //Se lo puo' parare e il proiettile arriva da davanti,
                 //allora lo spedisce nella stessa direzione dello scudo
         //        other.ChangeVelocity(transform.forward, 0);
-                
+
                 //Piccolo rinculo al giocatore
                 movemScr.Knockback(other.transform.forward, knockbackForce_shield);
             }
-                
+
             //Toglie munizioni allo scudo
             currentAmmo--;
 
