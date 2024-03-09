@@ -855,8 +855,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 7.5
-  jumpPower: 8.5
-  increasedGravityMult: 1.1
+  jumpPower: 10
+  increasedGravityMult: 1.2
+  addedJumpHeight: 1
   coyoteMaxTime: 0.8
   knockbackPower: 10
   groundCheck_treshold: 0.25

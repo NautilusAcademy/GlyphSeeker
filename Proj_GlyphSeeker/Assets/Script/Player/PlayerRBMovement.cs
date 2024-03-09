@@ -72,15 +72,6 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
                                            QueryTriggerInteraction.Ignore);
 
 
-
-
-        /*if (moveVector.x == 0 && moveVector.y == 0 && isOnGround)
-        {
-            //rb.velocity = new Vector3(0f, 0f, 0f);
-            moveVector = (transform.forward * z_movem - transform.right * x_movem).normalized;
-        }//*/
-
-
         #region Salto
 
         //Se tieni premuto il tasto di salto
