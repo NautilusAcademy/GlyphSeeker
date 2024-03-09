@@ -177,7 +177,7 @@ public class ShieldRune : PlayerShoot
         Vector3 startPos = playerCam_Tr.position + playerCam_Tr.forward * distance,
                 finalPos = playerCam_Tr.position
                             + playerCam_Tr.forward * distance
-                            + (Vector3)offset;
+                            + playerCam_Tr.rotation * offset;
 
         //Disegna una sfera dove si trovera' lo scudo rispetto alla cam
         //(inizialmente blu,

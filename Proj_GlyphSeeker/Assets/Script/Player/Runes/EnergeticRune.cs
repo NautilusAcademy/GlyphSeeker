@@ -100,9 +100,6 @@ public class EnergeticRune : PlayerShoot
                                      : fakeFirePoint.position + firePoint.forward * raycastRange);
         StartCoroutine(TrailShoot(timeBeetweenHit - 0.01f));
 
-        print(hit.point);
-        Instantiate(new GameObject(), hit.point, Quaternion.identity);
-
         shootSound.Play();
     }
 
