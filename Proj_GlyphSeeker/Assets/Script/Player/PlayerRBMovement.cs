@@ -8,6 +8,8 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
     [SerializeField] float playerSpeed = 7.5f;
     [SerializeField] float jumpPower = 8.5f;
     [SerializeField] float increasedGravityMult = 3.5f;
+    [Min(0)]
+    [SerializeField] float addedJumpHeight = 1f;
     float x_movem, z_movem;
 
     Vector3 moveVector;
@@ -83,7 +85,7 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
 
         //Se tieni premuto il tasto di salto
         //e il divisore e' sotto il limite...
-        if (isJumping && jumpPower_divider <= 2.5f)
+        if (isJumping && jumpPower_divider <= addedJumpHeight+1)
         {
             if (isOnGround || canCoyote)
             {
