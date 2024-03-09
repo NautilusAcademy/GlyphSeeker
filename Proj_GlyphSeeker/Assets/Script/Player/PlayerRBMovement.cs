@@ -193,6 +193,7 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
         }
 
 
+
         //Aumenta la gravita' quando il giocatore sta cadendo...
         if (rb.velocity.y < 0)
         {
@@ -202,6 +203,14 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
             _fallingVel = Mathf.Clamp(_fallingVel, Physics.gravity.y * 2, 0);
 
             rb.velocity = new Vector3(rb.velocity.x, _fallingVel, rb.velocity.z);
+        }
+
+        //...o sta salendo in aria dopo un salto
+        if (rb.velocity.y > 0 && hasJumpedFromGround)
+        {
+            float _partialFallingVel = increasedGravityMult * 0.2f;
+
+            rb.AddForce(-transform.up * _partialFallingVel, ForceMode.VelocityChange);
         }
 
         #endregion
