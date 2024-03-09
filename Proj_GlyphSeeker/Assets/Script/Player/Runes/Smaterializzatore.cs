@@ -252,8 +252,6 @@ public class Smaterializzatore : PlayerShoot
             // Aggiungi una forza in avanti all'oggetto clonato
             if (projectileRb != null)
             {
-                projectileRb.angularVelocity = Vector3.zero;
-                projectileRb.velocity = Vector3.zero;
                 projectileRb.AddForce(raycastStartPoint.transform.forward * ShootForce, ForceMode.Impulse);
             }
 
@@ -302,10 +300,22 @@ public class Smaterializzatore : PlayerShoot
             hiddenObject = objToHide;
             objSafeDistance = objToHide.GetComponent<PickUp>().safeDistance;
             
+            // Reset della velocita' del RigidBody
+            ResetRBVelocity();
+            
             // Attiva lo sprite a schermo
             ImageObjectCollected.SetActive(true);            
             
         }
+    }
+
+
+    public void ResetRBVelocity()
+    {
+        Rigidbody hiddenObjRb = hiddenObject.GetComponent<Rigidbody>();
+
+        hiddenObjRb.velocity = Vector3.zero;
+        hiddenObjRb.angularVelocity = Vector3.zero;
     }
 
 
