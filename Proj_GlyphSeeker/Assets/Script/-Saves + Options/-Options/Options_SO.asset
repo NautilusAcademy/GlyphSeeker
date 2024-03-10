@@ -12,15 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb240b8f07d2ff744b39d46c6074620f, type: 3}
   m_Name: Options_SO
   m_EditorClassIdentifier: 
-  sensitivity: 0
+  sensitivity: 1
   generalMixer: {fileID: 0}
   audioCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -60
+      inSlope: 0
+      outSlope: 172.1225
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 49.99999
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.1
+      value: 5
+      inSlope: 49.99999
+      outSlope: 0
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  musicVolume: 0
-  soundVolume: 0
+  musicVolume: 50
+  soundVolume: 60
   runeSelection: 0
-  fullscreen: 1
+  fullscreen: 0

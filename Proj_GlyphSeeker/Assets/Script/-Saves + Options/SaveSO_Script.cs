@@ -29,7 +29,7 @@ public class SaveSO_Script : ScriptableObject
     [SerializeField] List<bool> unlockedRunes;
     [SerializeField] List<bool> completedLevels,
                                 completedScenes;
-    [SerializeField] public Dictionary<string, bool> unlockedCollectibles = new Dictionary<string, bool>();
+    [SerializeField] Dictionary<string, bool> unlockedCollectibles = new Dictionary<string, bool>();
 
     [Header("—— Auto Save ——")]
     [SerializeField] Vector3 temp_checkpointPos;
@@ -130,6 +130,43 @@ public class SaveSO_Script : ScriptableObject
     {
         temp_checkpointDir = newDir;
     }
+
+
+        #region Funz. per cambiare una variabile tra multiple
+
+    public void ChangeUnlockedRune(int index, bool newIsUnlocked)
+    {
+        unlockedRunes[index] = newIsUnlocked;
+    }
+
+    public void ChangeCompletedLevelAtIndex(int index, bool newIsCompleted)
+    {
+        completedLevels[index] = newIsCompleted;
+    }
+    public void ChangeCompletedSceneAtIndex(int index, bool newIsCompleted)
+    {
+        completedScenes[index] = newIsCompleted;
+    }
+
+    public void AddToUnlockedCollectibles(string keyToAdd, bool isCollectedToAdd)
+    {
+        unlockedCollectibles.Add(keyToAdd, isCollectedToAdd);
+    }
+    public void ChangeValueUnlockedCollectibles(string keyToFind, bool newIsCollected)
+    {
+        //Se NON contiene la chiave,
+        //allora invia un messaggio di errore
+        if(!unlockedCollectibles.ContainsKey(keyToFind))
+        {
+            Debug.LogError($"Chiave \"{keyToFind}\" non trovata nel Dictionary");
+            return;
+        }
+
+        //Cambia il valore della chiave
+        unlockedCollectibles[keyToFind] = newIsCollected;
+    }
+
+        #endregion
 
     #endregion
 

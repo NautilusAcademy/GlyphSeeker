@@ -36,6 +36,7 @@ public class SaveManager : MonoBehaviour
         file_path = Path.Combine(Application.dataPath, save_SO.GetFileName() + ".save");
     }
 
+
     public void SaveGame()
     {
         string saveString = "";
