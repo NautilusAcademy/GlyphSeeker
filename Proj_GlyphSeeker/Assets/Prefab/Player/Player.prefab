@@ -872,6 +872,7 @@ MonoBehaviour:
   playerCam_Tr: {fileID: 7271397137244243116}
   distance: 1.5
   offset: {x: -0.5, y: -0.35}
+  maxShieldHp: 0
   maxParryTime: 1
   velLoseAmmo: 1
   knockbackForce_shield: 2.5
@@ -965,7 +966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAmmo: 10
   fireRate: 2
-  bullet: {fileID: 0}
+  bullet: {fileID: 5982956821474095326, guid: 20967b3bc4219d547888222c136f50e6, type: 3}
   raycastStartPos: {fileID: 7271397137244243116}
   fakeFirePoint: {fileID: 7954218696606752475}
 --- !u!1 &6238124653339511316
