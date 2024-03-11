@@ -14,6 +14,15 @@ public class RuneManager : MonoBehaviour
         Purple_Rune,
     }
     
+    public enum SlotObjectType
+    {
+        Empty,
+        GenericObj,
+        ExplosiveBarrel,
+        GenericEnemy,
+        KamikazeEnemy
+    }
+
     
     [Header("—— Script base ——")]
     //[SerializeField] SaveSO_Script save_SO;
@@ -26,6 +35,7 @@ public class RuneManager : MonoBehaviour
 
     int i_selectedRune = 0;
     RuneType selectedRune;
+    SlotObjectType objectInSlot;
 
     const int RUNES_MAX_NUM = 4;
 
@@ -43,6 +53,10 @@ public class RuneManager : MonoBehaviour
 
     void Update()
     {
+        //Converte l'indice della runa selezionata nell'Enum
+        selectedRune = (RuneType)i_selectedRune;
+
+
         //Controlla se ha attiva la Runa Viola (Smaterializzatore)
         //    (serve per capire se la mira e' quella
         //     normale o quella diminuita)
@@ -52,7 +66,7 @@ public class RuneManager : MonoBehaviour
         //la runa blu (scudo)
         canAim = i_selectedRune < 3;
                  // ||
-                 //(selectedRune == RuneType.Purple_Rune && purpleRune_scr.GetIsObjectInSlot());
+                 //(isPurpleRuneActive && purpleRune_scr.GetIsObjectInSlot());
 
 
 
@@ -73,7 +87,7 @@ public class RuneManager : MonoBehaviour
 
 
 
-        #region Cambiamento della Runa selez.
+        #region Cambio della Runa selezionata
 
         //switch(opt_SO.GetRuneSelect())
         {
@@ -151,10 +165,6 @@ public class RuneManager : MonoBehaviour
 
         //
         SwitchRune();
-
-
-        //Converte l'indice della runa selezionata nell'Enum
-        selectedRune = (RuneType)i_selectedRune;
 
         #endregion
     }
@@ -254,8 +264,13 @@ public class RuneManager : MonoBehaviour
     }
 
 
-    public int GetActiveRune()
-    {
-        return (int)selectedRune;
-    }
+    #region Funz. Get personalizzate
+
+    public int GetActiveRune() => (int)selectedRune;
+
+    public bool GetIsPurpleRuneActive() => isPurpleRuneActive;
+
+    public SlotObjectType GetObjectInSlot() => objectInSlot;
+
+    #endregion
 }
