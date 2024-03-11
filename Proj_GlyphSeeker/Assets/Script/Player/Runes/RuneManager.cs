@@ -43,6 +43,10 @@ public class RuneManager : MonoBehaviour
 
     void Update()
     {
+        //Converte l'indice della runa selezionata nell'Enum
+        selectedRune = (RuneType)i_selectedRune;
+
+
         //Controlla se ha attiva la Runa Viola (Smaterializzatore)
         //    (serve per capire se la mira e' quella
         //     normale o quella diminuita)
@@ -52,7 +56,7 @@ public class RuneManager : MonoBehaviour
         //la runa blu (scudo) & quando ha un oggetto (con la runa viola)
         canAim = i_selectedRune < 3
                   ||
-                 (selectedRune == RuneType.Purple_Rune  &&  purpleRune_scr.GetIsObjectInSlot());
+                 (isPurpleRuneActive  &&  purpleRune_scr.GetIsObjectInSlot());
 
 
 
@@ -73,7 +77,7 @@ public class RuneManager : MonoBehaviour
 
 
 
-        #region Cambiamento della Runa selez.
+        #region Cambio della Runa selezionata
 
         //switch(opt_SO.GetRuneSelect())
         {
@@ -151,10 +155,6 @@ public class RuneManager : MonoBehaviour
 
         //
         SwitchRune();
-
-
-        //Converte l'indice della runa selezionata nell'Enum
-        selectedRune = (RuneType)i_selectedRune;
 
         #endregion
     }
