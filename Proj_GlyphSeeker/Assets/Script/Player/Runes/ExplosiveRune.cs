@@ -23,15 +23,13 @@ public class ExplosiveRune : PlayerShoot
     [SerializeField]
     public float ShootCooldown;
     [SerializeField]
-    public float TimeBetweenShots=0f;
-    [SerializeField]
     public bool CanShoot;
 
     private void Update()
     {
-        if (GameManager.inst.inputManager.Player.Fire.ReadValue<float>() > 0)
+        if (GameManager.inst.inputManager.Player.Fire.triggered && CanShoot==true && Ammo>0)
         {
-
+            ShootProjectile();
         }
     }
 
@@ -45,7 +43,11 @@ public class ExplosiveRune : PlayerShoot
         //Aggiunge la forza al proiettile
         Vector3 forceToAdd = Cam.transform.forward * ShootForce;
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
-
         Ammo--;
+        Invoke(nameof(ResetShootCD), ShootCooldown);
+    }
+    private void ResetShootCD()
+    {
+        CanShoot = true;
     }
 }
