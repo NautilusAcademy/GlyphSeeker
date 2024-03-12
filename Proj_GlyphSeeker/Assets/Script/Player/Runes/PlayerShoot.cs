@@ -20,7 +20,7 @@ public class PlayerShoot : MonoBehaviour
     }
 
 
-    protected virtual void ShootBullet(GameObject bulletToShoot) { }
+    protected virtual void ShootBullet(Rigidbody bulletToShoot) { }
 
     protected virtual void ActivateShield(GameObject shieldModel) { }
 
