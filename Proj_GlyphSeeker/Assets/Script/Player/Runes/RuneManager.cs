@@ -203,26 +203,20 @@ public class RuneManager : MonoBehaviour
 
     void NextRune()
     {
-        if (isFirstRuneUnlocked)
-        {
-            //Cambia l'indice della runa selezionata
-            //con quello dopo, ciclandolo
-            i_selectedRune = i_selectedRune + 1 > RUNES_MAX_NUM
-                               ? i_selectedRune = 1
-                               : ++i_selectedRune;
-        }
+        //Cambia l'indice della runa selezionata
+        //con quello dopo, ciclandolo
+        i_selectedRune = i_selectedRune + 1 > RUNES_MAX_NUM
+                            ? i_selectedRune = 1
+                            : ++i_selectedRune;
     }
 
     void PreviousRune()
     {
-        if (isFirstRuneUnlocked)
-        {
-            //Cambia l'indice della runa selezionata
-            //con quello prima, ciclandolo
-            i_selectedRune = i_selectedRune - 1 <= 0
-                               ? i_selectedRune = RUNES_MAX_NUM
-                               : --i_selectedRune;
-        }
+        //Cambia l'indice della runa selezionata
+        //con quello prima, ciclandolo
+        i_selectedRune = i_selectedRune - 1 <= 0
+                            ? i_selectedRune = RUNES_MAX_NUM
+                            : --i_selectedRune;
     }
 
     #endregion
