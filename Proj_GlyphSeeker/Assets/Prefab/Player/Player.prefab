@@ -1018,7 +1018,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAmmo: 10
   fireRate: 2
-  bulletSpeed: 5
+  bulletSpeed: 15
   bullet: {fileID: -912266309450339537, guid: 06cc0a26982b45e46a7fada097fe9a8a, type: 3}
   raycastStartPos: {fileID: 7271397137244243116}
   fakeFirePoint: {fileID: 7954218696606752475}
