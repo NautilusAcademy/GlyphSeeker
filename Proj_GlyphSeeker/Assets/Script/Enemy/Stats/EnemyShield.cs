@@ -6,6 +6,7 @@ public class EnemyShield : MonoBehaviour // Script da associare soltanto ai nemi
 {
     [SerializeField]
     private int maxShieldHealth;
+    [SerializeField]
     private int currentShieldHealth;
     public bool isShieldActive = true;
 
@@ -28,17 +29,15 @@ public class EnemyShield : MonoBehaviour // Script da associare soltanto ai nemi
     {
         isShieldActive = false;
 
-        if(gameObject.transform.GetComponentInParent<PickUp>() != null)
+        if(gameObject.transform.GetComponent<PickUp>() != null)
         {
             EnablePickUp();
         }
-
-        gameObject.SetActive(false);
     }
 
     private void EnablePickUp() // Attiva il bool canPickUp del padre per permettere il giocatore di smaterializzarlo
     {
-        PickUp father = gameObject.transform.GetComponentInParent<PickUp>();
-        father.canPickUp = true;
+        PickUp pickUp = gameObject.transform.GetComponent<PickUp>();
+        pickUp.canPickUp = true;
     }
 }
