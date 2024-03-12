@@ -12,6 +12,10 @@ public class PlayerShoot : MonoBehaviour
     protected bool canShoot,
                    isCooldown;
 
+    bool rune_isUnavailable,
+         rune_isObjectInSlot,
+         rune_canInteract;
+
 
 
     void Awake()
@@ -33,4 +37,34 @@ public class PlayerShoot : MonoBehaviour
     {
         currentAmmo = maxAmmo;
     }
+
+
+    #region Funz. Set personalizzate
+
+    protected virtual void SetRune_IsUnavailable(bool value)
+    {
+        rune_isUnavailable = value;
+    }
+
+    protected virtual void SetRune_IsObjectInSlot(bool value)
+    {
+        rune_isObjectInSlot = value;
+    }
+
+    protected virtual void SetRune_CanInteract(bool value)
+    {
+        rune_canInteract = value;
+    }
+
+    #endregion
+
+
+    #region Funz. Get personalizzate
+
+    public bool GetRune_IsUnavailable() => rune_isUnavailable;
+    public bool GetRune_IsObjectInSlot() => rune_isObjectInSlot;
+    public bool GetRune_CanInteract() => rune_canInteract;
+
+
+    #endregion
 }

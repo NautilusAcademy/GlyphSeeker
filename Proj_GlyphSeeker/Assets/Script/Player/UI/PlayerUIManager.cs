@@ -39,7 +39,7 @@ public class PlayerUIManager : MonoBehaviour
     [Header("——  Mirino  ——")]
     [SerializeField] Image crosshair;
     [Space(10)]
-    [SerializeField] Color colorNormal_ch = Color.white;
+    [SerializeField] Color colorDefault_ch = Color.white;
     [SerializeField] Color colorUnavailable_ch = Color.white * 0.5f;
     [SerializeField] Color colorObjectInSlot_ch = Color.green;
     [SerializeField] List<Color> colorRunes_ch
@@ -193,15 +193,38 @@ public class PlayerUIManager : MonoBehaviour
 
     void ChangeCrosshairColor()
     {
-        //
-        //switch ()
-        {
+        //Prende la runa selezionata (macchina a stati)
+        PlayerShoot selectedRune = runeMng.GetActiveRuneScript();
 
+
+        if (selectedRune.GetRune_IsObjectInSlot())
+        {
+            //Quando ho un oggetto immagazzinato
+            crosshair.color = colorObjectInSlot_ch;
         }
-
-        //if (interazioneConRuna)
+        else
         {
-            crosshair.color = colorRunes_ch[runeMng.GetActiveRune()];
+            if (selectedRune.GetRune_CanInteract())
+            {
+                //Quando puo' "interagire" con la runa selezionata
+                //(funzione diversa per ogni script, tranne BaseShoot)
+                colorObjectInSlot_ch = colorRunes_ch[runeMng.GetActiveRune()-1];
+            }
+            else
+            {
+                if (selectedRune.GetRune_IsUnavailable())
+                {
+                    //Quando non posso interagire
+                    //(es. non posso raccogliere un oggetto con la Runa Viola)
+                    crosshair.color = colorUnavailable_ch;
+                }
+                else
+                {
+                    //Se non ha soddisfatto nessuna condizione
+                    //imposta il colore di default
+                    crosshair.color = colorDefault_ch;
+                }
+            }
         }
     }
 

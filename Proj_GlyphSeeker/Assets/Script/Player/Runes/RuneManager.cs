@@ -239,6 +239,8 @@ public class RuneManager : MonoBehaviour
 
     public int GetActiveRune() => (int)selectedRune;
 
+    public PlayerShoot GetActiveRuneScript() => playerShoot_scr[i_selectedRune];
+
     public bool GetIsPurpleRuneActive() => isPurpleRuneActive;
 
     public SlotObjectType GetObjectInSlot() => objectInSlot;
