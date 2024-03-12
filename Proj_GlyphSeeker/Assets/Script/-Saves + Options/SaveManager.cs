@@ -9,7 +9,9 @@ public class SaveManager : MonoBehaviour
     [Header("—— Variabili delle informazioni ——")]
     [SerializeField] SaveSO_Script save_SO;
     [SerializeField] OptionsSO_Script opt_SO;
-    [SerializeField] GameObject playerObj;
+
+    /*Checkpoint*/MonoBehaviour[] allCheckpoints;
+    /*Collectible*/MonoBehaviour[] allCollectibles;
 
     string file_path;
 
@@ -33,7 +35,26 @@ public class SaveManager : MonoBehaviour
     private void Awake()
     {
         //Prende il percorso dell'applicazione
-        file_path = Path.Combine(Application.dataPath, save_SO.GetFileName() + ".save");
+        file_path = Path.Combine(Application.persistentDataPath, save_SO.GetFileName() + ".save");
+
+
+        //Trova lo script del giocatore,
+        //tutti i checkpoint
+        //e tutti i collezionabili
+        allCheckpoints = FindObjectsOfType</*Checkpoint*/MonoBehaviour>();
+        allCollectibles = FindObjectsOfType</*Collectible*/MonoBehaviour>();
+    }
+
+    private void Update()
+    {
+        //save_SO.LoadUnlockedRune
+
+
+        foreach (MonoBehaviour checkpoint in allCheckpoints)
+        {
+            //if(save_SO.FindUnlockedCollectible(checkpoint.GetID())
+
+        }
     }
 
 

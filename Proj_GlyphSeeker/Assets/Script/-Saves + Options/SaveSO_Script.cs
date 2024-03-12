@@ -105,6 +105,25 @@ public class SaveSO_Script : ScriptableObject
     public List<bool> GetCompletedScenes() => completedScenes;
     public Dictionary<string, bool> GetUnlockedCollectibles() => unlockedCollectibles;
 
+    #endregion
+
+
+        #region Funzioni piu' specifiche
+
+    public bool FindUnlockedCollectible(string id)
+    {
+        if (unlockedCollectibles.ContainsKey(id))
+        {
+            return unlockedCollectibles[id];
+        }
+        else
+        {
+            Debug.LogError($"Collezionabile ({id}) non trovato nell'insieme");
+
+            return default;
+        }
+    }
+
         #endregion
 
 
@@ -312,7 +331,7 @@ public class SaveSO_Script : ScriptableObject
 
 
 
-    #region Funzioni utili
+    #region Funzioni di utilita'
 
     /// <summary>
     /// Usando il metodo "string.Join('\n', Dictionary);" per scriverlo,
