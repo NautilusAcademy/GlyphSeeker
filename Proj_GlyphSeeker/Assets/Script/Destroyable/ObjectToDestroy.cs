@@ -6,7 +6,9 @@ public class ObjectToDestroy : MonoBehaviour, IDestroyable
 {
     [SerializeField] bool requireExplosion = true;
 
-    public void DestroyObject(bool a)
+
+
+    public virtual void DestroyObject(bool a)
     {
         //Mettere la logica quando viene distrutto
     }

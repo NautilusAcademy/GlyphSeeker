@@ -4,21 +4,33 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField] int maxAmmo;
-    [SerializeField] protected float fireRate;
-    [SerializeField] GameObject bulletRune;
-    int currentAmmo = 0;
+    [Header("——  PlayerShoot  ——")]
+    [SerializeField] protected int maxAmmo = 10;
+    [SerializeField] protected float fireRate = 2;
+    protected int currentAmmo = 0;
     
-    bool canShoot,
-         isCooldown;
+    protected bool canShoot,
+                   isCooldown;
 
 
 
-    protected virtual void ShootBullet(GameObject bulletToShoot) { }
+    void Awake()
+    {
+        FullyReloadAmmo();
+    }
+
+
+    protected virtual void ShootBullet(Rigidbody bulletToShoot) { }
 
     protected virtual void ActivateShield(GameObject shieldModel) { }
 
-    protected virtual void ReloadAmmo(int ammo) { }
+    protected virtual void ReloadAmmo(int ammo)
+    {
+        currentAmmo = ammo;
+    }
 
-    protected virtual void FullyReloadAmmo() { }
+    protected virtual void FullyReloadAmmo()
+    {
+        currentAmmo = maxAmmo;
+    }
 }

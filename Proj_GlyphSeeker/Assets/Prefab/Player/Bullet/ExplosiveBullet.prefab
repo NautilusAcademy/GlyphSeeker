@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -912266309450339537}
   - component: {fileID: 8257555438986434471}
   m_Layer: 0
-  m_Name: Projectile
+  m_Name: ExplosiveBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,4 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3047f243c4b21664a88683dae74fbad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExplosionRadius: 3
+  damage: 1
+  life: 2
+  ExplosionRadius: 5
+  rb: {fileID: -912266309450339537}
