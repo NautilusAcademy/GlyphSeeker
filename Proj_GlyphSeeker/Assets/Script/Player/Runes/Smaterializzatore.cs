@@ -207,9 +207,12 @@ public class Smaterializzatore : PlayerShoot
                 {
                     Vector3 safeDistanceCalculated = (raycastStartPoint.forward * objSafeDistance);
                     
-                    hiddenObject.transform.position = hit.point
-                                                       - safeDistanceCalculated
-                                                       + Vector3.up * placeDist;
+                    if(isObjectInSlot)
+                    {
+                        hiddenObject.transform.position = hit.point
+                                   - safeDistanceCalculated
+                                   + Vector3.up * placeDist;
+                    }
                 }
             }
             else

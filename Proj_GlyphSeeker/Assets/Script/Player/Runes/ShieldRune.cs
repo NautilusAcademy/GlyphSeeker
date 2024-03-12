@@ -46,7 +46,7 @@ public class ShieldRune : PlayerShoot
 
     void Update()
     {
-        InputAction inputShield = GameManager.inst.inputManager.Player.Aim;
+        InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
 
 
         bool isShieldActive = inputShield.ReadValue<float>() > 0,
@@ -129,9 +129,7 @@ public class ShieldRune : PlayerShoot
 
     private void OnTriggerEnter(Collider other)
     {
-        //IBullet bulletCheck = other.GetComponent<IEnemy>();
-
-        if (other.CompareTag("Bullet")) //(bulletCheck != null)
+        if (other.GetComponent<IBullet>() != null)
         {
             bool isFromFront = CheckFromFront(other.transform);
 

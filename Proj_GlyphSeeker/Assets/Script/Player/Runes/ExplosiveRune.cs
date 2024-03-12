@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class BaseShoot : PlayerShoot
+public class ExplosiveRune : PlayerShoot
 {
     [Space(20)]
     [SerializeField] float bulletSpeed;
@@ -20,7 +20,7 @@ public class BaseShoot : PlayerShoot
         //Prende l'input di sparo
         InputAction shootInput = GameManager.inst.inputManager.Player.Fire;
 
-        if (shootInput.triggered  &&  !isCooldown)
+        if (shootInput.triggered && !isCooldown)
         {
             ShootBullet(bullet);
 
