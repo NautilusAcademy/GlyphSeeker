@@ -89,82 +89,82 @@ public class RuneManager : MonoBehaviour
 
         #region Cambio della Runa selezionata
 
-        //switch(opt_SO.GetRuneSelect())
+        //Controlla se ho sbloccato la prima runa
+        if (CanSwitchRune())
         {
-            #region --Selezione a rotazione--
+            //switch(opt_SO.GetRuneSelect())
+            {
+                #region --Selezione a rotazione--
 
-            //case RuneSelectionType.MouseWheel:
+                //case RuneSelectionType.MouseWheel:
 
-                //Prende l'input di selezione delle rune
-                InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
-                            inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
+                    //Prende l'input di selezione delle rune
+                    InputAction inputNext = GameManager.inst.inputManager.Player.NextRune,
+                                inputPrevious = GameManager.inst.inputManager.Player.PreviousRune;
 
-                //Controllo e Switch delle rune
-                if(inputNext.triggered)
-                {
-                    NextRune();
-                }
-                if(inputPrevious.triggered)
-                {
-                    PreviousRune();
-                }
-
-                //break;
-
-            #endregion
-
-
-            #region --Selezione con 4 tasti--
-
-            //case RuneSelectionType.HoldAndSelect:
-
-                //Prende l'input del tasto per selezionare una runa
-                //e quello per ognuna delle rune
-                /*
-                InputAction inputSelect = GameManager.inst.inputManager.Player.RunePressDown;
-                InputAction inputElectric = GameManager.inst.inputManager.Player.ElectricRune,
-                            inputExplosive = GameManager.inst.inputManager.Player.ExplosiveRune,
-                            inputShield = GameManager.inst.inputManager.Player.ShieldRune,
-                            inputPurple = GameManager.inst.inputManager.Player.PurpleRune;
-                //*/
-
-                /*
-                if(inputSelect.ReadValue<float>() > 0)
-                {
-                    if(inputElectric.triggered)
+                    //Controllo e Switch delle rune
+                    if(inputNext.triggered)
                     {
-                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
+                        NextRune();
+                    }
+                    if(inputPrevious.triggered)
+                    {
+                        PreviousRune();
                     }
 
-                    if(inputExplosive.triggered)
+                    //break;
+
+                #endregion
+
+
+                #region --Selezione con 4 tasti--
+
+                //case RuneSelectionType.HoldAndSelect:
+
+                    //Prende l'input del tasto per selezionare una runa
+                    //e quello per ognuna delle rune
+                    /*
+                    InputAction inputSelect = GameManager.inst.inputManager.Player.RunePressDown;
+                    InputAction inputElectric = GameManager.inst.inputManager.Player.ElectricRune,
+                                inputExplosive = GameManager.inst.inputManager.Player.ExplosiveRune,
+                                inputShield = GameManager.inst.inputManager.Player.ShieldRune,
+                                inputPurple = GameManager.inst.inputManager.Player.PurpleRune;
+                    //*/
+
+                    /*
+                    if(inputSelect.ReadValue<float>() > 0)
                     {
-                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
+                        if(inputElectric.triggered)
+                        {
+                            //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                            break;
+                        }
+
+                        if(inputExplosive.triggered)
+                        {
+                            //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                            break;
+                        }
+
+                        if(inputShield.triggered)
+                        {
+                            //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                            break;
+                        }
+
+                        if(inputPurple.triggered)
+                        {
+                            //TODO: da decidere la funzione per cambiare la runa con questo metodo
+                            break;
+                        }
                     }
+                    //*/
 
-                    if(inputShield.triggered)
-                    {
-                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
-                    }
+                    //break;
 
-                    if(inputPurple.triggered)
-                    {
-                        //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
-                    }
-                }
-                //*/
-
-                //break;
-
-            #endregion
+                #endregion
+            }
         }
-
-
-        //
-        SwitchRune();
 
         #endregion
     }
@@ -172,56 +172,33 @@ public class RuneManager : MonoBehaviour
 
     #region Gestione di selezione Rune
 
-    bool SwitchRune()
+    bool CanSwitchRune()
     {
-        //Disattiva tutti gli script
-        //tranne quello attivo
-        for (int i = 1; i < playerShoot_scr.Count; i++)
+        //Quando posso cambiare runa...
+        if (isFirstRuneUnlocked)
         {
-            bool isScriptEnabled = i == i_selectedRune;
+            //Disattiva tutti gli script
+            //tranne quello attivo
+            for (int i = 1; i < playerShoot_scr.Count; i++)
+            {
+                bool isScriptEnabled = i == i_selectedRune;
 
-            playerShoot_scr[i].enabled = isScriptEnabled;
+                playerShoot_scr[i].enabled = isScriptEnabled;
+            }
+
+            //Disattiva lo sparo base se il giocatore
+            //ha sbloccato la prima runa
+            //(e se non ha selezionato quella base)
+            playerShoot_scr[0].enabled = !isFirstRuneUnlocked
+                                          &&
+                                         selectedRune == RuneType.BaseRune;
+
+            return true;
         }
-
-        //Disattiva lo sparo base se il giocatore
-        //ha sbloccato la prima runa
-        //(e se non ha selezionato quella base)
-        playerShoot_scr[0].enabled = !isFirstRuneUnlocked
-                                      &&
-                                     selectedRune == RuneType.BaseRune;
-
-
-
-
-        //
-        switch (selectedRune)
+        else
         {
-            //Runa Base
-            case RuneType.BaseRune:
-                break;
-
-
-            //Runa Gialla - Elettrica
-            case RuneType.Yellow_Rune:
-                break;
-
-
-            //Runa Rossa - Esplosiva
-            case RuneType.Red_Rune:
-                break;
-
-
-            //Runa Blu - Scudo
-            case RuneType.Blue_Rune:
-                break;
-
-
-            //Runa Gialla - Elettrica
-            case RuneType.Purple_Rune:
-                break;
+            return false;
         }
-
-        return false;
     }
 
     void NextRune()
