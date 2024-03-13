@@ -8,7 +8,7 @@ public class SaveSO_Script : ScriptableObject
     [SerializeField] string fileName = "utility";
     [SerializeField] bool useEncryption = true;
 
-    [Space(25)]
+    [Space(20), Header("—— Save File ——")]
     [SerializeField] int currentScene;
     [SerializeField] int currentLevel;
     [SerializeField] Vector3 checkpointPos,
@@ -16,7 +16,7 @@ public class SaveSO_Script : ScriptableObject
     [SerializeField] float currentPlayerHealth,
                            maxPlayerHealth;
 
-    [Space(20)]
+    [Space(10)]
     [SerializeField] float purpleRuneFireRate;
     [SerializeField] int currentElectricAmmo,
                          maxElectricAmmo;
@@ -25,13 +25,13 @@ public class SaveSO_Script : ScriptableObject
     [SerializeField] int currentShieldAmmo,
                          maxShieldAmmo;
 
-    [Space(20)]
+    [Space(10)]
     [SerializeField] List<bool> unlockedRunes;
     [SerializeField] List<bool> completedLevels,
                                 completedScenes;
     [SerializeField] Dictionary<string, bool> unlockedCollectibles = new Dictionary<string, bool>();
 
-    [Header("—— Auto Save ——")]
+    [Space(20), Header("—— Auto Save ——")]
     [SerializeField] Vector3 temp_checkpointPos;
     [SerializeField] Vector3 temp_checkpointDir;
 
