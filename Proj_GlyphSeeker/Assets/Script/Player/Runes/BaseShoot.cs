@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class BaseShoot : PlayerShoot
 {
     [Space(20)]
-    [SerializeField] GameObject bullet;
+    [SerializeField] Rigidbody bullet;
     [SerializeField] Transform raycastStartPos,
                                fakeFirePoint;
 
@@ -48,7 +48,7 @@ public class BaseShoot : PlayerShoot
         isCooldown = false;
     }
 
-    protected override void ShootBullet(GameObject bulletToShoot)
+    protected override void ShootBullet(Rigidbody bulletToShoot)
     {
         if (canShoot)
         {

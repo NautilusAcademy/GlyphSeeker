@@ -92,7 +92,7 @@ MonoBehaviour:
   playerShoot_scr:
   - {fileID: 586104277649365294}
   - {fileID: 8355365509510303707}
-  - {fileID: 0}
+  - {fileID: 8355365509510303707}
   - {fileID: 1904321802446903047}
   - {fileID: 9084047218972585045}
   purpleRune_scr: {fileID: 9084047218972585045}
@@ -966,7 +966,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAmmo: 10
   fireRate: 2
-  bullet: {fileID: 5982956821474095326, guid: 20967b3bc4219d547888222c136f50e6, type: 3}
+  bullet: {fileID: 3820297884565879080, guid: 20967b3bc4219d547888222c136f50e6, type: 3}
   raycastStartPos: {fileID: 7271397137244243116}
   fakeFirePoint: {fileID: 7954218696606752475}
 --- !u!1 &6238124653339511316
@@ -2195,6 +2195,8 @@ MonoBehaviour:
   shootPoint: {fileID: 7954218696606752475}
   placeDist: 0.5
   cooldown: 3
+  enemyToBullet: {fileID: 0}
+  kamikazeBullet: {fileID: 0}
   phantomObj: {fileID: 7087687548242687747}
   phantomMat: {fileID: 2100000, guid: 525e1ddfa1076b94e95be7105d724db4, type: 2}
   ImageObjectCollected: {fileID: 1368216508428448019}

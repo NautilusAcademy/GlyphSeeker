@@ -22,6 +22,10 @@ public class Smaterializzatore : PlayerShoot
 
     RaycastHit purpleHit;
 
+    [SerializeField]
+    private GameObject enemyToBullet;
+    [SerializeField]
+    private GameObject kamikazeBullet;
     private GameObject hiddenObject;
     private float objSafeDistance;
 
@@ -263,14 +267,17 @@ public class Smaterializzatore : PlayerShoot
     void HideObject(GameObject objToHide)
     {
         if (objToHide != null && objToHide.GetComponent<PickUp>() && canShoot)
-        {     
-            if(objToHide==GameObject.Find("Barile"))
+        {       
+            PickUp newObjToHide = objToHide.GetComponent<PickUp>();
+
+            if (newObjToHide.canPickUp == true)
             {
-                if(objToHide.GetComponent<PickUp>().canPickUp)
+                if (objToHide.GetComponent<BatteryToCharge>() != null)
                 {
                     // Attiva lo sprite a schermo
                     ImageObjectCollected.SetActive(true);
 
+                    // Disattiva l'oggetto colpito
                     objToHide.SetActive(false);
 
                     // Memorizza l'oggetto nascosto
@@ -280,35 +287,59 @@ public class Smaterializzatore : PlayerShoot
                     {
                         objToHide.AddComponent<Rigidbody>();
                     }
+                }
+                else if (objToHide.GetComponent<IEnemy>() != null)
+                {
+                    if(objToHide.GetComponent<KamikazeEnemy>() != null)
+                    {
+                        // Attiva lo sprite a schermo
+                        ImageObjectCollected.SetActive(true);
 
-                }                    
-                return;
+                        // Disattiva l'oggetto colpito
+                        objToHide.SetActive(false);
+
+                        // Memorizza l'oggetto nascosto
+                        hiddenObject = kamikazeBullet;
+                    }
+                    else
+                    {
+                        // Attiva lo sprite a schermo
+                        ImageObjectCollected.SetActive(true);
+
+                        // Disattiva l'oggetto colpito
+                        objToHide.SetActive(false);
+
+                        // Memorizza l'oggetto nascosto
+                        hiddenObject = enemyToBullet;
+                    }
+                }
+                else
+                {
+                    // Attiva lo sprite a schermo
+                    ImageObjectCollected.SetActive(true);
+
+                    // Disattiva l'oggetto colpito
+                    objToHide.SetActive(false);
+
+                    // Memorizza l'oggetto nascosto e la distanza
+                    hiddenObject = objToHide;
+                    objSafeDistance = objToHide.GetComponent<PickUp>().safeDistance;
+
+                    if (!objToHide.GetComponent<Rigidbody>())
+                    {
+                        objToHide.AddComponent<Rigidbody>();
+                    }
+                }
+
+                //attiva il suono
+                colpo.Play();
+
+                // Reset della velocita' del RigidBody
+                ResetRBVelocity();
+
             }
-
-            if(!objToHide.GetComponent<Rigidbody>())
-            {
-                objToHide.AddComponent<Rigidbody>();
-            }
-
-            //attiva il suono
-            colpo.Play();
-
-            // Disattiva l'oggetto colpito
-            objToHide.SetActive(false);
-
-            // Memorizza l'oggetto nascosto e la distanza
-            hiddenObject = objToHide;
-            objSafeDistance = objToHide.GetComponent<PickUp>().safeDistance;
-            
-            // Reset della velocita' del RigidBody
-            ResetRBVelocity();
-            
-            // Attiva lo sprite a schermo
-            ImageObjectCollected.SetActive(true);            
-            
         }
     }
-
 
     public void ResetRBVelocity()
     {
@@ -318,12 +349,10 @@ public class Smaterializzatore : PlayerShoot
         hiddenObjRb.angularVelocity = Vector3.zero;
     }
 
-
     public bool GetIsObjectInSlot()
     {
         return isObjectInSlot;
     }
-
 
     #region EXTRA - Gizmo
 
