@@ -8,6 +8,8 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
     [SerializeField] float playerSpeed = 7.5f;
     [SerializeField] float jumpPower = 8.5f;
     [SerializeField] float increasedGravityMult = 3.5f;
+    [Min(0)]
+    [SerializeField] float addedJumpHeight = 1f;
     float x_movem, z_movem;
 
     Vector3 moveVector;
@@ -70,20 +72,11 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
                                            QueryTriggerInteraction.Ignore);
 
 
-
-
-        /*if (moveVector.x == 0 && moveVector.y == 0 && isOnGround)
-        {
-            //rb.velocity = new Vector3(0f, 0f, 0f);
-            moveVector = (transform.forward * z_movem - transform.right * x_movem).normalized;
-        }//*/
-
-
         #region Salto
 
         //Se tieni premuto il tasto di salto
         //e il divisore e' sotto il limite...
-        if (isJumping && jumpPower_divider <= 2.5f)
+        if (isJumping && jumpPower_divider <= addedJumpHeight+1)
         {
             if (isOnGround || canCoyote)
             {
@@ -193,6 +186,7 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
         }
 
 
+
         //Aumenta la gravita' quando il giocatore sta cadendo...
         if (rb.velocity.y < 0)
         {
@@ -202,6 +196,14 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
             _fallingVel = Mathf.Clamp(_fallingVel, Physics.gravity.y * 2, 0);
 
             rb.velocity = new Vector3(rb.velocity.x, _fallingVel, rb.velocity.z);
+        }
+
+        //...o sta salendo in aria dopo un salto
+        if (rb.velocity.y > 0 && hasJumpedFromGround)
+        {
+            float _partialFallingVel = increasedGravityMult * 0.2f;
+
+            rb.AddForce(-transform.up * _partialFallingVel, ForceMode.VelocityChange);
         }
 
         #endregion

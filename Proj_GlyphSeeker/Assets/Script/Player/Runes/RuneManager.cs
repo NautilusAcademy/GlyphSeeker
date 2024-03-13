@@ -22,7 +22,7 @@ public class RuneManager : MonoBehaviour
 
     [Header("—— Rune ——")]
     [SerializeField] List<PlayerShoot> playerShoot_scr;
-    [SerializeField] /*PurpleRune*/MonoBehaviour purpleRune_scr;
+    [SerializeField] Smaterializzatore purpleRune_scr;
 
     int i_selectedRune = 0;
     RuneType selectedRune;
@@ -43,14 +43,20 @@ public class RuneManager : MonoBehaviour
 
     void Update()
     {
+        //Converte l'indice della runa selezionata nell'Enum
+        selectedRune = (RuneType)i_selectedRune;
+
+
         //Controlla se ha attiva la Runa Viola (Smaterializzatore)
         //    (serve per capire se la mira e' quella
         //     normale o quella diminuita)
         isPurpleRuneActive = selectedRune == RuneType.Purple_Rune;
 
         //Puo' mirare solo quando NON ha selezionato
-        //la runa blu (scudo)
-        canAim = i_selectedRune != 3;
+        //la runa blu (scudo) & quando ha un oggetto (con la runa viola)
+        canAim = i_selectedRune < 3
+                  ||
+                 (isPurpleRuneActive  &&  purpleRune_scr.GetIsObjectInSlot());
 
 
 
@@ -71,7 +77,7 @@ public class RuneManager : MonoBehaviour
 
 
 
-        #region Cambiamento della Runa selez.
+        #region Cambio della Runa selezionata
 
         //switch(opt_SO.GetRuneSelect())
         {
@@ -150,10 +156,6 @@ public class RuneManager : MonoBehaviour
         //
         SwitchRune();
 
-
-        //Converte l'indice della runa selezionata nell'Enum
-        selectedRune = (RuneType)i_selectedRune;
-
         #endregion
     }
 
@@ -173,7 +175,10 @@ public class RuneManager : MonoBehaviour
 
         //Disattiva lo sparo base se il giocatore
         //ha sbloccato la prima runa
-        playerShoot_scr[0].enabled = !isFirstRuneUnlocked;
+        //(e se non ha selezionato quella base)
+        playerShoot_scr[0].enabled = !isFirstRuneUnlocked
+                                      &&
+                                     selectedRune == RuneType.BaseRune;
 
 
 
@@ -211,7 +216,7 @@ public class RuneManager : MonoBehaviour
 
     void NextRune()
     {
-        if (isFirstRuneUnlocked)
+        //if (isFirstRuneUnlocked)
         {
             //Cambia l'indice della runa selezionata
             //con quello dopo, ciclandolo
@@ -223,7 +228,7 @@ public class RuneManager : MonoBehaviour
 
     void PreviousRune()
     {
-        if (isFirstRuneUnlocked)
+        //if (isFirstRuneUnlocked)
         {
             //Cambia l'indice della runa selezionata
             //con quello prima, ciclandolo
