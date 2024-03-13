@@ -89,6 +89,24 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a2fe968-8a74-419b-b85f-555519b07187"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""75faec42-5aa6-4cf1-a4c5-ab930826d566"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -287,6 +305,61 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PreviousRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a1b9ea0-c735-4f1e-a651-becdde547d82"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc98dc33-491c-4b3e-9b6a-33c165813847"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e24a3024-e459-437a-8a8e-66cbd9d460c9"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""995b15c8-2479-4223-ab24-cef940909803"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c5f3209-a5fa-4690-8c7b-f82d66410520"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -820,6 +893,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_NextRune = m_Player.FindAction("NextRune", throwIfNotFound: true);
         m_Player_PreviousRune = m_Player.FindAction("PreviousRune", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -898,6 +973,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_NextRune;
     private readonly InputAction m_Player_PreviousRune;
+    private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_Interaction;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -909,6 +986,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @NextRune => m_Wrapper.m_Player_NextRune;
         public InputAction @PreviousRune => m_Wrapper.m_Player_PreviousRune;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -939,6 +1018,12 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @PreviousRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
                 @PreviousRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
                 @PreviousRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Interaction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
+                @Interaction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
+                @Interaction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -964,6 +1049,12 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @PreviousRune.started += instance.OnPreviousRune;
                 @PreviousRune.performed += instance.OnPreviousRune;
                 @PreviousRune.canceled += instance.OnPreviousRune;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Interaction.started += instance.OnInteraction;
+                @Interaction.performed += instance.OnInteraction;
+                @Interaction.canceled += instance.OnInteraction;
             }
         }
     }
@@ -1082,6 +1173,8 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnNextRune(InputAction.CallbackContext context);
         void OnPreviousRune(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
