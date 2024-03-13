@@ -2037,7 +2037,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 125383379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -2149,7 +2149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 136810991}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -5679,7 +5679,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 324689641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -5728,7 +5728,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 326764872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -8407,7 +8407,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 475997739}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -8749,7 +8749,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 486944054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -9985,7 +9985,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 540343358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -12262,7 +12262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 733664527}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -19059,7 +19059,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1129854722}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -21367,7 +21367,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1263856106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -21870,7 +21870,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1280512563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -22329,6 +22329,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7271397138376563134, guid: ae051f4b2026339458115254be1238b7, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae051f4b2026339458115254be1238b7, type: 3}
 --- !u!1 &1311886492
@@ -22375,7 +22379,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1311886492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -23788,7 +23792,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1392525453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -24102,7 +24106,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1408203397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -24958,7 +24962,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1457184838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
@@ -31482,7 +31486,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1846912133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34c343362a34f754c9ba113d75a66e1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 801d680b81a52d5478176fadb24b8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canPickUp: 0
