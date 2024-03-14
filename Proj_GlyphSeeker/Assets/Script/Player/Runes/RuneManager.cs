@@ -205,8 +205,8 @@ public class RuneManager : MonoBehaviour
     {
         //Cambia l'indice della runa selezionata
         //con quello dopo, ciclandolo
-        i_selectedRune = i_selectedRune + 1 > RUNES_MAX_NUM
-                            ? i_selectedRune = 1
+        i_selectedRune = i_selectedRune >= RUNES_MAX_NUM
+                            ? 1
                             : ++i_selectedRune;
     }
 
@@ -214,8 +214,8 @@ public class RuneManager : MonoBehaviour
     {
         //Cambia l'indice della runa selezionata
         //con quello prima, ciclandolo
-        i_selectedRune = i_selectedRune - 1 <= 0
-                            ? i_selectedRune = RUNES_MAX_NUM
+        i_selectedRune = i_selectedRune <= 1
+                            ? RUNES_MAX_NUM
                             : --i_selectedRune;
     }
 

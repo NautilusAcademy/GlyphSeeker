@@ -27,9 +27,11 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] float ammoSliderLimit = 0.2f;
 
     [Header("——  Rune  ——")]
-    [SerializeField] Animator runesAnim;
-    [SerializeField] Image slotObjectPurpleRune,
-                           slotObjectBGPurpleRune;
+    [SerializeField] RectTransform runesWheel;
+    [SerializeField] float wheelRotSpeed = 15;
+    [Space(10)]
+    [SerializeField] Image slotObjectPurpleRune;
+    [SerializeField] Image slotObjectBGPurpleRune;
     [Space(10)]
     [SerializeField] Sprite spriteGenericObject;
     [SerializeField] Sprite spriteExplosiveBarrel;
@@ -108,15 +110,43 @@ public class PlayerUIManager : MonoBehaviour
     #endregion
 
 
-    #region Sez. Rune
+    #region Sez. Ruota delle Rune
 
-    void SetTriggerAnimator(string triggerName)
+    //void SetTriggerAnimator(string triggerName)
+    //{
+    //    runesWheel.SetTrigger(triggerName);
+    //}
+    //void SetTriggerAnimator(int triggerId)
+    //{
+    //    runesWheel.SetTrigger(triggerId);
+    //}
+
+    void RotateRunesWheel()
     {
-        runesAnim.SetTrigger(triggerName);
-    }
-    void SetTriggerAnimator(int triggerId)
-    {
-        runesAnim.SetTrigger(triggerId);
+        //Calcola l'angolo rispetto alla runa selezionata
+        float targetAngle = runeMng.GetActiveRune() switch
+                            {
+                                2 => 90,
+                                3 => 180,
+                                4 => -90,
+                                _ => 0,
+                            };
+
+        /* Gli angoli:
+         *  - Runa Gialla in alto ---> 0°
+         *  - Runa Rossa in alto ----> 90°
+         *  - Runa Blu in alto ------> 180°
+         *  - Runa Viola in alto ----> -90°
+         */
+
+
+        Quaternion targetRot = Quaternion.Euler(Vector3.forward * targetAngle);    //Calcola la rotaz.
+
+
+        //Ruota la wheel delle rune
+        runesWheel.rotation = Quaternion.Slerp(runesWheel.rotation,
+                                               targetRot,
+                                               Time.deltaTime * wheelRotSpeed);
     }
 
     #endregion
@@ -230,7 +260,7 @@ public class PlayerUIManager : MonoBehaviour
 
     #endregion
 
-     
+    
 
     #region EXTRA - Cambiare l'Inspector
 
@@ -256,6 +286,9 @@ public class PlayerUIManager : MonoBehaviour
         ammoSlider.fillClockwise = false;
 
 
+
+        //Limita la vel. di rotazione della ruota delle rune
+        wheelRotSpeed = Mathf.Clamp(wheelRotSpeed, 1, wheelRotSpeed);
 
         //Imposta la lista dei colori delle rune sempre a 4 max
         if(colorRunes_ch.Count != 4)
