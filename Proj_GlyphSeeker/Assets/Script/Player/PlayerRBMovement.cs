@@ -20,7 +20,7 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
     bool canCoyote;
 
     [Space(10)]
-    [SerializeField] float knockbackPower = 10f;
+    [SerializeField] float dmgKnockbackPower = 10f;
 
     [Space(20)]
     [SerializeField] float groundCheck_treshold = 0.25f;
@@ -308,11 +308,12 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
     }
 
 
+    /// Danno --> da sistemare in HealthSystem
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Knockback(-transform.forward, knockbackPower);
+            Knockback(-transform.forward, dmgKnockbackPower);
         }
     }
 
