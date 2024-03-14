@@ -35,6 +35,20 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
     bool hasJumped_doOnce = true;
     float jumpPower_divider = 1;
 
+    [Header("\t—— Roll ——")]
+    [SerializeField] /*HealthSystem*/MonoBehaviour plHealthScr;
+    [Min(0)]
+    [SerializeField] float maxRollTime = 2.5f;
+    [SerializeField] float maxInvincibleTime = 0.25f;
+    [Min(0.1f)]
+    [SerializeField] float rollForce = 25;
+    float currentRollTime;
+    bool canMove,
+         isMovingInput;
+    bool canRoll,
+         isRolling;
+
+
 
 
     private void Awake()
@@ -42,21 +56,29 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
+        canMove = true;
+        canRoll = true;
+
         playerHalfHeight = GetComponent<CapsuleCollider>().height / 2;
     }
 
     private void Update()
     {
+        //Prende l'input della schaivata
+        isRolling = GameManager.inst.inputManager.Player.Roll.ReadValue<float>() > 0;
+
+
         //Prende gli assi dall'input di movimento
         x_movem = GameManager.inst.inputManager.Player.Movement.ReadValue<Vector2>().x;
         z_movem = GameManager.inst.inputManager.Player.Movement.ReadValue<Vector2>().y;
 
         moveVector = (transform.forward * z_movem + transform.right * x_movem).normalized;      //Vettore movimento orizzontale
 
+        isMovingInput = moveVector != Vector3.zero;
+
 
         //Prende l'input di salto
         isJumping = GameManager.inst.inputManager.Player.Jump.ReadValue<float>() > 0;
-
     }
 
     void FixedUpdate()
@@ -64,12 +86,12 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
         //Calcolo se si trova a terra
         //(non colpisce i Trigger e "~0" significa che collide con tutti i layer)
         isOnGround = Physics.SphereCast(transform.position,
-                                           spherecastRadius,
-                                           -transform.up,
-                                           out hitBase,
-                                           playerHalfHeight + groundCheck_treshold - spherecastRadius,
-                                           ~0,
-                                           QueryTriggerInteraction.Ignore);
+                                        spherecastRadius,
+                                        -transform.up,
+                                        out hitBase,
+                                        playerHalfHeight + groundCheck_treshold - spherecastRadius,
+                                        ~0,
+                                        QueryTriggerInteraction.Ignore);
 
 
         #region Salto
@@ -157,8 +179,11 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
 
         float airResistance = !isOnGround ? 0.45f : 1;   //Diminuisce la velocita' orizz. se si trova in aria
 
-        //Movimento orizzontale (semplice) del giocatore
-        rb.AddForce(moveVector.normalized * playerSpeed * 10f * airResistance, ForceMode.Force);
+        if (canMove)
+        {
+            //Movimento orizzontale (semplice) del giocatore
+            rb.AddForce(moveVector.normalized * playerSpeed * 10f * airResistance, ForceMode.Force);
+        }
 
 
         #region Limitazioni della velocita'
@@ -188,7 +213,7 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
 
 
         //Aumenta la gravita' quando il giocatore sta cadendo...
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < 0  &&  hasJumpedFromGround)
         {
             float _fallingVel = vertVel.y;
 
@@ -204,6 +229,66 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
             float _partialFallingVel = increasedGravityMult * 0.2f;
 
             rb.AddForce(-transform.up * _partialFallingVel, ForceMode.VelocityChange);
+        }
+
+        #endregion
+
+
+        #region Schivata / roll (timer)
+
+        if (canRoll)
+        {
+            if (isRolling  &&  isOnGround)
+            {
+                //Toglie la possibilita' di muoversi al giocatore
+                //(per dare il tempo di schivare)
+                canMove = false;
+
+
+                //Calcola la direzione dove schivare
+                // (la stessa di dove sta andando,
+                //  ma indietro se non sta premendo nulla)
+                Vector3 dirToRoll = isMovingInput
+                                     ? moveVector * 2
+                                     : -transform.forward;
+
+                //Resetta la velocita' XZ e applica la forza di schivata
+                rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+                rb.AddForce(dirToRoll * rollForce + Vector3.up * 0.2f, ForceMode.Impulse);
+
+
+
+                //Toglie la possibilita' di schiavare un'altra volta
+                canRoll = false;
+            }
+        }
+        //Quando non puo' piu' schivare,
+        //inizia il timer
+        else
+        {
+            if (currentRollTime >= maxInvincibleTime)
+            {
+                //Toglie l'invincibilita' al giocatore
+                //playerHalfHeight.SetInvincible(false);
+
+                //Puo' tornare a muoversi
+                canMove = true;
+            }
+
+            if (currentRollTime >= maxRollTime)
+            {
+                //Puo' tornare a schivare
+                canRoll = true;
+
+
+                //Reset del timer
+                currentRollTime = 0;
+            }
+            else
+            {
+                //Aumento del timer
+                currentRollTime += Time.deltaTime;
+            }
         }
 
         #endregion
@@ -230,6 +315,19 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
             Knockback(-transform.forward, knockbackPower);
         }
     }
+
+
+
+    #region EXTRA - Cambiare l'Inspector
+
+    private void OnValidate()
+    {
+        //Limita i tempi massimi della schivata e per potersi muovere di nuovo
+        maxInvincibleTime = Mathf.Clamp(maxInvincibleTime, 0, maxRollTime);
+        maxRollTime = Mathf.Clamp(maxRollTime, maxInvincibleTime, maxRollTime);
+    }
+
+    #endregion
 
 
     #region EXTRA - Gizmo

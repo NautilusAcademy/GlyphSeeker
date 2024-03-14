@@ -73,6 +73,15 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""7948d90d-de96-4d00-b34e-d40c522133a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""NextRune"",
                     ""type"": ""Button"",
                     ""id"": ""ddffcc65-71b7-48b2-b3be-882cf01c14c2"",
@@ -265,6 +274,28 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PreviousRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eda91d11-1099-4076-8926-bc19339ed038"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7937657f-1802-4360-9ef8-5cbaff858357"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -796,6 +827,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Roll = m_Player.FindAction("Roll", throwIfNotFound: true);
         m_Player_NextRune = m_Player.FindAction("NextRune", throwIfNotFound: true);
         m_Player_PreviousRune = m_Player.FindAction("PreviousRune", throwIfNotFound: true);
         // UI
@@ -874,6 +906,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Roll;
     private readonly InputAction m_Player_NextRune;
     private readonly InputAction m_Player_PreviousRune;
     public struct PlayerActions
@@ -885,6 +918,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Roll => m_Wrapper.m_Player_Roll;
         public InputAction @NextRune => m_Wrapper.m_Player_NextRune;
         public InputAction @PreviousRune => m_Wrapper.m_Player_PreviousRune;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -911,6 +945,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Roll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Roll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
+                @Roll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRoll;
                 @NextRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextRune;
                 @NextRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextRune;
                 @NextRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextRune;
@@ -936,6 +973,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Roll.started += instance.OnRoll;
+                @Roll.performed += instance.OnRoll;
+                @Roll.canceled += instance.OnRoll;
                 @NextRune.started += instance.OnNextRune;
                 @NextRune.performed += instance.OnNextRune;
                 @NextRune.canceled += instance.OnNextRune;
@@ -1058,6 +1098,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnFire(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnRoll(InputAction.CallbackContext context);
         void OnNextRune(InputAction.CallbackContext context);
         void OnPreviousRune(InputAction.CallbackContext context);
     }
