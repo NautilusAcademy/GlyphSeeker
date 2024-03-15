@@ -400,7 +400,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753408253338248191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.46, y: 0.2, z: 0.85}
+  m_LocalPosition: {x: 0.46, y: 0.2, z: 1.076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2195,11 +2195,17 @@ MonoBehaviour:
   shootPoint: {fileID: 7954218696606752475}
   placeDist: 0.5
   cooldown: 3
-  enemyToBullet: {fileID: 0}
-  kamikazeBullet: {fileID: 0}
+  batteryBullet: {fileID: 8580387923930492674, guid: b958e032647662643a82c83e7a6dc2da, type: 3}
+  enemyToBullet: {fileID: 1850590027165526472, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
+  kamikazeBullet: {fileID: 1850590027165526472, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
   phantomObj: {fileID: 7087687548242687747}
   phantomMat: {fileID: 2100000, guid: 525e1ddfa1076b94e95be7105d724db4, type: 2}
-  ImageObjectCollected: {fileID: 1368216508428448019}
+  imageObjectCollected: {fileID: 2453464325768593742}
+  currentImageObjectCollected: {fileID: 0}
+  batterySprite: {fileID: 0}
+  kamikazeSprite: {fileID: 0}
+  rockSprite: {fileID: 0}
+  objectSprite: {fileID: 0}
   mirino: {fileID: 2298645376192895992}
   errore: {fileID: 5319167244395602281}
   colpo: {fileID: 3126648207438721771}

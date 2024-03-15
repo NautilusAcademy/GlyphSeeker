@@ -16,7 +16,9 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
     private float radiusExplosion;
     [SerializeField]
     private ParticleSystem explosionParticle;
-    private bool explodeOnImpact = false;
+
+    [SerializeField]
+    private PickUp pickUp;
 
     public void Charge()
     {
@@ -30,7 +32,7 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
 
     IEnumerator FullCharged()
     {
-        //canPickUp = true;
+        pickUp.canPickUp = true;
 
         yield return new WaitForSeconds (delayExplosion);
 
@@ -38,11 +40,11 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
 
         foreach (Collider nearbyObject in colliders)
         {
-            /*if (nearbyObject.GetComponent<IDamageable>() != null)
+            if (nearbyObject.GetComponent<IDamageable>() != null)
             {
-                IDamageable damageable = nearbyObject.GetComponent<IChargable>();
-                damageable.TakeDamage(damage);
-            }*/
+                HealthSystem healthSystem = nearbyObject.GetComponent<HealthSystem>();
+                healthSystem.TakeDamage(damage);
+            }
 
             if (nearbyObject.GetComponent<IChargeable>() != null)
             {
@@ -57,27 +59,24 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(explodeOnImpact)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radiusExplosion);
+
+        foreach (Collider nearbyObject in colliders)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radiusExplosion);
 
-            foreach (Collider nearbyObject in colliders)
+            if (nearbyObject.GetComponent<IDamageable>() != null)
             {
-
-                /*if (nearbyObject.GetComponent<IDamageable>() != null)
-                {
-                    IDamageable damageable = nearbyObject.GetComponent<IChargable>();
-                    damageable.TakeDamage(damage);
-                }*/
-
-                if (nearbyObject.GetComponent<IChargeable>() != null)
-                {
-                    IChargeable chargable = nearbyObject.GetComponent<IChargeable>();
-                    chargable.Charge();
-                }
+                HealthSystem healthSystem = nearbyObject.GetComponent<HealthSystem>();
+                healthSystem.TakeDamage(damage);
             }
 
-            Destroy(gameObject);
-        } 
+            if (nearbyObject.GetComponent<IChargeable>() != null)
+            {
+                IChargeable chargable = nearbyObject.GetComponent<IChargeable>();
+                chargable.Charge();
+            }
+        }
+
+        Destroy(gameObject);
     }
 }

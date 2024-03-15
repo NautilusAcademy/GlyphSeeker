@@ -19,14 +19,21 @@ public class Smaterializzatore : PlayerShoot
     [SerializeField]
     private float cooldown = 3f;
     private bool isObjectInSlot;
+    private bool shootableObj;
+    private bool placebleObj;
 
     RaycastHit purpleHit;
 
     [SerializeField]
+    private GameObject batteryBullet;
+    [SerializeField]
     private GameObject enemyToBullet;
     [SerializeField]
     private GameObject kamikazeBullet;
+
+    private GameObject objToShoot;
     private GameObject hiddenObject;
+
     private float objSafeDistance;
 
     [SerializeField] GameObject phantomObj;
@@ -34,7 +41,16 @@ public class Smaterializzatore : PlayerShoot
     MeshFilter phantomObj_mf;
     MeshRenderer phantomObj_mr;
     
-    public GameObject ImageObjectCollected;
+    [SerializeField]
+    private Image imageObjectCollected;
+    [SerializeField]
+    private Image currentImageObjectCollected;
+    [SerializeField]
+    private Image batterySprite,
+                  kamikazeSprite,
+                  rockSprite,
+                  objectSprite;
+                    
     public Image mirino;
     public AudioSource errore;
     public AudioSource colpo;
@@ -43,11 +59,13 @@ public class Smaterializzatore : PlayerShoot
     {
         canShoot = true;
         isObjectInSlot = false;
+        placebleObj = false;
+        shootableObj = false;
 
         phantomObj_mf = phantomObj.GetComponent<MeshFilter>();
         phantomObj_mr = phantomObj.GetComponent<MeshRenderer>();
 
-        ImageObjectCollected.SetActive(false);
+        imageObjectCollected.gameObject.SetActive(false);
     }
 
     void Update()
@@ -124,7 +142,7 @@ public class Smaterializzatore : PlayerShoot
         // Input per far vedere dove piazzare l'oggetto
         if (GameManager.inst.inputManager.Player.Aim.ReadValue<float>()>0)
         {
-            if (isObjectInSlot)
+            if (isObjectInSlot && placebleObj == true)
             {
                 canShoot = false;
                 ShowObject();
@@ -145,14 +163,9 @@ public class Smaterializzatore : PlayerShoot
 
     bool CastRaycast(out RaycastHit hit)
     {
-        return Physics.Raycast(raycastStartPoint.position,
-                               raycastStartPoint.forward,
-                               out hit,
-                               maxRaycastDistance,
-                               ~0,
-                               QueryTriggerInteraction.Ignore);
+        return Physics.Raycast(raycastStartPoint.position, raycastStartPoint.forward, out hit, maxRaycastDistance, 
+                               ~0, QueryTriggerInteraction.Ignore);
     }
-
 
     IEnumerator ActivateCooldown()
     {
@@ -163,41 +176,44 @@ public class Smaterializzatore : PlayerShoot
 
     public void ShowObject()
     {
-        // Cambia la mesh e il materiale dell'oggetto fantasma
-        if (GameManager.inst.inputManager.Player.Aim.triggered)
+        if(placebleObj == true)
         {
-            phantomObj_mf.mesh = hiddenObject.GetComponent<MeshFilter>().mesh;
-            phantomObj_mr.material = phantomMat;
-        }
-        
-        // Lo attiva
-        phantomObj.SetActive(true);
+            // Cambia la mesh e il materiale dell'oggetto fantasma
+            if (GameManager.inst.inputManager.Player.Aim.triggered)
+            {
+                phantomObj_mf.mesh = hiddenObject.GetComponent<MeshFilter>().mesh;
+                phantomObj_mr.material = phantomMat;
+            }
 
-        RaycastHit hit;
+            // Lo attiva
+            phantomObj.SetActive(true);
 
-        if (CastRaycast(out hit))
-        {
-            // Mette l'oggetto fantasma nel punto dove ha colpito
-            phantomObj.transform.position = hit.point
-                                            - (raycastStartPoint.forward * objSafeDistance)
-                                            + Vector3.up * placeDist;
-        }
-        else
-        {
-            // Mette l'oggetto fantasma alla distanza massima
-            phantomObj.transform.position = raycastStartPoint.position
-                                            + raycastStartPoint.forward * maxRaycastDistance;
+            RaycastHit hit;
 
-        }
+            if (CastRaycast(out hit))
+            {
+                // Mette l'oggetto fantasma nel punto dove ha colpito
+                phantomObj.transform.position = hit.point
+                                                - (raycastStartPoint.forward * objSafeDistance)
+                                                + Vector3.up * placeDist;
+            }
+            else
+            {
+                // Mette l'oggetto fantasma alla distanza massima
+                phantomObj.transform.position = raycastStartPoint.position
+                                                + raycastStartPoint.forward * maxRaycastDistance;
 
-        phantomObj.transform.rotation = hiddenObject.transform.rotation;
-        phantomObj.transform.localScale = hiddenObject.transform.localScale;
+            }
+
+            phantomObj.transform.rotation = hiddenObject.transform.rotation;
+            phantomObj.transform.localScale = hiddenObject.transform.localScale;
+        }  
     }
 
     public void PlaceObject(float PlaceForce)
     {      
         // Lanciare un raycast in avanti solo se l'oggetto nascosto è diverso null
-        if (isObjectInSlot)
+        if (isObjectInSlot && placebleObj == true)
         {
             RaycastHit hit;
 
@@ -221,8 +237,6 @@ public class Smaterializzatore : PlayerShoot
                 hiddenObject.transform.position = raycastStartPoint.position
                                                    + raycastStartPoint.forward * maxRaycastDistance;
             }
-
-            //Destroy(hiddenObject.GetComponent<Smaterializzatore>());
             
             // Attiva l'oggetto
             hiddenObject.SetActive(true);
@@ -232,32 +246,47 @@ public class Smaterializzatore : PlayerShoot
             
             //Feedback
             colpo.Play();   //SFX
-            ImageObjectCollected.SetActive(false);    //Nasconde l'immagine
+            imageObjectCollected.gameObject.SetActive(false);    //Nasconde l'immagine
         }
 
     }
 
     public void ShootObject(float ShootForce)
     {
-        if (isObjectInSlot)
-        {           
-            // Rimuovi il componente PlayerShooting dal clone per evitare duplicati
-            Destroy(hiddenObject.GetComponent<Smaterializzatore>());
-
-             // Attiva l'oggetto clonato
+        if (isObjectInSlot && shootableObj == true)
+        {
+            if (hiddenObject == batteryBullet)
+            {
+                objToShoot = Instantiate(hiddenObject, shootPoint.position, shootPoint.rotation);
+            }
+            else if(hiddenObject == enemyToBullet)
+            {
+                objToShoot = Instantiate(hiddenObject, shootPoint.position, shootPoint.rotation);
+            }
+            else if(hiddenObject == kamikazeBullet)
+            {
+                objToShoot = Instantiate(hiddenObject, shootPoint.position, shootPoint.rotation);
+            }
+            else
+            {
                 hiddenObject.SetActive(true);
-            // Sposta l'oggetto clonato nella posizione e rotazione del punto di sparo
-            hiddenObject.transform.position = shootPoint.position;
-            hiddenObject.transform.rotation = shootPoint.rotation;
+                objToShoot = Instantiate(hiddenObject, shootPoint.position, shootPoint.rotation);
+                hiddenObject.SetActive(false);
+            }
+
+            // Rimuovi il componente PlayerShooting dal clone per evitare duplicati
+            Destroy(objToShoot.GetComponent<Smaterializzatore>());
 
             // Ottenere il componente Rigidbody dell'oggetto clonato
-            Rigidbody projectileRb = hiddenObject.GetComponent<Rigidbody>();
+            Rigidbody projectileRb = objToShoot.GetComponent<Rigidbody>();
 
             // Aggiungi una forza in avanti all'oggetto clonato
             if (projectileRb != null)
             {
                 projectileRb.AddForce(raycastStartPoint.transform.forward * ShootForce, ForceMode.Impulse);
             }
+
+            imageObjectCollected.gameObject.SetActive(false);
 
             // Assegna null a hiddenObject per indicare che non c'è più un oggetto nascosto
             hiddenObject = null;
@@ -274,14 +303,19 @@ public class Smaterializzatore : PlayerShoot
             {
                 if (objToHide.GetComponent<BatteryToCharge>() != null)
                 {
+                    currentImageObjectCollected.sprite = batterySprite.sprite;
+
                     // Attiva lo sprite a schermo
-                    ImageObjectCollected.SetActive(true);
+                    imageObjectCollected.gameObject.SetActive(true);
 
                     // Disattiva l'oggetto colpito
                     objToHide.SetActive(false);
 
                     // Memorizza l'oggetto nascosto
-                    hiddenObject = objToHide;
+                    hiddenObject = batteryBullet;
+
+                    shootableObj = true;
+                    placebleObj = false;
 
                     if (!objToHide.GetComponent<Rigidbody>())
                     {
@@ -292,8 +326,10 @@ public class Smaterializzatore : PlayerShoot
                 {
                     if(objToHide.GetComponent<KamikazeEnemy>() != null)
                     {
+                        currentImageObjectCollected.sprite = kamikazeSprite.sprite;
+
                         // Attiva lo sprite a schermo
-                        ImageObjectCollected.SetActive(true);
+                        imageObjectCollected.gameObject.SetActive(true);
 
                         // Disattiva l'oggetto colpito
                         objToHide.SetActive(false);
@@ -303,8 +339,10 @@ public class Smaterializzatore : PlayerShoot
                     }
                     else
                     {
+                        currentImageObjectCollected.sprite = rockSprite.sprite;
+
                         // Attiva lo sprite a schermo
-                        ImageObjectCollected.SetActive(true);
+                        imageObjectCollected.gameObject.SetActive(true);
 
                         // Disattiva l'oggetto colpito
                         objToHide.SetActive(false);
@@ -312,11 +350,16 @@ public class Smaterializzatore : PlayerShoot
                         // Memorizza l'oggetto nascosto
                         hiddenObject = enemyToBullet;
                     }
+
+                    shootableObj = true;
+                    placebleObj = false;
                 }
                 else
                 {
+                    currentImageObjectCollected.sprite = objectSprite.sprite;
+
                     // Attiva lo sprite a schermo
-                    ImageObjectCollected.SetActive(true);
+                    imageObjectCollected.gameObject.SetActive(true);
 
                     // Disattiva l'oggetto colpito
                     objToHide.SetActive(false);
@@ -324,6 +367,9 @@ public class Smaterializzatore : PlayerShoot
                     // Memorizza l'oggetto nascosto e la distanza
                     hiddenObject = objToHide;
                     objSafeDistance = objToHide.GetComponent<PickUp>().safeDistance;
+
+                    shootableObj = true;
+                    placebleObj = true;
 
                     if (!objToHide.GetComponent<Rigidbody>())
                     {
@@ -337,6 +383,8 @@ public class Smaterializzatore : PlayerShoot
                 // Reset della velocita' del RigidBody
                 ResetRBVelocity();
 
+                // Aggiorna lo sprite dell'icona collezionabile
+                UpdateSprite();
             }
         }
     }
@@ -352,6 +400,11 @@ public class Smaterializzatore : PlayerShoot
     public bool GetIsObjectInSlot()
     {
         return isObjectInSlot;
+    }
+
+    private void UpdateSprite()
+    {
+        imageObjectCollected.sprite = currentImageObjectCollected.sprite;
     }
 
     #region EXTRA - Gizmo
