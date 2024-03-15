@@ -110,7 +110,7 @@ public class RuneManager : MonoBehaviour
 
                 //Prende l'input del tasto per selezionare una runa
                 //e quello per ognuna delle rune
-                /*
+                //*
                 InputAction inputSelect = GameManager.inst.inputManager.Player.RunePressDown;
                 InputAction inputElectric = GameManager.inst.inputManager.Player.ElectricRune,
                             inputExplosive = GameManager.inst.inputManager.Player.ExplosiveRune,
@@ -118,31 +118,31 @@ public class RuneManager : MonoBehaviour
                             inputPurple = GameManager.inst.inputManager.Player.PurpleRune;
                 //*/
 
-                /*
+                //*
                 if(inputSelect.ReadValue<float>() > 0)
                 {
                     if(inputElectric.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
+                        i_selectedRune = 1;
                     }
 
                     if(inputExplosive.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
+                        i_selectedRune = 2;
                     }
 
                     if(inputShield.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
+                        i_selectedRune = 3;
                     }
 
                     if(inputPurple.triggered)
                     {
                         //TODO: da decidere la funzione per cambiare la runa con questo metodo
-                        break;
+                        i_selectedRune = 4;
                     }
                 }
                 //*/
@@ -223,6 +223,7 @@ public class RuneManager : MonoBehaviour
             i_selectedRune = i_selectedRune + 1 > RUNES_MAX_NUM
                                ? i_selectedRune = 1
                                : ++i_selectedRune;
+            print("Abc");
         }
     }
 
@@ -235,6 +236,7 @@ public class RuneManager : MonoBehaviour
             i_selectedRune = i_selectedRune - 1 <= 0
                                ? i_selectedRune = RUNES_MAX_NUM
                                : --i_selectedRune;
+            print("Def");
         }
     }
 
