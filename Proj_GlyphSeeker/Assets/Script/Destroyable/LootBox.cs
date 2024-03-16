@@ -5,28 +5,22 @@ using UnityEngine;
 public class LootBox : ObjectToDestroy
 {
     [Header("—— Percentuali ——")]
-    [Range(0, 1)]
-    [SerializeField] float healPercent_S;
-    [Range(0, 1)]
-    [SerializeField] float healPercent_M;
-    [Range(0, 1)]
-    [SerializeField] float healPercent_L;
+    [Range(0, 1), SerializeField] float healPercent_S = 0.15f;
+    [Range(0, 1), SerializeField] float healPercent_M = 0.35f;
+    [Range(0, 1), SerializeField] float healPercent_L = 0.45f;
 
-    [Space(10), Range(0, 1)]
-    [SerializeField] float coinPercent;
-    [Space(10), Range(0, 1)]
-    [SerializeField] float enemyPercent = 0.01f;
+    [Space(10)]
+    [Range(0, 1), SerializeField] float coinPercent = 0.75f;
+    [Space(10)]
+    [Range(0, 1), SerializeField] float enemyPercent = 0.9f;
 
 
-    [Header("—— Prefab ——")]
+    [Space(10), Header("—— Prefab ——")]
     [SerializeField] GameObject healPrefab_S;
     [SerializeField] GameObject healPrefab_M;
     [SerializeField] GameObject healPrefab_L;
     [SerializeField] GameObject coinPrefab;
     [SerializeField] GameObject enemyPrefab;
-
-    List<GameObject> healsDropped = new List<GameObject>(),
-                     spawnList = new List<GameObject>();
 
 
 
@@ -46,72 +40,67 @@ public class LootBox : ObjectToDestroy
     {
         float randomPerc = Random.value;    //Prende una percentuale a caso
 
-        spawnList.Clear();
+        GameObject loot;
 
 
-        #region Drop - Cure
-
-        //Controllo per le cure (in ordine: S, M, L)
-        CheckHeal(randomPerc, healPercent_S, healPrefab_S);
-        CheckHeal(randomPerc, healPercent_M, healPrefab_M);
-        CheckHeal(randomPerc, healPercent_L, healPrefab_L);
-
-        if (healsDropped.Count > 0)
+        #region Check per ogni Drop
+        
+        //---Cura S---//
+        if (randomPerc <= healPercent_S)
         {
-            //Aggiunge casualmente una delle cure uscite
-            //(solo se ne sono uscite)
-            AddDropToSpawnList(healsDropped[Random.Range(0, healsDropped.Count)]);
+            loot = healPrefab_S;
+        }
+        //---Cura M---//
+        else if (randomPerc <= healPercent_M)
+        {
+            loot = healPrefab_M;
+        }
+        //---Cura L---//
+        else if (randomPerc <= healPercent_L)
+        {
+            loot = healPrefab_L;
+        }
+        //---Moneta---//
+        else if (randomPerc <= coinPercent)
+        {
+            loot = coinPrefab;
+        }
+        //---Nemico---//
+        else if (randomPerc <= enemyPercent)
+        {
+            loot = enemyPrefab;
+        }
+        else
+        {
+            //Se non e' uscito nulla...
+            loot = null;
         }
 
         #endregion
 
 
-        #region Drop Restante
-
-        //Rilascia una moneta se è uscita nella percentuale
-        if (randomPerc <= coinPercent)
-        {
-            AddDropToSpawnList(coinPrefab);
-        }
-
-        //Toglie tutti i drop
-        //e rilascia un nemico se è uscito nella percentuale
-        if (randomPerc <= enemyPercent)
-        {
-            spawnList.Clear();
-
-            AddDropToSpawnList(enemyPrefab);
-        }
-
-        #endregion
+        //Rilascia il loot
+        Instantiate(loot, transform.position, Quaternion.identity);
 
 
-        //Rilascia tutto il loot
-        foreach (GameObject drop in spawnList)
-        {
-            Instantiate(drop, transform.position, Quaternion.identity);
-        }
-
-
-        //Toglie l'oggetto distrutto dalla scena
+        //Toglie l'oggetto distrutto dal giocatore dalla scena
         gameObject.SetActive(false);
     }
 
+    #endregion
 
 
-    void CheckHeal(float perc, float dropPercent, GameObject objToDrop)
+
+    #region EXTRA - Cambiare l'Inspector
+
+    private void OnValidate()
     {
-        if (perc <= dropPercent)
-        {
-            //Aggiunge la cura solo se risulta uscita
-            healsDropped.Add(objToDrop);
-        }
-    }
-
-    void AddDropToSpawnList(GameObject objToDrop)
-    {
-        //Aggiunge l'oggetto passato alla lista da creare
-        spawnList.Add(objToDrop);
+        //Limita il range di ogni percentuale per non farle sovrapporre
+        enemyPercent = Mathf.Clamp(enemyPercent, coinPercent, 1);
+        coinPercent = Mathf.Clamp(coinPercent, healPercent_L, enemyPercent);
+        healPercent_L = Mathf.Clamp(healPercent_L, healPercent_M, coinPercent);
+        healPercent_M = Mathf.Clamp(healPercent_M, healPercent_S, healPercent_L);
+        healPercent_S = Mathf.Clamp(healPercent_S, 0, healPercent_M);
     }
 
     #endregion
