@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerUIManager : MonoBehaviour
 {
@@ -25,10 +26,13 @@ public class PlayerUIManager : MonoBehaviour
     #endregion
     [Range(0, 0.5f)]
     [SerializeField] float ammoSliderLimit = 0.2f;
+    [SerializeField] TMP_Text currentAmmoText,
+                              maxAmmoText;
 
     [Header("——  Rune  ——")]
     [SerializeField] RectTransform runesWheel;
     [SerializeField] float wheelRotSpeed = 15;
+    [SerializeField] List<Image> allRunesImages;
     [Space(10)]
     [SerializeField] Image slotObjectPurpleRune;
     [SerializeField] Image slotObjectBGPurpleRune;
@@ -62,14 +66,15 @@ public class PlayerUIManager : MonoBehaviour
     }
 
 
-    #region Sez. Slider
+    #region Sez. Salute e Munizioni
 
     void ClampAnglesHealthSlider()
     {
         //Calcola la percentuale della salute,
         //la percentuale dell'angolo inizale
         //e la differenza tra i due angoli
-        float hp_percent = 0.666f,//currentHP / maxHP,
+        float hp_percent = 0.666f,//healthScr.GetCurrentHealth()
+                                  // / healthScr.GetMaxHealth(),
               startAngle = healthAngleLimits.x / 360,
               angles_diff = (healthAngleLimits.y / 360) - startAngle;
 
@@ -92,7 +97,8 @@ public class PlayerUIManager : MonoBehaviour
         //TODO: cambia lo slider (metti che quando hai la runa viola, si ricarica pian piano)
 
         //Calcola la percentuale della salute
-        float ammo_percent = 0.555f;//currentAmmo / maxAmmo;
+        float ammo_percent = 0.555f;//runeMng.GetActiveRuneScript().currentAmmo
+                                    // / runeMng.GetActiveRuneScript().maxAmmo;
 
 
         /* Limita il numero tra 0 e 1,
@@ -105,6 +111,12 @@ public class PlayerUIManager : MonoBehaviour
 
 
         ammoSlider.fillAmount = ammo_percent;
+    }
+
+    void ChangeAmmoTexts()
+    {
+        //currentAmmoText.text = runeMng.GetActiveRuneScript().currentAmmo;
+        //maxAmmoText.text = runeMng.GetActiveRuneScript().maxAmmo;
     }
 
     #endregion
@@ -147,6 +159,13 @@ public class PlayerUIManager : MonoBehaviour
         runesWheel.rotation = Quaternion.Slerp(runesWheel.rotation,
                                                targetRot,
                                                Time.deltaTime * wheelRotSpeed);
+
+
+        //Ferma la rotazione delle immagini delle rune
+        foreach (var rune in allRunesImages)
+        {
+            rune.transform.rotation = Quaternion.identity;
+        }
     }
 
     #endregion
@@ -290,19 +309,34 @@ public class PlayerUIManager : MonoBehaviour
         //Limita la vel. di rotazione della ruota delle rune
         wheelRotSpeed = Mathf.Clamp(wheelRotSpeed, 1, wheelRotSpeed);
 
+        //Imposta la lista delle immagini delle rune sempre a 4 max
+        LimitElementsInList(ref allRunesImages, 4, null);
+
         //Imposta la lista dei colori delle rune sempre a 4 max
-        if(colorRunes_ch.Count != 4)
+        LimitElementsInList(ref colorRunes_ch, 4, Color.white);
+    }
+
+    /// <summary>
+    /// Limita gli elementi nella lista passata,
+    /// <br></br>non andando oltre il massimo o togliendone se in eccesso
+    /// </summary>
+    /// <param name="list">la lista da limitare</param>
+    /// <param name="maxElem">il numero max di elementi</param>
+    /// <param name="defaultElemet">elemento di default (tampone)</param>
+    void LimitElementsInList<T>(ref List<T> list, int maxElem, T defaultElemet)
+    {
+        //Imposta la lista dei colori delle rune sempre al max
+        if(list.Count != maxElem)
         {
-            //Ne aggiunge se sono meno di 4
-            for (int i = colorRunes_ch.Count; i < 4; i++)
+            //Ne aggiunge se sono meno del max
+            for (int i = list.Count; i < maxElem; i++)
             {
-                colorRunes_ch.Add(Color.white);
+                list.Add(defaultElemet);
             }
 
-            //Toglie tutti gli elementi in eccesso (oltre il 4°)
-            colorRunes_ch.RemoveRange(4, colorRunes_ch.Count - 4);
+            //Toglie tutti gli elementi in eccesso (oltre l'indice max)
+            list.RemoveRange(maxElem, list.Count - maxElem);
         }
-
     }
 
     #endregion
