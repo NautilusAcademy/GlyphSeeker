@@ -13,10 +13,13 @@ public class FlameTrap : MonoBehaviour
     [SerializeField] float startTimeOffset;
     [SerializeField] float maxFlameTime = 10,
                            maxWaitTime = 7.5f;
+    [SerializeField] bool startOnAwake;
     float currentFlameTime,
-          currentWaitTime;
+          currentWaitTime,
+          currentStartTime;
     
-    bool isOn;
+    bool isOn,
+         start_doOnce;
     float currentFlameDist;
     RaycastHit[] flameHits;
     bool hasHit;
@@ -25,20 +28,34 @@ public class FlameTrap : MonoBehaviour
 
     void Awake()
     {
-        isOn = false;
+        isOn = startOnAwake;
 
 
         debug_ObjToMove_startPos = debug_ObjToMove.position;
     }
 
-    /*
-     * TODO:
-     * - Aggiungi l'offset iniziale
-     * - che il timer scorre solo quando è arrivato in posizione (0 o max)
-     */
-
     void Update()
     {
+        #region Timer (offset iniziale)
+        
+        //All'inizio del gioco, aspetta l'offset del timer
+        //e appena finisce, puo' attivare la trappola
+        if (!start_doOnce)
+        {
+            if(currentStartTime >= startTimeOffset)
+            {
+                start_doOnce = true;
+            }
+            else
+            {
+                currentStartTime += Time.deltaTime;
+            }
+
+        }
+
+        #endregion
+
+
         //Gestione di entrambi i Timer
         if (isOn)
         {
@@ -54,9 +71,8 @@ public class FlameTrap : MonoBehaviour
 
                 isOn = false;
             }
-            else
+            else if (start_doOnce)
             {
-                //Aumenta 
                 currentFlameTime += Time.deltaTime;
             }
 
@@ -77,7 +93,7 @@ public class FlameTrap : MonoBehaviour
                 //Attiva la fiamma
                 isOn = true;
             }
-            else
+            else if (start_doOnce)
             {
                 currentWaitTime += Time.deltaTime;
             }
@@ -95,6 +111,7 @@ public class FlameTrap : MonoBehaviour
         currentFlameDist = Mathf.MoveTowards(currentFlameDist, flame_targetDist, Time.deltaTime * flameSpeed);
 
 
+
         //Fa un BoxCast e ritorna ogni oggetto colpito
         flameHits = Physics.BoxCastAll(flameStartPoint.position,
                                        boxcastDim * 0.5f,
@@ -104,15 +121,20 @@ public class FlameTrap : MonoBehaviour
                                        ~0,
                                        QueryTriggerInteraction.Collide);
 
-        //Controlla ogni oggetto
-        CheckIfHasHit();
+        //Controlla ogni oggetto colpito
+        //(solo quando la trappola e' attiva)
+        if (isOn)
+        {
+            CheckEveryHit();
+        }
 
 
 
         DebugFunction();
     }
 
-    void CheckIfHasHit()
+
+    void CheckEveryHit()
     {
         //Controllo per ogni oggetto colpito
         //se e' uno di quelli interessati (nemico, giocatore o scudo)
