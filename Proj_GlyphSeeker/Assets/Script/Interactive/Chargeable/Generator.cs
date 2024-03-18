@@ -8,6 +8,7 @@ public class Generator : MonoBehaviour, IChargeable
     private int charge = 0;
     [SerializeField]
     private int maxCharge = 1;
+    [SerializeField] List<MonoBehaviour> scriptToActivate; //aggiunto da Y
 
     public void Charge()
     {
@@ -21,6 +22,10 @@ public class Generator : MonoBehaviour, IChargeable
 
     public void FullCharged()
     {
-        
+        //aggiunto da Y
+        foreach (MonoBehaviour scripts in scriptToActivate)
+        {
+            scripts.enabled = enabled;
+        }
     }
 }
