@@ -11,7 +11,9 @@ public class Smaterializzatore : PlayerShoot
     [SerializeField]
     private float placeForce = 0f;
     [SerializeField]
-    private float shootForce = 20f;
+    private float shootForceForward;
+    [SerializeField]
+    private float shootForceUp;
     [SerializeField]
     private Transform shootPoint;
     [SerializeField]
@@ -46,7 +48,7 @@ public class Smaterializzatore : PlayerShoot
     [SerializeField]
     private Image currentImageObjectCollected;
     [SerializeField]
-    private Image batterySprite,
+    private Sprite batterySprite,
                   kamikazeSprite,
                   rockSprite,
                   objectSprite;
@@ -119,13 +121,13 @@ public class Smaterializzatore : PlayerShoot
             // Se c'è un oggetto nascosto, spara senza dover colpire nulla con il raycast
             if (isObjectInSlot && canShoot)
             {
-                ShootObject(shootForce);
+                ShootObject(shootForceForward);
                 StartCoroutine(ActivateCooldown());
             }
             // Se non c'è un oggetto nascosto, spara solo se il raycast ha colpito qualcosa
             else if (hitObject != null)
             {
-                ShootObject(shootForce);
+                ShootObject(shootForceForward);
             }
 
             if (!isObjectInSlot)
@@ -283,7 +285,7 @@ public class Smaterializzatore : PlayerShoot
             // Aggiungi una forza in avanti all'oggetto clonato
             if (projectileRb != null)
             {
-                projectileRb.AddForce(raycastStartPoint.transform.forward * ShootForce, ForceMode.Impulse);
+                projectileRb.AddForce(raycastStartPoint.transform.forward * ShootForce + raycastStartPoint.transform.up * shootForceUp, ForceMode.Impulse);
             }
 
             imageObjectCollected.gameObject.SetActive(false);
@@ -303,7 +305,7 @@ public class Smaterializzatore : PlayerShoot
             {
                 if (objToHide.GetComponent<BatteryToCharge>() != null)
                 {
-                    currentImageObjectCollected.sprite = batterySprite.sprite;
+                    currentImageObjectCollected.sprite = batterySprite;
 
                     // Attiva lo sprite a schermo
                     imageObjectCollected.gameObject.SetActive(true);
@@ -326,7 +328,7 @@ public class Smaterializzatore : PlayerShoot
                 {
                     if(objToHide.GetComponent<KamikazeEnemy>() != null)
                     {
-                        currentImageObjectCollected.sprite = kamikazeSprite.sprite;
+                        currentImageObjectCollected.sprite = kamikazeSprite;
 
                         // Attiva lo sprite a schermo
                         imageObjectCollected.gameObject.SetActive(true);
@@ -339,7 +341,7 @@ public class Smaterializzatore : PlayerShoot
                     }
                     else
                     {
-                        currentImageObjectCollected.sprite = rockSprite.sprite;
+                        currentImageObjectCollected.sprite = rockSprite;
 
                         // Attiva lo sprite a schermo
                         imageObjectCollected.gameObject.SetActive(true);
@@ -356,7 +358,7 @@ public class Smaterializzatore : PlayerShoot
                 }
                 else
                 {
-                    currentImageObjectCollected.sprite = objectSprite.sprite;
+                    currentImageObjectCollected.sprite = objectSprite;
 
                     // Attiva lo sprite a schermo
                     imageObjectCollected.gameObject.SetActive(true);
