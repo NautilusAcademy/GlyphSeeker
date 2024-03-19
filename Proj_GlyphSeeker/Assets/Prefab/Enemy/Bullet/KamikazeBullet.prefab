@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  explosionRadius: 5
+  explosionRadius: 1
 --- !u!1001 &7625271536794917749
 PrefabInstance:
   m_ObjectHideFlags: 0

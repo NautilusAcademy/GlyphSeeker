@@ -84,8 +84,8 @@ public class EnergeticRune : PlayerShoot
                                       raycastRange,
                                       ~0,
                                       QueryTriggerInteraction.Ignore);
-        
-        if(hasHit)
+
+        if (hasHit)
         {
             if (hit.transform.GetComponent<IChargeable>() != null)
             {

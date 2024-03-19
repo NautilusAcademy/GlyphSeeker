@@ -5,22 +5,21 @@ using UnityEngine;
 public class Generator : MonoBehaviour, IChargeable
 {
     [SerializeField]
-    private int charge = 0;
+    private bool charged;
     [SerializeField]
-    private int maxCharge = 1;
+    GestoreGenerator gestore;
 
     public void Charge()
     {
-        charge++;
-
-        if (charge >= maxCharge)
+        if(charged == false)
         {
-            FullCharged();
+            charged = true;
+            gestore.UpdateCharge();
         }
-    }
-
-    public void FullCharged()
-    {
-        
+        else
+        {
+            charged = false;
+            gestore.DecreaseCharge();
+        }
     }
 }

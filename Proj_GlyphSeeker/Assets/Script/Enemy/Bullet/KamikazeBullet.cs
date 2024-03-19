@@ -18,9 +18,10 @@ public class KamikazeBullet : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
+
         foreach (Collider nearbyObject in colliders)
         {
-            Vector3 dir = nearbyObject.transform.position - transform.position;
+            Vector3 dir = nearbyObject.ClosestPoint(transform.position) - transform.position;
             RaycastHit hit;
 
             if (Physics.Raycast(transform.position, dir, out hit))

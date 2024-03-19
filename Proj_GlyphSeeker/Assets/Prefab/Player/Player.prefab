@@ -1863,6 +1863,7 @@ GameObject:
   - component: {fileID: 7271397138376563129}
   - component: {fileID: 7271397138376563134}
   - component: {fileID: 1747072618291844404}
+  - component: {fileID: 5012212401310682123}
   - component: {fileID: 1575884519743137292}
   m_Layer: 0
   m_Name: Player
@@ -1943,6 +1944,20 @@ MonoBehaviour:
   coyoteMaxTime: 0.8
   knockbackPower: 10
   groundCheck_treshold: 0.25
+--- !u!114 &5012212401310682123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7271397138376563133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb14c3fb82b09840a64b73caed2cad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 0
 --- !u!114 &1575884519743137292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2371,8 +2386,8 @@ MonoBehaviour:
   raycastStartPoint: {fileID: 7271397137244243116}
   maxRaycastDistance: 10
   placeForce: 0
-  shootForceForward: 60
-  shootForceUp: 10
+  shootForceForward: 20
+  shootForceUp: 4
   shootPoint: {fileID: 7954218696606752475}
   placeDist: 0.5
   cooldown: 3

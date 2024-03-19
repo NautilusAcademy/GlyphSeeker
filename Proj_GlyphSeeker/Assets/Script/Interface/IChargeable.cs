@@ -8,9 +8,4 @@ public interface IChargeable
     {
         
     }
-
-    public void FullCharged()
-    {
-
-    }
 }
