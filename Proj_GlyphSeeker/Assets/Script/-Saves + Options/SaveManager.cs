@@ -43,18 +43,29 @@ public class SaveManager : MonoBehaviour
         //e tutti i collezionabili
         allCheckpoints = FindObjectsOfType</*Checkpoint*/MonoBehaviour>();
         allCollectibles = FindObjectsOfType</*Collectible*/MonoBehaviour>();
+
+
+        //Disattiva i collezionabili gia' raccolti
+        //e lascia attivi quelli non raccolti
+        foreach (MonoBehaviour collect in allCollectibles)
+        {
+            bool isActive = true;//save_SO.FindUnlockedCollectible(collect.GetID())
+
+            collect.gameObject.SetActive(isActive);
+        }
+
+        //Disattiva i collezionabili gia' raccolti
+        //e lascia attivi quelli non raccolti
+        foreach (MonoBehaviour cp in allCheckpoints)
+        {
+            //if(save_SO.FindUnlockedCollectible(collect.GetID())
+        }
     }
 
     private void Update()
     {
         //save_SO.LoadUnlockedRune
 
-
-        foreach (MonoBehaviour checkpoint in allCheckpoints)
-        {
-            //if(save_SO.FindUnlockedCollectible(checkpoint.GetID())
-
-        }
     }
 
 
