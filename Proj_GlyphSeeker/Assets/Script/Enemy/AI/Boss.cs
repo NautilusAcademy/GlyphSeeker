@@ -149,7 +149,7 @@ public class Boss : HealthSystem, IEnemy, IBoss
         {
             Rigidbody clone;
             clone = Instantiate(kamikazeBullet, firePoint.position, firePoint.rotation);
-            clone.velocity = firePoint.forward * bulletSpeed;
+            clone.velocity = firePoint.forward * bulletSpeed + firePoint.up * bulletUpSpeed;
             canFire = false;
 
             StartCoroutine(CooldownShoot());

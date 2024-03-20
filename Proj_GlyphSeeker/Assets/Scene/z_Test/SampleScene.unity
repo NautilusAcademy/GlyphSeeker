@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KamikazeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 5841464966487844727, guid: f0d5823c3fedaa240bdb50783623b094, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0d5823c3fedaa240bdb50783623b094, type: 3}
 --- !u!1 &342437601
