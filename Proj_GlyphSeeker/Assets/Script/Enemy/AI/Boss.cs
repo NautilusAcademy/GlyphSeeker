@@ -40,6 +40,11 @@ public class Boss : HealthSystem, IEnemy, IBoss
     private EnemyShield shield;
     private GameObject player;
 
+    private System.Action[] actions = null;
+    private System.Action lastAction = null;
+    private float nextActionTime;
+    private float delay;
+
     // Start is called before the first frame update
     public override void Start()
     {
@@ -47,49 +52,55 @@ public class Boss : HealthSystem, IEnemy, IBoss
         player = GameObject.Find("Player");
         canFire = true;
         canRestart_phase3 = true;
+
+        actions = new System.Action[] { BasicShoot, KamikazeShoot, RotationShoot };
     }
 
     private void Update()
     {
         LookAtPlayer();
 
-        if (currentHealth <= maxHealth * 0.33f)
+        if(Time.time >= nextActionTime && canFire == true)
         {
-            currentPhase = Phase.phase3;
-        }
-        else if (currentHealth <= maxHealth * 0.66f)
-        {
-            currentPhase = Phase.phase2;
-        }
-        else
-            currentPhase = Phase.phase1;
+            System.Action randomAction;
 
-        if(currentPhase == Phase.phase1 && canFire == true)
-        {
-            StartCoroutine(BasicShoot());
-        }
-        else if (currentPhase == Phase.phase2 && canFire == true)
-        {
-            StartCoroutine(KamikazeShoot());
-        }
-        else if (currentPhase == Phase.phase3 && canFire == true)
-        {
-            if(indexPhase3 == 0)
+            if(currentPhase == Phase.phase1)
             {
-                StartCoroutine(BasicShoot());
+                Invoke("BasicShoot", 0);
             }
-            else
+            else if (currentPhase == Phase.phase2)
             {
-                StartCoroutine(KamikazeShoot());
+                do
+                {
+                    randomAction = actions[Random.Range(0, 1)];
+                } 
+                while (randomAction == lastAction);
+
+                randomAction.Invoke();
+                lastAction = randomAction;
+            }
+            else if (currentPhase == Phase.phase3)
+            {
+                do
+                {
+                    randomAction = actions[Random.Range(0, actions.Length)];
+                }
+                while (randomAction == lastAction);
+
+                randomAction.Invoke();
+                lastAction = randomAction;
             }
 
-            if(canRestart_phase3)
-            {
-                StartCoroutine(RandomizeShoot());
-                canRestart_phase3 = false;
-            }
-            
+            nextActionTime = Time.time + delay;
         }
+        
+        
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        CheckPhase();
     }
 
     private void LookAtPlayer()
@@ -103,14 +114,6 @@ public class Boss : HealthSystem, IEnemy, IBoss
         rotation = Quaternion.LookRotation(rot);
         current = transform.localRotation;
         transform.localRotation = Quaternion.Slerp(current, rotation, Time.deltaTime * rotVelocity);
-    }
-
-    public override void TakeDamage(int damage)
-    {
-        if(!shield.isShieldActive)
-        {
-            currentHealth -= damage;
-        }
     }
 
     private void CheckPhase()
@@ -127,41 +130,49 @@ public class Boss : HealthSystem, IEnemy, IBoss
             currentPhase = Phase.phase1;
     }
 
-    private IEnumerator BasicShoot() // Spara con un delay di "fireRate" 
+    void BasicShoot() 
     {
-        Rigidbody clone;
-        clone = Instantiate(basicBullet, firePoint.position, firePoint.rotation);
-        clone.velocity = firePoint.forward * bulletSpeed;
-        canFire = false;
-
-        yield return new WaitForSeconds(fireRate);
-
-        canFire = true;
-    }
-
-    private IEnumerator KamikazeShoot() // Spara con un delay di "fireRate" 
-    {
-        Rigidbody clone;
-        clone = Instantiate(kamikazeBullet, firePoint.position, firePoint.rotation);
-        clone.velocity = firePoint.forward * bulletSpeed + firePoint.up * bulletUpSpeed;
-        canFire = false;
-
-        yield return new WaitForSeconds(fireRate);
-
-        canFire = true;
-    }
-
-    private IEnumerator RandomizeShoot()
-    {
-        yield return new WaitForSeconds(delayRandomizer);
-
-        canRestart_phase3 = true;
-
-        if (indexPhase3 == 0)
+        if(canFire == true)
         {
-            indexPhase3++;
+            Rigidbody clone;
+            clone = Instantiate(basicBullet, firePoint.position, firePoint.rotation);
+            clone.velocity = firePoint.forward * bulletSpeed;
+            canFire = false;
+
+            StartCoroutine(CooldownShoot());
         }
-        else
-            indexPhase3 = 0;
+    }
+
+    void KamikazeShoot()
+    {
+        if (canFire == true)
+        {
+            Rigidbody clone;
+            clone = Instantiate(kamikazeBullet, firePoint.position, firePoint.rotation);
+            clone.velocity = firePoint.forward * bulletSpeed;
+            canFire = false;
+
+            StartCoroutine(CooldownShoot());
+        }
+    }
+
+    void RotationShoot()
+    {
+        if (canFire == true)
+        {
+            Rigidbody clone;
+            clone = Instantiate(basicBullet, firePoint.position, firePoint.rotation);
+            clone.velocity = firePoint.forward * bulletSpeed;
+            canFire = false;
+
+            StartCoroutine(CooldownShoot());
+        }
+    }
+    
+    IEnumerator CooldownShoot()
+    {
+        yield return new WaitForSeconds(fireRate);
+
+        canFire = true;
     }
 }
