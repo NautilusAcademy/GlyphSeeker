@@ -167,22 +167,18 @@ public class SaveSO_Script : ScriptableObject
         completedScenes[index] = newIsCompleted;
     }
 
-    public void AddToUnlockedCollectibles(string keyToAdd, bool isCollectedToAdd)
+    public void ChangeUnlockedCollectibleValue(string keyToFind, bool newIsCollected)
     {
-        unlockedCollectibles.Add(keyToAdd, isCollectedToAdd);
-    }
-    public void ChangeValueUnlockedCollectibles(string keyToFind, bool newIsCollected)
-    {
-        //Se NON contiene la chiave,
-        //allora invia un messaggio di errore
-        if(!unlockedCollectibles.ContainsKey(keyToFind))
+        if(unlockedCollectibles.ContainsKey(keyToFind))
         {
-            Debug.LogError($"Chiave \"{keyToFind}\" non trovata nel Dictionary");
-            return;
+            //Cambia il valore se la chiave esiste gia'...
+            unlockedCollectibles[keyToFind] = newIsCollected;
         }
-
-        //Cambia il valore della chiave
-        unlockedCollectibles[keyToFind] = newIsCollected;
+        else
+        {
+            //...se no, ne aggiunge uno nuovo alla lista
+            unlockedCollectibles.Add(keyToFind, newIsCollected);
+        }
     }
 
         #endregion
