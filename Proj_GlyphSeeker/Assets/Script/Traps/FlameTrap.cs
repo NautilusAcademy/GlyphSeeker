@@ -17,6 +17,11 @@ public class FlameTrap : MonoBehaviour
     float currentFlameTime,
           currentWaitTime,
           currentStartTime;
+
+    [Space(20)]
+    [Range(0, 90)]
+    [SerializeField] float shieldAngleTollerance = 70f;
+    float shield_radAngle;
     
     bool isOn,
          start_doOnce;
@@ -29,6 +34,15 @@ public class FlameTrap : MonoBehaviour
     void Awake()
     {
         isOn = startOnAwake;
+
+        //Converte l'angolo per comparare dopo
+        //se lo scudo ha parato questa trappola da davanti
+        shield_radAngle = -Mathf.Cos(shieldAngleTollerance * Mathf.Deg2Rad);
+
+        /* Trasforma l'angolo gradi --> radianti,
+         * calcola il suo Cos(),
+         * e poi lo moltiplica per -1
+         */
 
 
         debug_ObjToMove_startPos = debug_ObjToMove.position;
@@ -136,30 +150,39 @@ public class FlameTrap : MonoBehaviour
 
     void CheckEveryHit()
     {
+        /*
+         * TODO:
+         * - Sistemare di modo che rileva come prima cosa se c'e' lo scudo
+         *    - (se c'e' nell'array, fa tutto quello che deve e salta tutti gli altri;
+         *       se NON c'e', allora puo' controllare gli altri)
+         *    - oppure un altro metodo puo' essere che controlla
+         *      se in un elem. dell'array c'e' lo scudo e lo mette per primo
+         * - aggiungi il danno (meta' della vita max di quello che ha colpito)
+         */
+
         //Controllo per ogni oggetto colpito
         //se e' uno di quelli interessati (nemico, giocatore o scudo)
         foreach (RaycastHit hit in flameHits)
         {
             bool isShield = hit.transform.GetComponent<ShieldRune>();
-            bool isEnemyOrPlayer = hit.transform.CompareTag("Enemy")
-                                    ||
-                                   hit.transform.CompareTag("Player");
-            //HealthSystem enemyOrPlayerCheck = hit.transform.GetComponent<HealthSystem>();
+            HealthSystem enemyOrPlayerCheck = hit.transform.GetComponent<HealthSystem>();
 
 
-            //Se ha colpito un nemico o il giocatore
-            if(isShield || isEnemyOrPlayer)//enemyOrPlayerCheck)
+            //Se ha colpito lo scudo (da davanti),
+            //o un nemico o il giocatore
+            if ((isShield && CheckFromFront(hit.transform)) || enemyOrPlayerCheck)
             {
-                if (isEnemyOrPlayer)//enemyOrPlayerCheck)
+                if (enemyOrPlayerCheck)
                 {
                     //Lo danneggia
                     //enemyOrPlayerCheck.TakeDamage(enemyOrPlayerCheck.GetMaxHealth() * 0.5f);
+                    print($"Danneggiato \"{hit.transform.name}\"");
                 }
-
-                hasHit = true;
 
                 //DEBUG
                 debug_flameHit = hit;
+
+                hasHit = true;
 
                 return;
             }
@@ -169,6 +192,20 @@ public class FlameTrap : MonoBehaviour
         //Se non ha colpito gli oggetti desiderati...
         hasHit = false;
         return;
+    }
+
+    /// <summary>
+    /// Calcola la direzione nel range [-1; 1]
+    /// <br></br><i>(se si avvicina a 1 ----> sono nella stessa direzione)
+    /// <br></br>(se si avvicina a -1 ---> sono in direzioni opposte)
+    /// <br></br>(se si avvicina a 0 ----> sono perpendicolari)</i>
+    /// </summary>
+    bool CheckFromFront(Transform shieldObj)
+    {
+        float directionRange = Vector3.Dot(shieldObj.forward,
+                                           flameStartPoint.forward);
+
+        return directionRange < shield_radAngle;
     }
 
 
@@ -197,10 +234,8 @@ public class FlameTrap : MonoBehaviour
         Gizmos.color = new Color(0.85f, 0.85f, 0.85f, 0.65f);
         Gizmos.DrawCube(flameStartPoint.position + flameStartPoint.forward * maxFlameDist,
                         new Vector3(0.4f, 0.4f, 0.03f));
-    }
 
-    private void OnDrawGizmosSelected()
-    {
+
         //Disegna il BoxCast
         Gizmos.color = Color.white * 0.85f;
         Gizmos.DrawLine(flameStartPoint.position,
@@ -209,11 +244,16 @@ public class FlameTrap : MonoBehaviour
                             (Vector3)boxcastDim + Vector3.forward * 0.1f);
         
 
-        if (hasHit)
+        if (hasHit && isOn)
         {
+            //Disegna il vettore "davanti" (utile per vedere lo scudo)
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawRay(debug_flameHit.point, debug_flameHit.transform.forward);
+        
+
+            //Disegna dove ha colpito se ha colpito un collider
             Gizmos.color = Color.green;
-            //Disegna dove ha colpito se ha colpito un'oggetto solido (no trigger)
-            Gizmos.DrawLine(flameStartPoint.position, debug_flameHit.point);
+            Gizmos.DrawRay(debug_flameHit.point, -flameStartPoint.forward * debug_flameHit.distance);
             Gizmos.DrawCube(debug_flameHit.point, Vector3.one * 0.1f);
         }
     }
