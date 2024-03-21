@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PiattaformaRetrattile : MonoBehaviour
+public class PiattaformaRetrattile : PiattaformaBase
 {
     [SerializeField] private float velocitaMovimento = 5f;
     [SerializeField] private float pausa = 3f;
@@ -10,8 +10,6 @@ public class PiattaformaRetrattile : MonoBehaviour
     bool stop;
     private float timerAttesa;
     private float timerInversioneDirezione;
-
-    private GameObject playerOnPlatform;  // Riferimento al giocatore sulla piattaforma
 
     void Start()
     {
@@ -41,11 +39,6 @@ public class PiattaformaRetrattile : MonoBehaviour
             }
             
         }
-
-        if (playerOnPlatform != null)
-        {
-            MuoviGiocatoreConPiattaforma();
-        }
     }
 
     void MuoviPiattaforma()
@@ -58,40 +51,5 @@ public class PiattaformaRetrattile : MonoBehaviour
     {
         velocitaMovimento = -velocitaMovimento;
         timerAttesa = pausa;
-    }
-
-    void MuoviGiocatoreConPiattaforma()
-    {
-        Rigidbody playerRigidbody = playerOnPlatform.GetComponent<Rigidbody>();
-
-        if (playerRigidbody != null)
-        {
-            playerRigidbody.MovePosition(playerRigidbody.position + new Vector3(velocitaMovimento * Time.deltaTime, 0f, 0f));
-        }
-        else
-        {
-            CharacterController playerController = playerOnPlatform.GetComponent<CharacterController>();
-
-            if (playerController != null)
-            {
-                playerController.Move(new Vector3(velocitaMovimento * Time.deltaTime, 0f, 0f));
-            }
-        }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerOnPlatform = other.gameObject;
-        }
-    }
-
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            playerOnPlatform = null;
-        }
     }
 }
