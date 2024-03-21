@@ -10,8 +10,8 @@ public class SaveManager : MonoBehaviour
     [SerializeField] SaveSO_Script save_SO;
     [SerializeField] OptionsSO_Script opt_SO;
 
-    /*Checkpoint*/MonoBehaviour[] allCheckpoints;
-    /*Collectible*/MonoBehaviour[] allCollectibles;
+    LevelManager[] allLevelManagers;
+    CollectibleScript[] allCollectibles;
 
     string file_path;
 
@@ -41,31 +41,8 @@ public class SaveManager : MonoBehaviour
         //Trova lo script del giocatore,
         //tutti i checkpoint
         //e tutti i collezionabili
-        allCheckpoints = FindObjectsOfType</*Checkpoint*/MonoBehaviour>();
-        allCollectibles = FindObjectsOfType</*Collectible*/MonoBehaviour>();
-
-
-        //Disattiva i collezionabili gia' raccolti
-        //e lascia attivi quelli non raccolti
-        foreach (MonoBehaviour collect in allCollectibles)
-        {
-            bool isActive = true;//save_SO.FindUnlockedCollectible(collect.GetID())
-
-            collect.gameObject.SetActive(isActive);
-        }
-
-        //Disattiva i collezionabili gia' raccolti
-        //e lascia attivi quelli non raccolti
-        foreach (MonoBehaviour cp in allCheckpoints)
-        {
-            //if(save_SO.FindUnlockedCollectible(collect.GetID())
-        }
-    }
-
-    private void Update()
-    {
-        //save_SO.LoadUnlockedRune
-
+        allLevelManagers = FindObjectsOfType<LevelManager>();
+        allCollectibles = FindObjectsOfType<CollectibleScript>();
     }
 
 
@@ -533,6 +510,48 @@ public class SaveManager : MonoBehaviour
         opt_SO.ChangeSoundVolume(soundVol_load);
         opt_SO.ChangeSensitivity(sensitivity_load);
         opt_SO.ChangeRuneSelect(runeSelect_load);
+
+        #endregion
+    }
+
+    void LoadCurrentScene()
+    {
+        #region Collezionabili
+
+        //Disattiva i collezionabili gia' raccolti
+        //e lascia attivi gli altri non raccolti
+        foreach (CollectibleScript collect in allCollectibles)
+        {
+            bool isActive = save_SO.FindUnlockedCollectible(collect.GetID());
+
+            collect.LoadCollectible(isActive);
+        }
+
+        #endregion
+
+
+        #region Livelli (managers)
+
+        for (int i = 0; i < allLevelManagers.Length; i++)
+        {
+            //Prende l'indice corrispondente nella lista dei lvl. completati
+            //(numero del lvl. in questo ciclo - 1)
+            int lvl_i = allLevelManagers[i].GetLevelNum() - 1;
+
+            //Se questo indice e' oltre il numero dei livelli,
+            //allora da un messaggio di errore e continua al prossimo ciclo
+            if (lvl_i >= save_SO.GetCompletedLevels().Count)
+            {
+                Debug.LogWarning($"Il livello num. {lvl_i + 1} e' oltre il limite (vedere CompletedLevels in {save_SO.name})");
+                continue;
+            }
+
+            //Quindi completa automaticamente i livelli nella scena
+            //gia' completati e lascia quelli non completi
+            bool isLvlCompleted = save_SO.GetCompletedLevels()[lvl_i];
+
+            allLevelManagers[i].LoadCompletedLevel(isLvlCompleted);
+        }
 
         #endregion
     }

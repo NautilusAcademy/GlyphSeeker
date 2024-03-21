@@ -60,7 +60,7 @@ public class CollectibleScript : MonoBehaviour
     }
 
 
-    void LoadCollectible(bool newIsCollected)
+    public void LoadCollectible(bool newIsCollected)
     {
         //Cambia il collez. raccolto
         //e lo attiva o disattiva di conseguenza
@@ -77,6 +77,7 @@ public class CollectibleScript : MonoBehaviour
 
     private void OnValidate()
     {
+        //Limita i valori per essere sempre positivi
         maxSinHeight = Mathf.Clamp(maxSinHeight, 0, maxSinHeight);
         animSpeed = Mathf.Clamp(animSpeed, 0, animSpeed);
     }
