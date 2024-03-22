@@ -20,14 +20,16 @@ public class FlameTrap : MonoBehaviour
 
     [Space(20)]
     [Range(0, 90)]
-    [SerializeField] float shieldAngleTollerance = 70f;
+    [SerializeField] float shieldAngleTollerance = 50f;
     float shield_radAngle;
     
     bool isOn,
          start_doOnce;
     float currentFlameDist;
-    RaycastHit[] flameHits;
     bool hasHit;
+    List<RaycastHit> flameHits;
+    
+    RaycastHit debug_flameHit;
 
 
 
@@ -45,7 +47,8 @@ public class FlameTrap : MonoBehaviour
          */
 
 
-        debug_ObjToMove_startPos = debug_ObjToMove.position;
+        if(debug_ObjToMove)
+            debug_ObjToMove_startPos = debug_ObjToMove.position;
     }
 
     void Update()
@@ -127,13 +130,16 @@ public class FlameTrap : MonoBehaviour
 
 
         //Fa un BoxCast e ritorna ogni oggetto colpito
-        flameHits = Physics.BoxCastAll(flameStartPoint.position,
-                                       boxcastDim * 0.5f,
-                                       flameStartPoint.forward,
-                                       flameStartPoint.rotation,
-                                       currentFlameDist,
-                                       ~0,
-                                       QueryTriggerInteraction.Collide);
+        RaycastHit[] allHits = Physics.BoxCastAll(flameStartPoint.position,
+                                                  boxcastDim * 0.5f,
+                                                  flameStartPoint.forward,
+                                                  flameStartPoint.rotation,
+                                                  currentFlameDist,
+                                                  ~0,
+                                                  QueryTriggerInteraction.Collide);
+
+        flameHits = new List<RaycastHit>(allHits);
+
 
         //Controlla ogni oggetto colpito
         //(solo quando la trappola e' attiva)
@@ -150,15 +156,24 @@ public class FlameTrap : MonoBehaviour
 
     void CheckEveryHit()
     {
-        /*
-         * TODO:
-         * - Sistemare di modo che rileva come prima cosa se c'e' lo scudo
-         *    - (se c'e' nell'array, fa tutto quello che deve e salta tutti gli altri;
-         *       se NON c'e', allora puo' controllare gli altri)
-         *    - oppure un altro metodo puo' essere che controlla
-         *      se in un elem. dell'array c'e' lo scudo e lo mette per primo
-         * - aggiungi il danno (meta' della vita max di quello che ha colpito)
-         */
+        #region Ri-organizza gli Hits
+
+        //Ri-organizza la lista di Hits,
+        //mettendo come primi quelli con lo script dello scudo
+        for (int i = 0; i < flameHits.Count; i++)
+        {
+            if (flameHits[i].transform.GetComponent<ShieldRune>())
+            {
+                //Sposta gli script dello scudo
+                //che trova nella lista come primi
+                RaycastHit temp_hit = flameHits[i];
+                flameHits.RemoveAt(i);
+                flameHits.Insert(0, temp_hit);
+            }
+        }
+
+        #endregion
+
 
         //Controllo per ogni oggetto colpito
         //se e' uno di quelli interessati (nemico, giocatore o scudo)
@@ -175,8 +190,8 @@ public class FlameTrap : MonoBehaviour
                 if (enemyOrPlayerCheck)
                 {
                     //Lo danneggia
-                    //enemyOrPlayerCheck.TakeDamage(enemyOrPlayerCheck.GetMaxHealth() * 0.5f);
-                    print($"Danneggiato \"{hit.transform.name}\"");
+                    //enemyOrPlayerCheck.TakeDamage(enemyOrPlayerCheck.GetMaxHealth() * 0.5f);;
+                    print($"{name}.{nameof(FlameTrap)}: Danneggiato \"{hit.transform.name}\"");
                 }
 
                 //DEBUG
@@ -261,22 +276,33 @@ public class FlameTrap : MonoBehaviour
     #endregion
     
 
-    #region DEBUG
+    #region -- DEBUG --
 
     [Space(10), Header("\tDEBUG")]
     [SerializeField] Transform debug_scaleObj;
     [SerializeField] Transform debug_ObjToMove;
     Vector3 debug_ObjToMove_startPos;
-    
-    RaycastHit debug_flameHit;
 
     void DebugFunction()
     {
-        debug_scaleObj.position = flameStartPoint.position + flameStartPoint.forward * ((hasHit ? debug_flameHit.distance : currentFlameDist) / 2);
-        debug_scaleObj.localScale = (Vector3)boxcastDim + flameStartPoint.forward * (hasHit ? debug_flameHit.distance : Mathf.Clamp(currentFlameDist, 0.01f, maxFlameDist));
+        if (debug_scaleObj)
+        {
+            debug_scaleObj.position = flameStartPoint.position
+                                      + flameStartPoint.forward * ((hasHit
+                                                                      ? debug_flameHit.distance
+                                                                      : currentFlameDist) / 2);
+            debug_scaleObj.localScale = (Vector3)boxcastDim
+                                        + flameStartPoint.forward * (hasHit
+                                                                      ? debug_flameHit.distance
+                                                                      : Mathf.Clamp(currentFlameDist, 0.01f, maxFlameDist));
+        }
 
 
-        debug_ObjToMove.position = debug_ObjToMove_startPos + Vector3.right * 2 * Mathf.Sin(Time.realtimeSinceStartup * 2);
+        if (debug_ObjToMove)
+        {
+            debug_ObjToMove.position = debug_ObjToMove_startPos
+                                       + Vector3.right * 2 * Mathf.Sin(Time.realtimeSinceStartup * 2);
+        }
     }
 
     #endregion
