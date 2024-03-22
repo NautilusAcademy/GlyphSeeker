@@ -192,47 +192,15 @@ public class PlayerUIManager : MonoBehaviour
     void ChangeTypeObjectSlot()
     {
         //Controllo su quale oggetto ha immagazzinato il giocatore
-        switch (runeMng.GetObjectInSlot())
+        slotObjectBGPurpleRune.sprite = runeMng.GetObjectInSlot() switch
         {
-            //-- Slot vuoto --//
-            case RuneManager.SlotObjectType.Empty:
-
-                slotObjectPurpleRune.sprite = null;
-
-                break;
-                
-
-            //-- Oggetto generico --//
-            case RuneManager.SlotObjectType.GenericObj:
-
-                slotObjectPurpleRune.sprite = spriteGenericObject;
-
-                break;
-
-
-            //-- Oggetto esplosivo (barile elettrico) --//
-            case RuneManager.SlotObjectType.ExplosiveBarrel:
-
-                slotObjectPurpleRune.sprite = spriteExplosiveBarrel;
-
-                break;
-                
-
-            //-- Nemico generico --//
-            case RuneManager.SlotObjectType.GenericEnemy:
-
-                slotObjectPurpleRune.sprite = spriteGenericEnemy;
-
-                break;
-                
-
-            //-- Nemico esplosivo (Kamikaze) --//
-            case RuneManager.SlotObjectType.KamikazeEnemy:
-
-                slotObjectPurpleRune.sprite = spriteExplosiveEnemy;
-
-                break;
-        }
+            RuneManager.SlotObjectType.Empty => null,
+            RuneManager.SlotObjectType.GenericObj => spriteGenericObject,
+            RuneManager.SlotObjectType.ExplosiveBarrel => spriteExplosiveBarrel,
+            RuneManager.SlotObjectType.GenericEnemy => spriteGenericEnemy,
+            RuneManager.SlotObjectType.KamikazeEnemy => spriteExplosiveEnemy,
+            _ => null,
+        };
     }
 
     #endregion
