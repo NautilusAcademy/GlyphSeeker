@@ -70,18 +70,8 @@ public class Boss : HealthSystem, IEnemy, IBoss
             }
             else if (currentPhase == Phase.phase2)
             {
-                do
-                {
-                    randomAction = actions[Random.Range(0, 1)];
-                    if(randomAction != lastAction)
-                    {
-                        break;
-                    }
-                } 
-                while (true);
-
+                randomAction = actions[Random.Range(0, 2)];
                 randomAction.Invoke();
-                lastAction = randomAction;
             }
             else if (currentPhase == Phase.phase3)
             {

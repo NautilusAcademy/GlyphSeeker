@@ -12,6 +12,8 @@ public class GestoreGenerator : MonoBehaviour
 
     [SerializeField]
     UnityEvent onMaxCharge;
+    [SerializeField]
+    UnityEvent onMinCharge;
 
     private void Start()
     {
@@ -30,7 +32,11 @@ public class GestoreGenerator : MonoBehaviour
 
     public void DecreaseCharge()
     {
+        if (currentCharge == maxCharge)
+        {
+            onMinCharge.Invoke();
+        }
+
         currentCharge--;
     }
-
 }
