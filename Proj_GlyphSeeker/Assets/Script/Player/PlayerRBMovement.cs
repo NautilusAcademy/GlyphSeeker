@@ -254,7 +254,7 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
 
                 //Resetta la velocita' XZ e applica la forza di schivata
                 rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
-                rb.AddForce(dirToRoll * rollForce + Vector3.up * 0.2f, ForceMode.Impulse);
+                rb.AddForce(dirToRoll.normalized * rollForce + Vector3.up * 0.2f, ForceMode.Impulse);
 
 
 
