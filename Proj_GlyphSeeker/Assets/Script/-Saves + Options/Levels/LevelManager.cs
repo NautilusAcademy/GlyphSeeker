@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
 
     [Space(25)]
     [SerializeField] UnityEvent onLevelCompleted;
-    [SerializeField] UnityEvent onLevelNotCompleted;    //RINOMINA
+    [SerializeField] UnityEvent onLevelNotCompleted;
 
 
 
