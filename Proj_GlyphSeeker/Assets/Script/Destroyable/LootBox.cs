@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class LootBox : ObjectToDestroy
 {
@@ -15,7 +16,7 @@ public class LootBox : ObjectToDestroy
     [Range(0, 1), SerializeField] float enemyPercent = 0.9f;
 
 
-    [Space(10), Header("—— Prefab ——")]
+    [Space(20), Header("—— Prefab ——")]
     [SerializeField] GameObject healPrefab_S;
     [SerializeField] GameObject healPrefab_M;
     [SerializeField] GameObject healPrefab_L;
@@ -104,4 +105,18 @@ public class LootBox : ObjectToDestroy
     }
 
     #endregion
+
+
+    public List<float> Editor_GetAllPercents()
+    {
+        List<float> l = new List<float>();
+
+        l.Add(healPercent_S);
+        l.Add(healPercent_M);
+        l.Add(healPercent_L);
+        l.Add(coinPercent);
+        l.Add(enemyPercent);
+
+        return l;
+    }
 }
