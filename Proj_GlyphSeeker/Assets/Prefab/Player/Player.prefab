@@ -1,5 +1,81 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &160203851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 160203852}
+  - component: {fileID: 160203854}
+  - component: {fileID: 160203853}
+  m_Layer: 5
+  m_Name: Current Obj collected
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &160203852
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160203851}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8440437722772533774}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -65, y: 65}
+  m_SizeDelta: {x: 65, y: 65}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &160203854
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160203851}
+  m_CullTransparentMesh: 1
+--- !u!114 &160203853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160203851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &351872497
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +88,7 @@ GameObject:
   - component: {fileID: 351872500}
   - component: {fileID: 351872499}
   m_Layer: 0
-  m_Name: ShieldModelTemp
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +102,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351872497}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.22, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,7 +251,7 @@ MonoBehaviour:
   playerShoot_scr:
   - {fileID: 586104277649365294}
   - {fileID: 8355365509510303707}
-  - {fileID: 6315406477230069206}
+  - {fileID: 1748146916}
   - {fileID: 1904321802446903047}
   - {fileID: 9084047218972585045}
   purpleRune_scr: {fileID: 9084047218972585045}
@@ -449,7 +525,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -483,7 +559,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753408253338248191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.46, y: 0.2, z: 0.85}
+  m_LocalPosition: {x: 0.46, y: 0.2, z: 1.076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -779,6 +855,7 @@ RectTransform:
   m_Children:
   - {fileID: 5230436298159847032}
   - {fileID: 6548251204541531903}
+  - {fileID: 160203852}
   m_Father: {fileID: 7271397138376563132}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -950,7 +1027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAmmo: 10
   fireRate: 2
-  movemScr: {fileID: 1747072618291844404}
+  movemScr: {fileID: 0}
   shieldModel: {fileID: 351872497}
   playerCam_Tr: {fileID: 7271397137244243116}
   distance: 1.5
@@ -981,7 +1058,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1283912562890568864}
-  - component: {fileID: 6315406477230069206}
+  - component: {fileID: 1748146916}
   m_Layer: 0
   m_Name: Runa Rossa
   m_TagString: Untagged
@@ -1004,7 +1081,7 @@ Transform:
   m_Father: {fileID: 1143870684359586513}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6315406477230069206
+--- !u!114 &1748146916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1018,7 +1095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAmmo: 10
   fireRate: 2
-  bulletSpeed: 15
+  bulletSpeed: 10
   bullet: {fileID: -912266309450339537, guid: 06cc0a26982b45e46a7fada097fe9a8a, type: 3}
   raycastStartPos: {fileID: 7271397137244243116}
   fakeFirePoint: {fileID: 7954218696606752475}
@@ -1068,7 +1145,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxAmmo: 10
   fireRate: 2
-  bulletSpeed: 10
   bullet: {fileID: 3820297884565879080, guid: 20967b3bc4219d547888222c136f50e6, type: 3}
   raycastStartPos: {fileID: 7271397137244243116}
   fakeFirePoint: {fileID: 7954218696606752475}
@@ -1787,7 +1863,7 @@ GameObject:
   - component: {fileID: 7271397138376563129}
   - component: {fileID: 7271397138376563134}
   - component: {fileID: 1747072618291844404}
-  - component: {fileID: 7850748359836363350}
+  - component: {fileID: 5012212401310682123}
   - component: {fileID: 1575884519743137292}
   m_Layer: 0
   m_Name: Player
@@ -1842,7 +1918,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7271397138376563133}
-  m_Material: {fileID: 13400000, guid: 702cc0419c2d34e43a449a9d5a1a71bf, type: 2}
+  m_Material: {fileID: 13400000, guid: 7d040bce9250fa84dbf6bb98a023caa0, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -1868,7 +1944,7 @@ MonoBehaviour:
   coyoteMaxTime: 0.8
   knockbackPower: 10
   groundCheck_treshold: 0.25
---- !u!114 &7850748359836363350
+--- !u!114 &5012212401310682123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1880,7 +1956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb14c3fb82b09840a64b73caed2cad2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 10
   currentHealth: 0
 --- !u!114 &1575884519743137292
 MonoBehaviour:
@@ -2310,13 +2386,22 @@ MonoBehaviour:
   raycastStartPoint: {fileID: 7271397137244243116}
   maxRaycastDistance: 10
   placeForce: 0
-  shootForce: 20
+  shootForceForward: 20
+  shootForceUp: 4
   shootPoint: {fileID: 7954218696606752475}
   placeDist: 0.5
   cooldown: 3
+  batteryBullet: {fileID: 8580387923930492674, guid: b958e032647662643a82c83e7a6dc2da, type: 3}
+  enemyToBullet: {fileID: 1850590027165526472, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
+  kamikazeBullet: {fileID: 1850590027165526472, guid: e1c75549276b7a24a894398ac12aca59, type: 3}
   phantomObj: {fileID: 7087687548242687747}
   phantomMat: {fileID: 2100000, guid: 525e1ddfa1076b94e95be7105d724db4, type: 2}
-  ImageObjectCollected: {fileID: 1368216508428448019}
+  imageObjectCollected: {fileID: 2453464325768593742}
+  currentImageObjectCollected: {fileID: 160203853}
+  batterySprite: {fileID: 21300000, guid: d70f07d6952de3d42a49370c393b232a, type: 3}
+  kamikazeSprite: {fileID: 21300000, guid: 5046b3d6439a9f94eb3eee3b5a9f2cbd, type: 3}
+  rockSprite: {fileID: 21300000, guid: 5046b3d6439a9f94eb3eee3b5a9f2cbd, type: 3}
+  objectSprite: {fileID: 21300000, guid: 104efe3a6ff30df45878ac02a3a6e581, type: 3}
   mirino: {fileID: 2298645376192895992}
   errore: {fileID: 5319167244395602281}
   colpo: {fileID: 3126648207438721771}
