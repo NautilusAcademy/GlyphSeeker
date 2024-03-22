@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatteryToCharge : MonoBehaviour, IChargeable
+public class BatteryToCharge : SwitchClass, IChargeable
 {
     [SerializeField]
-    private int charge = 0;
+    private int charge;
     [SerializeField]
-    private int maxCharge = 3;
+    private int maxCharge;
     [SerializeField]
     private int damage;
     [SerializeField]
@@ -20,12 +20,13 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
     [SerializeField]
     private PickUp pickUp;
 
-    public void Charge()
+    public override void ToggleSwitch()
     {
         charge++;
 
         if (charge >= maxCharge)
         {
+            isActive = true;
             StartCoroutine(FullCharged());
         }
     }
@@ -54,29 +55,6 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
         }
 
         explosionParticle.gameObject.SetActive(true);
-        Destroy(gameObject);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radiusExplosion);
-
-        foreach (Collider nearbyObject in colliders)
-        {
-
-            if (nearbyObject.GetComponent<IDamageable>() != null)
-            {
-                HealthSystem healthSystem = nearbyObject.GetComponent<HealthSystem>();
-                healthSystem.TakeDamage(damage);
-            }
-
-            if (nearbyObject.GetComponent<IChargeable>() != null)
-            {
-                SwitchClass switchClass = nearbyObject.transform.GetComponent<SwitchClass>();
-                switchClass.ToggleSwitch();
-            }
-        }
-
         Destroy(gameObject);
     }
 }
