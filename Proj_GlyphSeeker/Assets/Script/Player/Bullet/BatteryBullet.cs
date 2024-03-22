@@ -26,8 +26,8 @@ public class BatteryBullet : MonoBehaviour
 
                 if (nearbyObject.GetComponent<IChargeable>() != null)
                 {
-                    IChargeable chargable = nearbyObject.GetComponent<IChargeable>();
-                    chargable.Charge();
+                    SwitchClass switchClass = nearbyObject.transform.GetComponent<SwitchClass>();
+                    switchClass.ToggleSwitch();
                 }
             }
 

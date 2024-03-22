@@ -48,8 +48,8 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
 
             if (nearbyObject.GetComponent<IChargeable>() != null)
             {
-                IChargeable chargable = nearbyObject.GetComponent<IChargeable>();
-                chargable.Charge();
+                SwitchClass switchClass = nearbyObject.transform.GetComponent<SwitchClass>();
+                switchClass.ToggleSwitch();
             }
         }
 
@@ -72,8 +72,8 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
 
             if (nearbyObject.GetComponent<IChargeable>() != null)
             {
-                IChargeable chargable = nearbyObject.GetComponent<IChargeable>();
-                chargable.Charge();
+                SwitchClass switchClass = nearbyObject.transform.GetComponent<SwitchClass>();
+                switchClass.ToggleSwitch();
             }
         }
 

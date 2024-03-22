@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GestoreGenerator : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class GestoreGenerator : MonoBehaviour
     private int currentCharge;
     [SerializeField]
     private int maxCharge;
+
+    [SerializeField]
+    UnityEvent onMaxCharge;
 
     private void Start()
     {
@@ -20,7 +24,7 @@ public class GestoreGenerator : MonoBehaviour
 
         if(currentCharge >= maxCharge)
         {
-            
+            onMaxCharge.Invoke();
         }
     }
 
@@ -28,4 +32,5 @@ public class GestoreGenerator : MonoBehaviour
     {
         currentCharge--;
     }
+
 }

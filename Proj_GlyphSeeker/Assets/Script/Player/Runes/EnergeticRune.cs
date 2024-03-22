@@ -89,8 +89,8 @@ public class EnergeticRune : PlayerShoot
         {
             if (hit.transform.GetComponent<IChargeable>() != null)
             {
-                IChargeable chargable = hit.transform.GetComponent<IChargeable>();
-                chargable.Charge();
+                SwitchClass switchClass = hit.transform.GetComponent<SwitchClass>();
+                switchClass.ToggleSwitch();
             }
             else if (hit.transform.GetComponent<IEnemy>() != null)
             {

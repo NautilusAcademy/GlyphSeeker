@@ -672,6 +672,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss_Low
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a57d21ddc25ac4b469102c6cd606fc69, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a57d21ddc25ac4b469102c6cd606fc69, type: 3}
 --- !u!4 &613541549 stripped
