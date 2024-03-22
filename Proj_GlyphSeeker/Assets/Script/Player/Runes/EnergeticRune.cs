@@ -92,16 +92,6 @@ public class EnergeticRune : PlayerShoot
                 IChargeable chargable = hit.transform.GetComponent<IChargeable>();
                 chargable.Charge();
             }
-            else if (hit.transform.GetComponent<IEnemy>() != null)
-            {
-                EnemyShield enemyShield = hit.transform.GetComponent<EnemyShield>();
-
-                if (!enemyShield.isShieldActive)
-                {
-                    HealthSystem enemy = hit.transform.GetComponent<HealthSystem>();
-                    enemy.TakeDamage(damage);
-                }
-            }
         }
 
         lineRenderer.SetPosition(0, fakeFirePoint.position);

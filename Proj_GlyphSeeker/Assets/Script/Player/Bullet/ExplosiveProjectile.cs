@@ -7,20 +7,18 @@ public class ExplosiveProjectile : MonoBehaviour
     [SerializeField]
     private int damage;
     [SerializeField]
-    private int life;
-    [SerializeField]
     private float ExplosionRadius;
-    [SerializeField]
+
     private Rigidbody rb;
 
     private void Start()
     {
-        Destroy(gameObject, life);
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.GetComponent<IPlayer>() == null)
+        if (!collider.gameObject.CompareTag("Player"))
         {
             Collider[] colliders = Physics.OverlapSphere(rb.transform.position, ExplosionRadius);
 
@@ -38,26 +36,8 @@ public class ExplosiveProjectile : MonoBehaviour
                     {
                         if (isDamageable)
                         {
-                            if(hit.transform.GetComponent<IEnemy>() != null)
-                            {
-                                EnemyShield enemyShield = hit.transform.GetComponent<EnemyShield>();
-
-                                if(enemyShield.isShieldActive)
-                                {
-                                    enemyShield.CrackShield(damage);
-                                }
-                                else
-                                {
-                                    HealthSystem target = hit.transform.GetComponent<HealthSystem>();
-                                    target.TakeDamage(damage);
-                                } 
-                            }
-
-                            else if(hit.transform.GetComponent<IPlayer>() != null)
-                            {
-                                HealthSystem target = hit.transform.GetComponent<HealthSystem>();
-                                target.TakeDamage(damage);
-                            }
+                            HealthSystem target = hit.transform.GetComponent<HealthSystem>();
+                            target.TakeDamage(damage);
                         }
                         else
                         {
