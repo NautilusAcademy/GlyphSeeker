@@ -2,25 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Generator : MonoBehaviour, IChargeable
+public class Generator : SwitchClass, IChargeable
 {
     [SerializeField]
-    private int charge = 0;
-    [SerializeField]
-    private int maxCharge = 1;
+    GestoreGenerator gestore;
 
-    public void Charge()
+    public override void ToggleSwitch()
     {
-        charge++;
+        base.ToggleSwitch();
 
-        if (charge >= maxCharge)
-        {
-            FullCharged();
-        }
-    }
-
-    public void FullCharged()
-    {
-        
+        if (isActive)
+            gestore.UpdateCharge();
+        else
+            gestore.DecreaseCharge();
     }
 }
