@@ -13,7 +13,7 @@ public class LootBox : ObjectToDestroy
     [Space(10)]
     [Range(0, 1), SerializeField] float coinPercent = 0.75f;
     [Space(10)]
-    [Range(0, 1), SerializeField] float enemyPercent = 0.9f;
+    [Range(0, 1), SerializeField] float enemyPercent = 0.85f;
 
 
     [Space(20), Header("—— Prefab ——")]
@@ -104,19 +104,34 @@ public class LootBox : ObjectToDestroy
         healPercent_S = Mathf.Clamp(healPercent_S, 0, healPercent_M);
     }
 
+    [ContextMenu("–Reset solo le percentuali–")]
+    void ResetPercentOnly()
+    {
+        healPercent_S = 0.15f;
+        healPercent_M = 0.35f;
+        healPercent_L = 0.45f;
+
+        coinPercent = 0.75f;
+
+        enemyPercent = 0.85f;
+    }
+
     #endregion
 
 
+    #region EXTRA - Editor
+
     public List<float> Editor_GetAllPercents()
     {
-        List<float> l = new List<float>();
-
-        l.Add(healPercent_S);
-        l.Add(healPercent_M);
-        l.Add(healPercent_L);
-        l.Add(coinPercent);
-        l.Add(enemyPercent);
-
-        return l;
+        return new List<float>()
+        {
+            healPercent_S,
+            healPercent_M,
+            healPercent_L,
+            coinPercent,
+            enemyPercent
+        };
     }
+
+    #endregion
 }
