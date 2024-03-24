@@ -31,6 +31,13 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
     [Space(10)]
     [SerializeField] float knockbackForce_shield = 2.5f;
 
+    [Space(10), Header("—— Feedback ——")]
+    [SerializeField] AudioSource shieldDamagedSfx;
+    [SerializeField] AudioSource shieldBrokenSfx;
+    [SerializeField] AudioSource parrySfx;
+    [SerializeField] ParticleSystem parry_part,
+                                    shieldBroken_part;
+
 
 
 
@@ -91,6 +98,10 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
                 shieldHp--;
 
                 currentOpenTime = 0;
+
+
+                //Feedback - danno allo scudo
+                FeedbackDamagedShield();
             }
 
             #endregion
@@ -143,6 +154,16 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
                 //Piccolo rinculo al giocatore
         //      movemScr.Knockback(other.transform.forward, knockbackForce_shield);
+
+
+                //Feedback - parry
+                parrySfx.Play();
+
+                parry_part.transform.position = other.transform.position;
+                parry_part.transform.rotation = other.transform.rotation;
+
+                parry_part.Play();    //Mostra le particelle dopo averli posizionati
+                                      //e ruotati correttamente
             }
 
             //Toglie munizioni allo scudo
@@ -150,6 +171,10 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
             //Distrugge il proiettile
             Destroy(other);
+
+
+            //Feedback - danno allo scudo
+            FeedbackDamagedShield();
         }
     }
 
@@ -165,6 +190,22 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
                                            transform.forward);
 
         return directionRange < 0;
+    }
+
+
+    void FeedbackDamagedShield()
+    {
+        //Mostra il feedback del danno o della rottura
+        //dello scudo rispetto alle munizioni
+        if (shieldHp <= 0)
+        {
+            shieldDamagedSfx.PlayOneShot(shieldDamagedSfx.clip);
+        }
+        else
+        {
+            shieldBrokenSfx.PlayOneShot(shieldBrokenSfx.clip);
+            shieldBroken_part.Play();
+        }
     }
 
 
