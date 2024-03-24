@@ -80,8 +80,16 @@ public class LootBox : ObjectToDestroy
         #endregion
 
 
-        //Rilascia il loot
-        Instantiate(loot, transform.position, Quaternion.identity);
+        //Rilascia il loot solo quando e' uscito,
+        //se non esce nulla, manda un messaggio di Debug
+        if (loot)
+        {
+            Instantiate(loot, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            print($"Dalla lootbox \"{name}\" non è uscito nulla");
+        }
 
 
         //Toglie l'oggetto distrutto dal giocatore dalla scena
