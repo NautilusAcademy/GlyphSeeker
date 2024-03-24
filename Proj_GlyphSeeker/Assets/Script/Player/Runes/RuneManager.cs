@@ -228,6 +228,11 @@ public class RuneManager : MonoBehaviour
         i_selectedRune = 1;
     }
 
+    public void AutoSelectRune(RuneType runeToSelect)
+    {
+        i_selectedRune = (int)runeToSelect;
+    }
+
 
     void ChangeCamPos()
     {
