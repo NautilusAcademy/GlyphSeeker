@@ -48,6 +48,15 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
     bool canRoll,
          isRolling;
 
+    [Header("—— Feedback ——")]
+    [SerializeField] AudioSource walkSfx;
+    [SerializeField] AudioSource jumpSfx,
+                                 rollSfx,
+                                 knockbackSfx;
+    [SerializeField] ParticleSystem jump_part,
+                                    roll_part,
+                                    knockback_part; 
+
 
 
 
@@ -252,9 +261,7 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
                                      ? moveVector * 2
                                      : -transform.forward;
 
-                //Resetta la velocita' XZ e applica la forza di schivata
-                rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
-                rb.AddForce(dirToRoll.normalized * rollForce + Vector3.up * 0.2f, ForceMode.Impulse);
+                Roll(dirToRoll);
 
 
 
@@ -300,11 +307,30 @@ public class PlayerRBMovement : MonoBehaviour, IPlayer
         //Resetta la velocita' Y e applica la forza d'impulso verso l'alto
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         rb.AddForce(transform.up * power, ForceMode.Impulse);
+
+        //Feedback
+        jumpSfx.Play();
+        jump_part.Play();
+    }
+
+    void Roll(Vector3 direction)
+    {
+        //Resetta la velocita' XZ e applica la forza di schivata
+        rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+        rb.AddForce(direction.normalized * rollForce + Vector3.up * 0.2f, ForceMode.Impulse);
+
+        //Feedback
+        rollSfx.Play();
+        roll_part.Play();
     }
 
     public void Knockback(Vector3 direction, float power)
     {
         rb.AddForce(direction * power, ForceMode.Impulse);
+
+        //Feedback
+        knockbackSfx.Play();
+        knockback_part.Play();
     }
 
 
