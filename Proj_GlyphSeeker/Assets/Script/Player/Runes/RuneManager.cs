@@ -38,6 +38,7 @@ public class RuneManager : MonoBehaviour
     SlotObjectType objectInSlot;
 
     const int RUNES_MAX_NUM = 4;
+    int unlockedRunesNum;
 
     bool isAiming,
          canAim = true,
@@ -203,20 +204,62 @@ public class RuneManager : MonoBehaviour
 
     void NextRune()
     {
+        #region OLD
+        /*
         //Cambia l'indice della runa selezionata
         //con quello dopo, ciclandolo
         i_selectedRune = i_selectedRune >= RUNES_MAX_NUM
+                            ? 1
+                            : ++i_selectedRune;
+        //*/
+        #endregion
+
+        UpdateUnlockedRunes();
+
+        //Cambia l'indice della runa selezionata
+        //con quello dopo, ciclandolo
+        //(seleziona la prima runa successiva sbloccata)
+        i_selectedRune = i_selectedRune >= unlockedRunesNum
                             ? 1
                             : ++i_selectedRune;
     }
 
     void PreviousRune()
     {
+        #region OLD
+        /*
         //Cambia l'indice della runa selezionata
         //con quello prima, ciclandolo
         i_selectedRune = i_selectedRune <= 1
                             ? RUNES_MAX_NUM
                             : --i_selectedRune;
+        //*/
+        #endregion
+
+        UpdateUnlockedRunes();
+
+        //Cambia l'indice della runa selezionata
+        //con quello prima, ciclandolo
+        //(seleziona la prima runa precedente sbloccata)
+        i_selectedRune = i_selectedRune <= 1
+                            ? unlockedRunesNum
+                            : --i_selectedRune;
+    }
+
+    public void UpdateUnlockedRunes()
+    {
+        unlockedRunesNum = 0;   //Reset del numero
+
+        //Aggiorna il numero di rune sbloccate
+        //foreach (bool b in save_SO.GetUnlockedRunes())
+        {
+            if (true)//b)
+            {
+                unlockedRunesNum++;
+            }
+        }
+
+        unlockedRunesNum = Mathf.Clamp(unlockedRunesNum, 1, 4);    //Clamp di sicurezza
     }
 
     #endregion

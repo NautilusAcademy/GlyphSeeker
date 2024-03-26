@@ -31,7 +31,7 @@ public class PlayerUIManager : MonoBehaviour
 
     [Header("——  Rune  ——")]
     [SerializeField] RectTransform runesWheel;
-    [SerializeField] float wheelRotSpeed = 15;
+    [SerializeField] float wheelRotSpeed = 7.5f;
     [SerializeField] List<Image> allRunesImages;
     [Space(10)]
     [SerializeField] Image slotObjectPurpleRune;
@@ -158,7 +158,7 @@ public class PlayerUIManager : MonoBehaviour
         //Ruota la wheel delle rune
         runesWheel.rotation = Quaternion.Slerp(runesWheel.rotation,
                                                targetRot,
-                                               Time.deltaTime * wheelRotSpeed);
+                                               Time.fixedDeltaTime * wheelRotSpeed);
 
 
         //Ferma la rotazione delle immagini delle rune
