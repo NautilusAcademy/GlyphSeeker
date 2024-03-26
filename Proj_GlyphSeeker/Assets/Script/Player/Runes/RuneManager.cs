@@ -45,6 +45,11 @@ public class RuneManager : MonoBehaviour
          isFirstRuneUnlocked,
          isPurpleRuneActive;
 
+    [Header("—— Feedback ——")]
+    [SerializeField] AudioSource selectRuneSfx;
+    [SerializeField] AudioSource aimingSfx;
+    [SerializeField] AudioSource removeAimingSfx;
+
 
 
     private void Awake()
@@ -82,6 +87,20 @@ public class RuneManager : MonoBehaviour
 
             //Avvicinamento della Camera quando si puo' mirare
             ChangeCamPos();
+
+
+            //Feedback
+            if (inputAim.triggered  ||  inputAim.WasReleasedThisFrame())
+            {
+                if (isAiming)
+                {
+                    aimingSfx.Play();
+                }
+                else
+                {
+                    removeAimingSfx.Play();
+                }
+            }
         }
 
         #endregion
@@ -222,6 +241,10 @@ public class RuneManager : MonoBehaviour
         i_selectedRune = i_selectedRune >= unlockedRunesNum
                             ? 1
                             : ++i_selectedRune;
+
+
+        //Feedback
+        selectRuneSfx.PlayOneShot(selectRuneSfx.clip);
     }
 
     void PreviousRune()
@@ -244,6 +267,10 @@ public class RuneManager : MonoBehaviour
         i_selectedRune = i_selectedRune <= 1
                             ? unlockedRunesNum
                             : --i_selectedRune;
+
+
+        //Feedback
+        selectRuneSfx.PlayOneShot(selectRuneSfx.clip);
     }
 
     public void UpdateUnlockedRunes()
