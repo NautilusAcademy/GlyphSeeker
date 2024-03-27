@@ -186,5 +186,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   life: 3
-  ExplosionRadius: 3
+  ExplosionRadius: 5
   rb: {fileID: -912266309450339537}

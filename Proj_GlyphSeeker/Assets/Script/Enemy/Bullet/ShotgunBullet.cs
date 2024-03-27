@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShotgunBullet : MonoBehaviour // Proiettile del nemico shotgun
+public class ShotgunBullet : MonoBehaviour, IBullet // Proiettile del nemico shotgun
 {
     [SerializeField]
     private float damage;

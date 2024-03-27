@@ -30,4 +30,20 @@ public class Piattaforma : MonoBehaviour
         else
             posToMove = startPosition;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.GetComponent<IPlayer>() != null)
+        {
+            other.transform.parent = transform;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<IPlayer>() != null)
+        {
+            other.transform.parent = null;
+        }
+    }
 }

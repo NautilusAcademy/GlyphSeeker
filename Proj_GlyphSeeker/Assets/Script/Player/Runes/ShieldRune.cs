@@ -2,22 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityEngine.InputSystem;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider))]
-public class ShieldRune : MonoBehaviour//PlayerShoot
+public class ShieldRune : PlayerShoot
 {
-    //[SerializeField] PlayerRBMovement movemScr;
+    [SerializeField] PlayerRBMovement movemScr;
     [SerializeField] GameObject shieldModel;
     [SerializeField] Transform playerCam_Tr;
     Collider coll;
     [Min(0)]
     [SerializeField] float distance;
     [SerializeField] Vector2 offset;
-
-    [Space(10)]   //Sezione da mettere in PlayerShoot
-    [SerializeField] int maxShieldHp;
-    int shieldHp;
 
     [Space(10)]
     [Min(0.1f)]
@@ -53,11 +49,11 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
     void Update()
     {
-        //InputAction inputShield = GameManager.inst.inputManager.Player.Aim;
+        InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
 
 
-        bool isShieldActive = false, //inputShield.ReadValue<float>() > 0,
-             isShieldTriggered = false; //inputShield.triggered;
+        bool isShieldActive = inputShield.ReadValue<float>() > 0,
+             isShieldTriggered = inputShield.triggered;
 
 
 
@@ -95,7 +91,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
             //Dopo tot tempo, toglie ammo allo scudo
             if (currentOpenTime >= velLoseAmmo)
             {
-                shieldHp--;
+                currentAmmo--;
 
                 currentOpenTime = 0;
 
@@ -119,7 +115,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
         //(Dis)Attiva lo scudo,
         //solo se si tiene premuto il pulsante & ha ancora HP
-        bool canUseShield = shieldHp > 0 && isShieldActive;
+        bool canUseShield = currentAmmo > 0 && isShieldActive;
 
         coll.enabled = canUseShield;
         shieldModel.SetActive(canUseShield);
@@ -140,9 +136,9 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
     private void OnTriggerEnter(Collider other)
     {
-        //IBullet bulletCheck = other.GetComponent<IEnemy>();
+        IBullet bulletCheck = other.GetComponent<IBullet>();
 
-        if (other.CompareTag("Bullet")) //(bulletCheck != null)
+        if (bulletCheck != null)
         {
             bool isFromFront = CheckFromFront(other.transform);
 
@@ -150,11 +146,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
             {
                 //Se lo puo' parare e il proiettile arriva da davanti,
                 //allora lo spedisce nella stessa direzione dello scudo
-        //      other.ChangeVelocity(transform.forward, 0);
-
-                //Piccolo rinculo al giocatore
-        //      movemScr.Knockback(other.transform.forward, knockbackForce_shield);
-
+                other.GetComponent<EnemyBaseBullet>().ChangeVelocity(transform.forward, 0);
 
                 //Feedback - parry
                 parrySfx.Play();
@@ -167,11 +159,13 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
             }
 
             //Toglie munizioni allo scudo
-        //  currentAmmo--;
+            currentAmmo--;
+
+            //Piccolo rinculo al giocatore
+            movemScr.Knockback(other.transform.forward, knockbackForce_shield);
 
             //Distrugge il proiettile
             Destroy(other);
-
 
             //Feedback - danno allo scudo
             FeedbackDamagedShield();
@@ -197,7 +191,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
     {
         //Mostra il feedback del danno o della rottura
         //dello scudo rispetto alle munizioni
-        if (shieldHp <= 0)
+        if (currentAmmo <= 0)
         {
             shieldDamagedSfx.PlayOneShot(shieldDamagedSfx.clip);
         }

@@ -187,3 +187,4 @@ MonoBehaviour:
   damage: 1
   life: 2
   isParried: 0
+  bulletSpeed: 10
