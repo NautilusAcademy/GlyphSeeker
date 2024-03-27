@@ -178,7 +178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxShieldHealth: 1
   currentShieldHealth: 0
-  isShieldActive: 1
+  isShieldActive: 0
 --- !u!114 &2081728821
 MonoBehaviour:
   m_ObjectHideFlags: 0
