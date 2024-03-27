@@ -91,18 +91,45 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""RunePressDown"",
                     ""type"": ""Button"",
-                    ""id"": ""5a2fe968-8a74-419b-b85f-555519b07187"",
+                    ""id"": ""44236d33-2bd9-43ab-8b88-3941293b0034"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Interaction"",
+                    ""name"": ""ElectricRune"",
                     ""type"": ""Button"",
-                    ""id"": ""75faec42-5aa6-4cf1-a4c5-ab930826d566"",
+                    ""id"": ""ed65ac44-7937-4332-901f-2d411af95fc1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ExplosiveRune"",
+                    ""type"": ""Button"",
+                    ""id"": ""59b57a3e-2d7b-4c67-a99f-4b849127871e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShieldRune"",
+                    ""type"": ""Button"",
+                    ""id"": ""8aab9f00-105a-47f1-b25f-52e1e215af4a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PurpleRune"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c2e1971-231a-4937-992f-7c74116cf40c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -310,56 +337,111 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5a1b9ea0-c735-4f1e-a651-becdde547d82"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""id"": ""338d0bfc-dfcb-428d-bbaf-1803ca5feb66"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""RunePressDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bc98dc33-491c-4b3e-9b6a-33c165813847"",
-                    ""path"": ""<Keyboard>/p"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e24a3024-e459-437a-8a8e-66cbd9d460c9"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""995b15c8-2479-4223-ab24-cef940909803"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3c5f3209-a5fa-4690-8c7b-f82d66410520"",
+                    ""id"": ""a58dfad0-01b0-4237-a094-958f419ac798"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interaction"",
+                    ""action"": ""RunePressDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8576c40d-4beb-480f-bf15-471f4ef519c6"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ElectricRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7be5b92-d204-4770-aecc-1d8ca8972060"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ElectricRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""45399099-ecfb-4d01-8453-3a3ceb197d19"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExplosiveRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eccfeb5a-f7e4-41e3-a79f-a5f10fd65904"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ExplosiveRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""697a88d7-7b24-4607-83bd-c05a1105a375"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShieldRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91f93c06-3f71-4ec5-97f8-242c5024d755"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShieldRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24c15c9e-c5bf-4b99-bc82-a6983edb5764"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PurpleRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf3d9c23-0e8b-4929-bfc4-f6a4c6b40f6f"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PurpleRune"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -893,8 +975,11 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_NextRune = m_Player.FindAction("NextRune", throwIfNotFound: true);
         m_Player_PreviousRune = m_Player.FindAction("PreviousRune", throwIfNotFound: true);
-        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
-        m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
+        m_Player_RunePressDown = m_Player.FindAction("RunePressDown", throwIfNotFound: true);
+        m_Player_ElectricRune = m_Player.FindAction("ElectricRune", throwIfNotFound: true);
+        m_Player_ExplosiveRune = m_Player.FindAction("ExplosiveRune", throwIfNotFound: true);
+        m_Player_ShieldRune = m_Player.FindAction("ShieldRune", throwIfNotFound: true);
+        m_Player_PurpleRune = m_Player.FindAction("PurpleRune", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -973,8 +1058,11 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_NextRune;
     private readonly InputAction m_Player_PreviousRune;
-    private readonly InputAction m_Player_Pause;
-    private readonly InputAction m_Player_Interaction;
+    private readonly InputAction m_Player_RunePressDown;
+    private readonly InputAction m_Player_ElectricRune;
+    private readonly InputAction m_Player_ExplosiveRune;
+    private readonly InputAction m_Player_ShieldRune;
+    private readonly InputAction m_Player_PurpleRune;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -986,8 +1074,11 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @NextRune => m_Wrapper.m_Player_NextRune;
         public InputAction @PreviousRune => m_Wrapper.m_Player_PreviousRune;
-        public InputAction @Pause => m_Wrapper.m_Player_Pause;
-        public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
+        public InputAction @RunePressDown => m_Wrapper.m_Player_RunePressDown;
+        public InputAction @ElectricRune => m_Wrapper.m_Player_ElectricRune;
+        public InputAction @ExplosiveRune => m_Wrapper.m_Player_ExplosiveRune;
+        public InputAction @ShieldRune => m_Wrapper.m_Player_ShieldRune;
+        public InputAction @PurpleRune => m_Wrapper.m_Player_PurpleRune;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1018,12 +1109,21 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @PreviousRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
                 @PreviousRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
                 @PreviousRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPreviousRune;
-                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @Interaction.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
-                @Interaction.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
-                @Interaction.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteraction;
+                @RunePressDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRunePressDown;
+                @RunePressDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRunePressDown;
+                @RunePressDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRunePressDown;
+                @ElectricRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElectricRune;
+                @ElectricRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElectricRune;
+                @ElectricRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnElectricRune;
+                @ExplosiveRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExplosiveRune;
+                @ExplosiveRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExplosiveRune;
+                @ExplosiveRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExplosiveRune;
+                @ShieldRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShieldRune;
+                @ShieldRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShieldRune;
+                @ShieldRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShieldRune;
+                @PurpleRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPurpleRune;
+                @PurpleRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPurpleRune;
+                @PurpleRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPurpleRune;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1049,12 +1149,21 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @PreviousRune.started += instance.OnPreviousRune;
                 @PreviousRune.performed += instance.OnPreviousRune;
                 @PreviousRune.canceled += instance.OnPreviousRune;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
-                @Interaction.started += instance.OnInteraction;
-                @Interaction.performed += instance.OnInteraction;
-                @Interaction.canceled += instance.OnInteraction;
+                @RunePressDown.started += instance.OnRunePressDown;
+                @RunePressDown.performed += instance.OnRunePressDown;
+                @RunePressDown.canceled += instance.OnRunePressDown;
+                @ElectricRune.started += instance.OnElectricRune;
+                @ElectricRune.performed += instance.OnElectricRune;
+                @ElectricRune.canceled += instance.OnElectricRune;
+                @ExplosiveRune.started += instance.OnExplosiveRune;
+                @ExplosiveRune.performed += instance.OnExplosiveRune;
+                @ExplosiveRune.canceled += instance.OnExplosiveRune;
+                @ShieldRune.started += instance.OnShieldRune;
+                @ShieldRune.performed += instance.OnShieldRune;
+                @ShieldRune.canceled += instance.OnShieldRune;
+                @PurpleRune.started += instance.OnPurpleRune;
+                @PurpleRune.performed += instance.OnPurpleRune;
+                @PurpleRune.canceled += instance.OnPurpleRune;
             }
         }
     }
@@ -1173,8 +1282,11 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnNextRune(InputAction.CallbackContext context);
         void OnPreviousRune(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
-        void OnInteraction(InputAction.CallbackContext context);
+        void OnRunePressDown(InputAction.CallbackContext context);
+        void OnElectricRune(InputAction.CallbackContext context);
+        void OnExplosiveRune(InputAction.CallbackContext context);
+        void OnShieldRune(InputAction.CallbackContext context);
+        void OnPurpleRune(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

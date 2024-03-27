@@ -34,8 +34,9 @@ public class Turret : EnemyStats
     private GameObject player;
 
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         player = GameObject.Find("Player");
     }
 
@@ -74,10 +75,12 @@ public class Turret : EnemyStats
     {
         firePoint.LookAt(player.transform.position);
 
+        Quaternion rotation = Quaternion.LookRotation(player.transform.position);
+        Quaternion current = transform.rotation;
         Vector3 rot = player.transform.position - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(rot);
-        Quaternion current = transform.localRotation;
-
+        rot.y = 0;
+        rotation = Quaternion.LookRotation(rot);
+        current = transform.localRotation;
         transform.localRotation = Quaternion.Slerp(current, rotation, Time.deltaTime * rotVelocity);
     }
 

@@ -6,16 +6,19 @@ using UnityEngine.InputSystem;
 public class BaseShoot : PlayerShoot
 {
     [Space(20)]
-    [SerializeField] float bulletSpeed;
     [SerializeField] Rigidbody bullet;
     [SerializeField] Transform raycastStartPos,
                                fakeFirePoint;
+
+    [SerializeField] int bulletSpeed;   
+
 
     void Update()
     {
         //Puo' sparare solo se ha le munizioni
         //e non ha finito di caricare la cadenza di tiro
         canShoot = currentAmmo > 0;
+
 
         //Prende l'input di sparo
         InputAction shootInput = GameManager.inst.inputManager.Player.Fire;
@@ -26,6 +29,7 @@ public class BaseShoot : PlayerShoot
 
             StartCoroutine(WaitToShoot());
         }
+
 
         /*
          * TODO:
@@ -59,6 +63,7 @@ public class BaseShoot : PlayerShoot
              * e per spararlo
              * 
              */
+
 
             //Diminuisce le munizoni
             currentAmmo--;

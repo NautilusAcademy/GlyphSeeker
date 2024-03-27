@@ -4,13 +4,5 @@ using UnityEngine;
 
 public interface IChargeable
 {
-    public void Charge()
-    {
-        
-    }
-
-    public void FullCharged()
-    {
-
-    }
+    
 }

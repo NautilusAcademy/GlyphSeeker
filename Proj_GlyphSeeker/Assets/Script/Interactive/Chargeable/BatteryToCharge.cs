@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatteryToCharge : MonoBehaviour, IChargeable
+public class BatteryToCharge : SwitchClass, IChargeable
 {
     [SerializeField]
-    private int charge = 0;
+    private int charge;
     [SerializeField]
-    private int maxCharge = 3;
+    private int maxCharge;
     [SerializeField]
     private int damage;
     [SerializeField]
@@ -16,21 +16,24 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
     private float radiusExplosion;
     [SerializeField]
     private ParticleSystem explosionParticle;
-    private bool explodeOnImpact = false;
 
-    public void Charge()
+    [SerializeField]
+    private PickUp pickUp;
+
+    public override void ToggleSwitch()
     {
         charge++;
 
         if (charge >= maxCharge)
         {
+            isActive = true;
             StartCoroutine(FullCharged());
         }
     }
 
     IEnumerator FullCharged()
     {
-        //canPickUp = true;
+        pickUp.canPickUp = true;
 
         yield return new WaitForSeconds (delayExplosion);
 
@@ -38,46 +41,20 @@ public class BatteryToCharge : MonoBehaviour, IChargeable
 
         foreach (Collider nearbyObject in colliders)
         {
-            /*if (nearbyObject.GetComponent<IDamageable>() != null)
+            if (nearbyObject.GetComponent<IDamageable>() != null)
             {
-                IDamageable damageable = nearbyObject.GetComponent<IChargable>();
-                damageable.TakeDamage(damage);
-            }*/
+                HealthSystem healthSystem = nearbyObject.GetComponent<HealthSystem>();
+                healthSystem.TakeDamage(damage);
+            }
 
             if (nearbyObject.GetComponent<IChargeable>() != null)
             {
-                IChargeable chargable = nearbyObject.GetComponent<IChargeable>();
-                chargable.Charge();
+                SwitchClass switchClass = nearbyObject.transform.GetComponent<SwitchClass>();
+                switchClass.ToggleSwitch();
             }
         }
 
         explosionParticle.gameObject.SetActive(true);
         Destroy(gameObject);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(explodeOnImpact)
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radiusExplosion);
-
-            foreach (Collider nearbyObject in colliders)
-            {
-
-                /*if (nearbyObject.GetComponent<IDamageable>() != null)
-                {
-                    IDamageable damageable = nearbyObject.GetComponent<IChargable>();
-                    damageable.TakeDamage(damage);
-                }*/
-
-                if (nearbyObject.GetComponent<IChargeable>() != null)
-                {
-                    IChargeable chargable = nearbyObject.GetComponent<IChargeable>();
-                    chargable.Charge();
-                }
-            }
-
-            Destroy(gameObject);
-        } 
     }
 }

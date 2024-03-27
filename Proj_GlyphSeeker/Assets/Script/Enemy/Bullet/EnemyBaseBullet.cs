@@ -10,10 +10,17 @@ public class EnemyBaseBullet : MonoBehaviour, IBullet // Proiettile standard dei
     private int life;
     [SerializeField]
     private bool isParried = false;
+    [SerializeField]
+    private float bulletSpeed;
 
     private void Start() // Si distrugge dopo "life" secondi
     {
         Destroy(gameObject, life);
+    }
+
+    private void OnEnable()
+    {
+        ChangeVelocity(transform.forward, 0);
     }
 
     public void IsParried()
@@ -44,5 +51,10 @@ public class EnemyBaseBullet : MonoBehaviour, IBullet // Proiettile standard dei
                 enemy.TakeDamage(damage);
             }
         } 
+    }
+    public void ChangeVelocity(Vector3 direction, float velToAdd)
+    {
+        transform.forward = direction;
+        transform.GetComponent<Rigidbody>().velocity = transform.forward * (bulletSpeed + velToAdd);
     }
 }

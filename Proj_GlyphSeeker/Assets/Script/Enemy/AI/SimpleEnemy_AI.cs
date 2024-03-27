@@ -17,8 +17,6 @@ public class SimpleEnemy_AI : EnemyStats
     [Header("Variabili")]
     [SerializeField]
     private float rotVelocity;
-    [SerializeField]
-    protected float bulletSpeed;
     protected bool canFire = true;
     [SerializeField]
     private Transform[] patrolPoints;
@@ -111,7 +109,7 @@ public class SimpleEnemy_AI : EnemyStats
     private IEnumerator Fire() // Effettua l'attacco e aspetta il cooldown per riattivare il bool canFire
     {
         Rigidbody bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        bullet.velocity = firePoint.forward * bulletSpeed;
+
         canFire = false;
 
         yield return new WaitForSeconds(fireRate + Random.Range(-0.5f, 0.5f));
