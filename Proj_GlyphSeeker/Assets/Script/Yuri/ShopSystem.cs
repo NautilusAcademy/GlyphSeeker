@@ -74,10 +74,10 @@ public class ShopSystem : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             advice.gameObject.SetActive(true);
-            if(GameManager.inst.inputManager.Player.Interaction.WasPressedThisFrame())
+            /*if(GameManager.inst.inputManager.Player.Interaction.WasPressedThisFrame())
             {
                 OpenShop();
-            }
+            }*/
         }
     }
 

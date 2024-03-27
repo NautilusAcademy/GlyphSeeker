@@ -134,6 +134,15 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""8dfe7e3f-d2c5-437f-9649-690a51ff9188"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -442,6 +451,28 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PurpleRune"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2249039-9702-46af-8bc6-1392cdbac315"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6462659a-e1f9-405e-ad46-1a94b0c35615"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -980,6 +1011,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         m_Player_ExplosiveRune = m_Player.FindAction("ExplosiveRune", throwIfNotFound: true);
         m_Player_ShieldRune = m_Player.FindAction("ShieldRune", throwIfNotFound: true);
         m_Player_PurpleRune = m_Player.FindAction("PurpleRune", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1063,6 +1095,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ExplosiveRune;
     private readonly InputAction m_Player_ShieldRune;
     private readonly InputAction m_Player_PurpleRune;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @InputManager m_Wrapper;
@@ -1079,6 +1112,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         public InputAction @ExplosiveRune => m_Wrapper.m_Player_ExplosiveRune;
         public InputAction @ShieldRune => m_Wrapper.m_Player_ShieldRune;
         public InputAction @PurpleRune => m_Wrapper.m_Player_PurpleRune;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1124,6 +1158,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @PurpleRune.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPurpleRune;
                 @PurpleRune.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPurpleRune;
                 @PurpleRune.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPurpleRune;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1164,6 +1201,9 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
                 @PurpleRune.started += instance.OnPurpleRune;
                 @PurpleRune.performed += instance.OnPurpleRune;
                 @PurpleRune.canceled += instance.OnPurpleRune;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -1287,6 +1327,7 @@ public partial class @InputManager : IInputActionCollection2, IDisposable
         void OnExplosiveRune(InputAction.CallbackContext context);
         void OnShieldRune(InputAction.CallbackContext context);
         void OnPurpleRune(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
