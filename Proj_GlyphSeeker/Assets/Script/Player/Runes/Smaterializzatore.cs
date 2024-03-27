@@ -150,7 +150,7 @@ public class Smaterializzatore : PlayerShoot
                 ShowObject();
             }
         }
-        else if (isObjectInSlot && !canShoot)
+        else if (GameManager.inst.inputManager.Player.Aim.WasReleasedThisFrame() && isObjectInSlot && !canShoot)
         {
             // Input per piazzare l'oggetto
             PlaceObject(placeForce);

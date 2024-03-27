@@ -10,7 +10,7 @@ public class BaseShoot : PlayerShoot
     [SerializeField] Transform raycastStartPos,
                                fakeFirePoint;
 
-    
+    [SerializeField] int bulletSpeed;   
 
 
     void Update()
@@ -53,7 +53,9 @@ public class BaseShoot : PlayerShoot
         if (canShoot)
         {
             //Crea il proeittile nel punto specifico
-            Instantiate(bulletToShoot, fakeFirePoint.position, raycastStartPos.rotation);
+            Rigidbody clone;
+            clone = Instantiate(bulletToShoot, fakeFirePoint.position, raycastStartPos.rotation);
+            clone.velocity = raycastStartPos.forward * bulletSpeed;
 
             /* 
              * TODO:
