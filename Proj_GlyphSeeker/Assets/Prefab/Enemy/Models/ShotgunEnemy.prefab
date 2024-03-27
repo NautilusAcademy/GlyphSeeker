@@ -157,7 +157,6 @@ MonoBehaviour:
   aggroRange: 15
   attackRange: 8
   rotVelocity: 6
-  bulletSpeed: 20
   patrolPoints: []
   firePoint: {fileID: 8788410965325390581}
   bulletPrefab: {fileID: 3673695173978344878, guid: 869021078f7a04c48a2ca191f95d3bcb, type: 3}
@@ -175,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxShieldHealth: 1
   currentShieldHealth: 0
-  isShieldActive: 1
+  isShieldActive: 0
 --- !u!114 &3369237669268375563
 MonoBehaviour:
   m_ObjectHideFlags: 0

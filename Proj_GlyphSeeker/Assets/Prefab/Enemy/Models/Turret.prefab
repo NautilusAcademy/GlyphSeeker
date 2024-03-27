@@ -333,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxShieldHealth: 1
   currentShieldHealth: 0
-  isShieldActive: 1
+  isShieldActive: 0
 --- !u!1 &1032759082570460477
 GameObject:
   m_ObjectHideFlags: 0
