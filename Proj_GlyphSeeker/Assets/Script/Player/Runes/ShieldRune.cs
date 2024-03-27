@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider))]
-public class ShieldRune : PlayerShoot
+public class ShieldRune : MonoBehaviour//PlayerShoot
 {
-    [SerializeField] PlayerRBMovement movemScr;
+    //[SerializeField] PlayerRBMovement movemScr;
     [SerializeField] GameObject shieldModel;
     [SerializeField] Transform playerCam_Tr;
     Collider coll;
@@ -31,6 +31,13 @@ public class ShieldRune : PlayerShoot
     [Space(10)]
     [SerializeField] float knockbackForce_shield = 2.5f;
 
+    [Space(10), Header("—— Feedback ——")]
+    [SerializeField] AudioSource shieldDamagedSfx;
+    [SerializeField] AudioSource shieldBrokenSfx;
+    [SerializeField] AudioSource parrySfx;
+    [SerializeField] ParticleSystem parry_part,
+                                    shieldBroken_part;
+
 
 
 
@@ -46,11 +53,11 @@ public class ShieldRune : PlayerShoot
 
     void Update()
     {
-        InputAction inputShield = GameManager.inst.inputManager.Player.Aim;
+        //InputAction inputShield = GameManager.inst.inputManager.Player.Aim;
 
 
-        bool isShieldActive = inputShield.ReadValue<float>() > 0,
-             isShieldTriggered = inputShield.triggered;
+        bool isShieldActive = false, //inputShield.ReadValue<float>() > 0,
+             isShieldTriggered = false; //inputShield.triggered;
 
 
 
@@ -86,11 +93,15 @@ public class ShieldRune : PlayerShoot
             currentOpenTime += Time.deltaTime;
 
             //Dopo tot tempo, toglie ammo allo scudo
-            if(currentOpenTime >= velLoseAmmo)
+            if (currentOpenTime >= velLoseAmmo)
             {
-                currentAmmo--;
+                shieldHp--;
 
                 currentOpenTime = 0;
+
+
+                //Feedback - danno allo scudo
+                FeedbackDamagedShield();
             }
 
             #endregion
@@ -108,7 +119,7 @@ public class ShieldRune : PlayerShoot
 
         //(Dis)Attiva lo scudo,
         //solo se si tiene premuto il pulsante & ha ancora HP
-        bool canUseShield = currentAmmo > 0  &&  isShieldActive;
+        bool canUseShield = shieldHp > 0 && isShieldActive;
 
         coll.enabled = canUseShield;
         shieldModel.SetActive(canUseShield);
@@ -139,17 +150,31 @@ public class ShieldRune : PlayerShoot
             {
                 //Se lo puo' parare e il proiettile arriva da davanti,
                 //allora lo spedisce nella stessa direzione dello scudo
-        //        other.ChangeVelocity(transform.forward, 0);
+        //      other.ChangeVelocity(transform.forward, 0);
 
                 //Piccolo rinculo al giocatore
-                movemScr.Knockback(other.transform.forward, knockbackForce_shield);
+        //      movemScr.Knockback(other.transform.forward, knockbackForce_shield);
+
+
+                //Feedback - parry
+                parrySfx.Play();
+
+                parry_part.transform.position = other.transform.position;
+                parry_part.transform.rotation = other.transform.rotation;
+
+                parry_part.Play();    //Mostra le particelle dopo averli posizionati
+                                      //e ruotati correttamente
             }
 
             //Toglie munizioni allo scudo
-            currentAmmo--;
+        //  currentAmmo--;
 
             //Distrugge il proiettile
             Destroy(other);
+
+
+            //Feedback - danno allo scudo
+            FeedbackDamagedShield();
         }
     }
 
@@ -165,6 +190,22 @@ public class ShieldRune : PlayerShoot
                                            transform.forward);
 
         return directionRange < 0;
+    }
+
+
+    void FeedbackDamagedShield()
+    {
+        //Mostra il feedback del danno o della rottura
+        //dello scudo rispetto alle munizioni
+        if (shieldHp <= 0)
+        {
+            shieldDamagedSfx.PlayOneShot(shieldDamagedSfx.clip);
+        }
+        else
+        {
+            shieldBrokenSfx.PlayOneShot(shieldBrokenSfx.clip);
+            shieldBroken_part.Play();
+        }
     }
 
 
