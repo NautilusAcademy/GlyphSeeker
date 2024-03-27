@@ -53,7 +53,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
     void Update()
     {
-        //InputAction inputShield = GameManager.inst.inputManager.Player.Aim;
+        //InputAction inputShield = GameManager.inst.inputManager.Player.Fire;
 
 
         bool isShieldActive = false, //inputShield.ReadValue<float>() > 0,
@@ -140,7 +140,7 @@ public class ShieldRune : MonoBehaviour//PlayerShoot
 
     private void OnTriggerEnter(Collider other)
     {
-        //IBullet bulletCheck = other.GetComponent<IEnemy>();
+        //IBullet bulletCheck = other.GetComponent<IBullet>();
 
         if (other.CompareTag("Bullet")) //(bulletCheck != null)
         {
