@@ -157,18 +157,20 @@ public class ShieldRune : PlayerShoot
                 parry_part.Play();    //Mostra le particelle dopo averli posizionati
                                       //e ruotati correttamente
             }
+            else
+            {
+                //Toglie munizioni allo scudo
+                currentAmmo--;
 
-            //Toglie munizioni allo scudo
-            currentAmmo--;
+                //Piccolo rinculo al giocatore
+                movemScr.Knockback(-movemScr.transform.forward, knockbackForce_shield);
 
-            //Piccolo rinculo al giocatore
-            movemScr.Knockback(other.transform.forward, knockbackForce_shield);
+                //Distrugge il proiettile
+                Destroy(other);
 
-            //Distrugge il proiettile
-            Destroy(other);
-
-            //Feedback - danno allo scudo
-            FeedbackDamagedShield();
+                //Feedback - danno allo scudo
+                FeedbackDamagedShield();
+            }
         }
     }
 
