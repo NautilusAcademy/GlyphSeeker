@@ -229,7 +229,7 @@ public class PlayerUIManager : MonoBehaviour
         finalColor = colorRunes_ch[runeMng.GetSelectedRuneIndex() - 1];
 
         //Cambia il colore del materiale
-        colorToChange = Color.Lerp(mat.color, finalColor, Time.deltaTime * wheelRotSpeed * 2);
+        colorToChange = Color.Lerp(arm_light.color, finalColor, Time.deltaTime * wheelRotSpeed * 2);
 
         //Imposta il colore della luce e dell'Emissive
         arm_light.color = colorToChange;
