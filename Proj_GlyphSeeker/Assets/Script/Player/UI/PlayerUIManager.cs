@@ -203,19 +203,19 @@ public class PlayerUIManager : MonoBehaviour
         {
             bool isThisRuneSelected = i == runeMng.GetSelectedRuneIndex()-1;
             Vector2 sizeToChange,
-                    _finalSize;
+                    finalSize;
 
             //Se la runa selezionata corrisponde a questo indice,
             //la ingrandisce; se no, la porta alla dimensione originale
             sizeToChange = startRunesImgSizes[i] * (isThisRuneSelected ? selectedRuneSizeMult : 1);
 
             //Ridimensiona l'immagine
-            _finalSize = Vector2.Lerp(allRunesImages[i].rectTransform.sizeDelta,
+            finalSize = Vector2.Lerp(allRunesImages[i].rectTransform.sizeDelta,
                                       sizeToChange,
                                       Time.deltaTime * wheelRotSpeed * 2);
 
             //Imposta la nuova dimensione
-            allRunesImages[i].rectTransform.sizeDelta = _finalSize;
+            allRunesImages[i].rectTransform.sizeDelta = finalSize;
         }
     }
 
