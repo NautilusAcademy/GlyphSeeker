@@ -29,10 +29,16 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] TMP_Text currentAmmoText,
                               maxAmmoText;
 
-    [Header("——  Rune  ——")]
+    [Space(10), Header("——  Rune  ——")]
     [SerializeField] RectTransform runesWheel;
-    [SerializeField] float wheelRotSpeed = 7.5f;
     [SerializeField] List<Image> allRunesImages;
+    [SerializeField] float wheelRotSpeed = 7.5f;
+    [Range(1, 3)]
+    [SerializeField] float selectedRuneSizeMult = 1.75f;
+    List<Vector2> startRunesImgSizes;
+    [SerializeField] MeshRenderer arm_meshRndr;
+    [SerializeField] Light arm_light;
+
     [Space(10)]
     [SerializeField] Image slotObjectPurpleRune;
     [SerializeField] Image slotObjectBGPurpleRune;
@@ -42,7 +48,7 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] Sprite spriteGenericEnemy;
     [SerializeField] Sprite spriteExplosiveEnemy;
 
-    [Header("——  Mirino  ——")]
+    [Space(10), Header("——  Mirino  ——")]
     [SerializeField] Image crosshair;
     [Space(10)]
     [SerializeField] Color colorDefault_ch = Color.white;
@@ -56,10 +62,21 @@ public class PlayerUIManager : MonoBehaviour
                                             Color.blue,
                                             Color.magenta
                                         };
-    
-    
 
-    
+
+
+
+    void Awake()
+    {
+        startRunesImgSizes = new();   //Reset della lista
+
+        //Salva le dimensioni di ogni immagine delle rune
+        foreach (Image runeImg in allRunesImages)
+        {
+            startRunesImgSizes.Add(runeImg.rectTransform.sizeDelta);
+        }
+    }
+
     void Update()
     {
 
@@ -136,7 +153,7 @@ public class PlayerUIManager : MonoBehaviour
     void RotateRunesWheel()
     {
         //Calcola l'angolo rispetto alla runa selezionata
-        float targetAngle = runeMng.GetActiveRune() switch
+        float targetAngle = runeMng.GetSelectedRuneIndex() switch
                             {
                                 2 => 90,
                                 3 => 180,
@@ -158,7 +175,7 @@ public class PlayerUIManager : MonoBehaviour
         //Ruota la wheel delle rune
         runesWheel.rotation = Quaternion.Slerp(runesWheel.rotation,
                                                targetRot,
-                                               Time.fixedDeltaTime * wheelRotSpeed);
+                                               Time.deltaTime * wheelRotSpeed);
 
 
         //Ferma la rotazione delle immagini delle rune
@@ -166,6 +183,60 @@ public class PlayerUIManager : MonoBehaviour
         {
             rune.transform.rotation = Quaternion.identity;
         }
+    }
+
+    void ShowUnlockedRunesImages()
+    {
+        //Mostra solo le immagini di ogni runa sbloccata solo
+        //quando sono state sbloccate; se no, le nasconde tutte
+        for (int i = 0; i < allRunesImages.Count; i++)
+        {
+            allRunesImages[i].enabled = runeMng.GetUnlockedRunesNum() > 0
+                                          &&
+                                        i < runeMng.GetUnlockedRunesNum();
+        }
+    }
+
+    void ChangeRuneSize()
+    {
+        for (int i = 0; i < allRunesImages.Count; i++)
+        {
+            bool isThisRuneSelected = i == runeMng.GetSelectedRuneIndex()-1;
+            Vector2 sizeToChange,
+                    _finalSize;
+
+            //Se la runa selezionata corrisponde a questo indice,
+            //la ingrandisce; se no, la porta alla dimensione originale
+            sizeToChange = startRunesImgSizes[i] * (isThisRuneSelected ? selectedRuneSizeMult : 1);
+
+            //Ridimensiona l'immagine
+            _finalSize = Vector2.Lerp(allRunesImages[i].rectTransform.sizeDelta,
+                                      sizeToChange,
+                                      Time.deltaTime * wheelRotSpeed * 2);
+
+            //Imposta la nuova dimensione
+            allRunesImages[i].rectTransform.sizeDelta = _finalSize;
+        }
+    }
+
+    void ChangeArmColor()
+    {
+        Material mat = arm_meshRndr.material;
+        Color finalColor,
+              colorToChange;
+
+        //Prende il colore rispetto alla runa selezioanta
+        finalColor = colorRunes_ch[runeMng.GetSelectedRuneIndex() - 1];
+
+        //Cambia il colore del materiale
+        colorToChange = Color.Lerp(mat.color, finalColor, Time.deltaTime * wheelRotSpeed * 2);
+
+        //Imposta il colore della luce e dell'Emissive
+        arm_light.color = colorToChange;
+        mat.SetColor("_EmissionColor", colorToChange);
+        
+
+        //TODO: da rifinire il SetColor
     }
 
     #endregion
@@ -225,7 +296,7 @@ public class PlayerUIManager : MonoBehaviour
             {
                 //Quando puo' "interagire" con la runa selezionata
                 //(funzione diversa per ogni script, tranne BaseShoot)
-                colorObjectInSlot_ch = colorRunes_ch[runeMng.GetActiveRune()-1];
+                colorObjectInSlot_ch = colorRunes_ch[runeMng.GetSelectedRuneIndex()-1];
             }
             else
             {

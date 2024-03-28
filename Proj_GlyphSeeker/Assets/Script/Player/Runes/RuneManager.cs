@@ -312,11 +312,13 @@ public class RuneManager : MonoBehaviour
 
     #region Funz. Get personalizzate
 
-    public int GetActiveRune() => (int)selectedRune;
+    public int GetSelectedRuneIndex() => (int)selectedRune;
 
     public PlayerShoot GetActiveRuneScript() => playerShoot_scr[i_selectedRune];
 
     public bool GetIsPurpleRuneActive() => isPurpleRuneActive;
+
+    public int GetUnlockedRunesNum() => unlockedRunesNum;
 
     public SlotObjectType GetObjectInSlot() => objectInSlot;
 
